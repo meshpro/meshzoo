@@ -57,7 +57,7 @@ def _main():
 
     print('Write mesh...')
     start = time.time()
-    mesh = meshio.write(
+    meshio.write(
             args.filename,
             meshpy_mesh.points,
             {'tetra': np.array(meshpy_mesh.elements)}
@@ -65,25 +65,6 @@ def _main():
     elapsed = time.time()-start
     print 'done. (%gs)' % elapsed
 
-    return
-
-
-def _parse_options():
-    '''Parse input options.'''
-    parser = argparse.ArgumentParser(
-        description='Construct tetrahedrization of a ball.'
-        )
-
-    mesh = pyfvm.meshTetra(meshpy_mesh.points, meshpy_mesh.elements)
-
-    print '\n%d nodes, %d elements' % (len(mesh.node_coords), len(mesh.cells))
-
-    # write the mesh
-    print 'Write mesh...',
-    start = time.time()
-    mesh.write(args.filename)
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
     return
 
 
