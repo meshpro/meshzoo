@@ -1,0 +1,20 @@
+#sudo: false
+sudo: required
+dist: trusty
+
+language: python
+
+python:
+    - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+  - sudo pip install meshpy
+
+script:
+  - nosetests --with-coverage --cover-package=mesh-zoo
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
