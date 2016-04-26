@@ -48,17 +48,24 @@ def _main():
             info,
             refinement_func=_needs_refinement
             )
-    mesh = pyfvm.mesh2d.mesh2d(meshpy_mesh.points, meshpy_mesh.elements)
     elapsed = time.time()-start
     print 'done. (%gs)' % elapsed
 
-    num_nodes = len(mesh.node_coords)
-    print '\n%d nodes, %d elements\n' % (num_nodes, len(mesh.cells))
+    num_nodes = len(meshpy_mesh.points)
+    print '\n%d nodes, %d elements\n' % (num_nodes, len(meshpy_mesh.elements))
+
+    # append column
+    pts = np.array(meshpy_mesh.points)
+    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(num_nodes)]
 
     # write the mesh
     print 'Writing mesh...',
     start = time.time()
-    mesh.write(args.filename)
+    meshio.write(
+        args.filename,
+        points,
+        {'triangle': np.array(meshpy_mesh.elements)}
+        )
     elapsed = time.time()-start
     print 'done. (%gs)' % elapsed
 
