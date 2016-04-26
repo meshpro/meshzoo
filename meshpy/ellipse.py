@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import argparse
-import meshio
 import meshpy.triangle
 import numpy as np
 from scipy import special
@@ -85,6 +84,7 @@ def _parse_options():
 
 
 if __name__ == '__main__':
+    import meshio
     args = _parse_options()
 
     print('Create mesh...')

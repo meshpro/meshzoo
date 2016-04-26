@@ -5,7 +5,6 @@
 Creates meshes on a cube.
 '''
 import argparse
-import meshio
 import meshpy.tet
 import numpy as np
 import time
@@ -79,6 +78,7 @@ def _parse_options():
 
 
 if __name__ == '__main__':
+    import meshio
     args = _parse_options()
 
     print('Create mesh...')

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 #
 import argparse
-import meshio
 from meshpy.tet import MeshInfo, build
 from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, \
     GeometryBuilder
@@ -76,6 +75,7 @@ def _parse_options():
     return args
 
 if __name__ == '__main__':
+    import meshio
     args = _parse_options()
 
     print('Build mesh...')
