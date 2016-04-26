@@ -2,17 +2,19 @@
 '''
 Create irregular mesh on a regular tetrahedron centered at the origin.
 '''
+import argparse
+import meshio
+import meshpy.tet
 import numpy as np
 import time
 
-import pyfvm
-# ==============================================================================
+
 def _main():
     args = _parse_options()
 
     # circumcircle radius
     r = 5.0
-    #max_volume = 1.0 / args.n**3
+    # max_volume = 1.0 / args.n**3
     max_volume = 8.0
 
     # boundary points
@@ -35,58 +37,66 @@ def _main():
     points.append((r * cosphi * sintheta, r * sinphi * sintheta, r * costheta))
 
     # boundary faces
-    facets = [ [0,1,2],
-               [0,2,3],
-               [0,3,1],
-               [1,2,3] ]
+    facets = [
+            [0, 1, 2],
+            [0, 2, 3],
+            [0, 3, 1],
+            [1, 2, 3]
+            ]
 
     # create the mesh
     print 'Create mesh...',
     start = time.time()
-    import meshpy.tet
     # Set the geometry and build the mesh.
     info = meshpy.tet.MeshInfo()
-    info.set_points( points )
-    info.set_facets( facets )
-    meshpy_mesh = meshpy.tet.build(info, max_volume = 1.0/args.n**3)
-    mesh = pyfvm.mesh3d(meshpy_mesh.points, meshpy_mesh.elements)
+    info.set_points(points)
+    info.set_facets(facets)
+    meshpy_mesh = meshpy.tet.build(info, max_volume=1.0/args.n**3)
     elapsed = time.time() - start
     print 'done. (%gs)' % elapsed
 
-    print '\n%d nodes, %d elements' % (len(mesh.node_coords), len(mesh.cells))
+    print(
+        '\n%d nodes, %d elements' % (
+            len(meshpy_mesh.points), len(meshpy_mesh.elements))
+        )
 
-    mesh.write(args.filename)
+    meshio.write(
+            args.filename,
+            meshpy_mesh.points,
+            {'tetra': np.array(meshpy_mesh.elements)}
+            )
 
     return
-# ==============================================================================
+
+
 def _parse_options():
     '''Parse input options.'''
-    import argparse
+    parser = argparse.ArgumentParser(
+        description='Construct tetrahedrization of a cube.'
+        )
 
-    parser = argparse.ArgumentParser( description = 'Construct tetrahedrization of a cube.' )
+    parser.add_argument(
+            'filename',
+            metavar='FILE',
+            type=str,
+            help='file to be written to'
+            )
 
-
-    parser.add_argument( 'filename',
-                         metavar = 'FILE',
-                         type    = str,
-                         help    = 'file to be written to'
-                       )
-
-    parser.add_argument( '--maxvol', '-m',
-                         metavar = 'N',
-                         dest='n',
-                         nargs='?',
-                         type=int,
-                         const=1,
-                         default=1,
-                         help    = 'max volume of a tetrahedron is 1.0/N^3'
-                       )
-
+    parser.add_argument(
+            '--maxvol', '-m',
+            metavar='N',
+            dest='n',
+            nargs='?',
+            type=int,
+            const=1,
+            default=1,
+            help='max volume of a tetrahedron is 1.0/N^3'
+            )
 
     args = parser.parse_args()
 
     return args
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================
