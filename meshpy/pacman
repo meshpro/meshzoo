@@ -3,13 +3,14 @@
 '''
 Creates a mesh for a circle with a cut.
 '''
+import argparse
+import meshio
+import meshpy.triangle
 import numpy as np
 import time
 
-from mesh import mesh, meshpy_interface, magnetic_vector_potentials
-# ==============================================================================
-def _main():
 
+def _main():
     args = _parse_options()
 
     n_phi = args.num_boundary_points
@@ -23,64 +24,97 @@ def _main():
     # an equilateral triangle on the boundary.
     a_boundary = (2*np.pi-cut_angle)*radius / n_phi
     max_area = a_boundary**2 * np.sqrt(3.0) / 4.0
-    max_area = float( max_area ) # meshpy can't deal with numpy.float64
+    max_area = float(max_area)  # meshpy can't deal with numpy.float64
 
     # generate points on the boundary
-    Phi = np.linspace( 0.5*cut_angle,
-                       2*np.pi - 0.5*cut_angle,
-                       n_phi,
-                       endpoint = False
-                     )
-    points = []
-    if abs(cut_angle)>0.0 or cut_deepness!=0.0:
-        points.append( (radius-cut_deepness, 0.0) )
+    Phi = np.linspace(
+            0.5*cut_angle,
+            2*np.pi - 0.5*cut_angle,
+            n_phi,
+            endpoint=False
+            )
+    boundary_points = []
+    if abs(cut_angle) > 0.0 or cut_deepness != 0.0:
+        boundary_points.append((radius-cut_deepness, 0.0))
     for phi in Phi:
-        points.append((radius * np.cos(phi), radius * np.sin(phi)))
+        boundary_points.append((radius * np.cos(phi), radius * np.sin(phi)))
 
     # create the mesh
-    print 'Meshpy...',
+    print 'Create mesh...',
     start = time.time()
-    mymesh = meshpy_interface.create_mesh( max_area, points )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    info = meshpy.triangle.MeshInfo()
+    info.set_points(boundary_points)
 
-    print '\n%d nodes, %d elements' % (len(mymesh.nodes), len(mymesh.cellsNodes))
+    def _round_trip_connect(start, end):
+        result = []
+        for i in xrange(start, end):
+            result.append((i, i+1))
+        result.append((end, start))
+        return result
+    info.set_facets(_round_trip_connect(0, len(boundary_points)-1))
+
+    def _needs_refinement(vertices, area):
+        return bool(area > max_area)
+
+    meshpy_mesh = meshpy.triangle.build(
+            info,
+            refinement_func=_needs_refinement
+            )
+    elapsed = time.time()-start
+    print('done. (%gs)' % elapsed)
+
+    print(
+        '\n%d nodes, %d elements' % (
+            len(meshpy_mesh.points), len(meshpy_mesh.elements)
+            )
+        )
+
+    # append column
+    pts = np.array(meshpy_mesh.points)
+    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(len(pts))]
 
     # write the mesh
-    print 'Write mesh...',
+    print('Write mesh...')
     start = time.time()
-    mymesh.write( args.filename )
+    meshio.write(
+            args.filename,
+            points,
+            {'triangle': np.array(meshpy_mesh.elements)}
+            )
     elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    print('done. (%gs)' % elapsed)
 
     return
-# ==============================================================================
+
+
 def _parse_options():
     '''Parse input options.'''
-    import argparse
 
-    parser = argparse.ArgumentParser( description = 'Construct a MeshPy triangulation of a circle with a cut.' )
+    parser = argparse.ArgumentParser(
+        description='Construct a MeshPy triangulation of a circle with a cut.'
+        )
 
-    parser.add_argument( 'filename',
-                         metavar = 'FILE',
-                         type    = str,
-                         help    = 'file to be written to'
-                       )
+    parser.add_argument(
+            'filename',
+            metavar='FILE',
+            type=str,
+            help='file to be written to'
+            )
 
-    parser.add_argument( '--num-boundary-points', '-b',
-                         metavar='NUM_BOUNDARY_POINTS',
-                         dest='num_boundary_points',
-                         nargs='?',
-                         type=int,
-                         const=10,
-                         default=10,
-                         help='number of points on the outer boundary (default: 10)'
-                       )
+    parser.add_argument(
+            '--num-boundary-points', '-b',
+            metavar='NUM_BOUNDARY_POINTS',
+            dest='num_boundary_points',
+            nargs='?',
+            type=int,
+            default=50,
+            help='number of points on the outer boundary (default: 10)'
+            )
 
     args = parser.parse_args()
 
     return args
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================
