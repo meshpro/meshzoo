@@ -8,17 +8,15 @@ from scipy import special
 import time
 
 
-def _main():
-
-    args = _parse_options()
+def create_ellipse_mesh(axes, num_boundary_points):
 
     # lengths of major and minor axes
-    if args.axes[0] > args.axes[1]:
-        a = args.axes[0]
-        b = args.axes[1]
+    if axes[0] > axes[1]:
+        a = axes[0]
+        b = axes[1]
     else:
-        a = args.axes[1]
-        b = args.axes[0]
+        a = axes[1]
+        b = axes[0]
 
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
@@ -26,15 +24,13 @@ def _main():
     # http://en.wikipedia.org/wiki/Ellipse#Circumference
     eccentricity = np.sqrt(1.0 - (b/a)**2)
     length_boundary = float(4 * a * special.ellipe(eccentricity))
-    a_boundary = length_boundary / args.num_boundary_points
+    a_boundary = length_boundary / num_boundary_points
     max_area = a_boundary**2 * np.sqrt(3) / 4
 
     # generate points on the circle
-    Phi = np.linspace(0, 2*np.pi, args.num_boundary_points, endpoint=False)
+    Phi = np.linspace(0, 2*np.pi, num_boundary_points, endpoint=False)
     boundary_points = np.column_stack((a * np.cos(Phi), b * np.sin(Phi)))
 
-    print 'Create mesh...',
-    start = time.time()
     info = meshpy.triangle.MeshInfo()
     info.set_points(boundary_points)
 
@@ -53,27 +49,11 @@ def _main():
                                         refinement_func=_needs_refinement
                                         )
 
-    num_nodes = len(meshpy_mesh.points)
-
-    print
-    print('%d nodes, %d cells' % (num_nodes, len(meshpy_mesh.elements)))
-    print
-
     # append column
     pts = np.array(meshpy_mesh.points)
-    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(num_nodes)]
+    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(len(pts))]
 
-    print('Write to file...')
-    start = time.time()
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': np.array(meshpy_mesh.elements)}
-            )
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
-    return
+    return points, np.array(meshpy_mesh.elements)
 
 
 def _parse_options():
@@ -105,4 +85,20 @@ def _parse_options():
 
 
 if __name__ == '__main__':
-    _main()
+    args = _parse_options()
+
+    print('Create mesh...')
+    start = time.time()
+    points, cells = create_ellipse_mesh(args.axes, args.num_boundary_points)
+    elapsed = time.time()-start
+    print('done. (%gs)' % elapsed)
+
+    print
+    print('%d nodes, %d cells' % (len(points), len(cells)))
+    print
+
+    print('Write to file...')
+    start = time.time()
+    meshio.write(args.filename, points, {'triangle': cells})
+    elapsed = time.time()-start
+    print('done. (%gs)' % elapsed)
