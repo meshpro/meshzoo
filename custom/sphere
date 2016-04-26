@@ -3,19 +3,18 @@
 '''
 Creates a simplistic triangular mesh the sphere.
 '''
-import pyfvm
 import time
 import numpy as np
-# ==============================================================================
+
+
 def _main():
 
     args = _parse_options()
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Mesh parameters
-    n_phi   = args.num_points_per_circle
+    n_phi = args.num_points_per_circle
     n_theta = args.num_circles
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     # Generate suitable ranges for parametrization
     phi_range = np.linspace(0.0, 2*np.pi, num = n_phi, endpoint = False)
     theta_range = np.linspace(-np.pi/2  + np.pi/(n_theta-1), np.pi/2 - np.pi/(n_theta-1), num = n_theta-2)
@@ -139,7 +138,7 @@ def _parse_options():
                         )
 
     return parser.parse_args()
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================

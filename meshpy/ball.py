@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
+#
 import argparse
 import meshio
 from meshpy.tet import MeshInfo, build
@@ -34,8 +35,6 @@ def create_ball_mesh(num_longi_points):
           for i in xrange(num_longi_points+1)
           ]
 
-    print('Build mesh...')
-    start = time.time()
     geob = GeometryBuilder()
     geob.add_geometry(
             *generate_surface_of_revolution(
@@ -46,13 +45,6 @@ def create_ball_mesh(num_longi_points):
     mesh_info = MeshInfo()
     geob.set(mesh_info)
     meshpy_mesh = build(mesh_info, max_volume=canonical_tet_volume)
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
-    print(
-        '\n%d nodes, %d elements' %
-        (len(meshpy_mesh.points), len(meshpy_mesh.elements))
-        )
 
     return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
@@ -86,7 +78,13 @@ def _parse_options():
 if __name__ == '__main__':
     args = _parse_options()
 
+    print('Build mesh...')
+    start = time.time()
     points, cells = create_ball_mesh(args.num_longi_points)
+    elapsed = time.time()-start
+    print('done. (%gs)' % elapsed)
+
+    print('\n%d nodes, %d elements' % (len(points), len(cells)))
 
     print('Write mesh...')
     start = time.time()

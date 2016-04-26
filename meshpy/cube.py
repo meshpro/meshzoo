@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''Creates meshes on a cube.
+#
+'''
+Creates meshes on a cube.
 '''
 import argparse
 import meshio
@@ -9,38 +11,14 @@ import numpy as np
 import time
 
 
-def _main():
+def create_cube_mesh(maxvol):
     # get the file name to be written to
-    args = _parse_options()
 
     # circumcirlce radius
     cc_radius = 5.0
     lx = 2.0/np.sqrt(3.0) * cc_radius
     l = [lx, lx, lx]
 
-    # create the mesh data structure
-    print 'Create mesh...',
-    start = time.time()
-    pts, cells = _meshpy(l, args.maxvol)
-    elapsed = time.time() - start
-    print 'done. (%gs)' % elapsed
-
-    print '\n%d nodes, %d elements\n' % (len(pts), len(cells))
-
-    print('Write mesh...')
-    start = time.time()
-    mesh = meshio.write(
-            args.filename,
-            pts,
-            {'tetra': np.array(cells)}
-            )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
-
-    return
-
-
-def _meshpy(l, max_volume):
     # Corner points of the cube
     points = [
             (-0.5*l[0], -0.5*l[1], -0.5*l[2]),
@@ -62,22 +40,12 @@ def _meshpy(l, max_volume):
             ]
 
     # create the mesh
-    print 'Create mesh...',
-    start = time.time()
     info = meshpy.tet.MeshInfo()
     info.set_points(points)
     info.set_facets(facets)
-    meshpy_mesh = meshpy.tet.build(info, max_volume=max_volume)
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    meshpy_mesh = meshpy.tet.build(info, max_volume=maxvol)
 
-    # print 'Recreate cells to make sure the mesh is Delaunay...',
-    # start = time.time()
-    # mesh.recreate_cells_with_qhull()
-    # elapsed = time.time()-start
-    # print 'done. (%gs)' % elapsed
-
-    return meshpy_mesh.points, meshpy_mesh.elements
+    return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
 def _parse_options():
@@ -111,4 +79,22 @@ def _parse_options():
 
 
 if __name__ == '__main__':
-    _main()
+    args = _parse_options()
+
+    print('Create mesh...')
+    start = time.time()
+    points, cells = create_cube_mesh(args.maxvol)
+    elapsed = time.time() - start
+    print 'done. (%gs)' % elapsed
+
+    print '\n%d nodes, %d elements\n' % (len(points), len(cells))
+
+    print('Write mesh...')
+    start = time.time()
+    meshio.write(
+            args.filename,
+            points,
+            {'tetra': cells}
+            )
+    elapsed = time.time()-start
+    print 'done. (%gs)' % elapsed
