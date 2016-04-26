@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-import pyfvm
+
+import meshio
+import meshpy.triangle
 import numpy as np
 import time
 
@@ -27,7 +29,6 @@ def _main():
 
     print 'Creating mesh...',
     start = time.time()
-    import meshpy.triangle
     info = meshpy.triangle.MeshInfo()
     info.set_points(points)
 

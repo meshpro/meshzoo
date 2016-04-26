@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 '''Creates meshes on a 3D L-shape.
 '''
+import meshpy.tet
 import numpy as np
 import time
-
-import pyfvm
 
 
 def _main():
@@ -49,7 +48,6 @@ def _main():
               [10, 11, 12, 13]
               ]
     # create the mesh
-    import meshpy.tet
     # Set the geometry and build the mesh.
     info = meshpy.tet.MeshInfo()
     info.set_points(points)

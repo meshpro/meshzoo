@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
+import meshio
+import meshpy.triangle
 import numpy as np
 from scipy import special
 import time
 
-import pyfvm
-# ==============================================================================
+
 def _main():
 
     args = _parse_options()
@@ -22,20 +23,20 @@ def _main():
     # an equilateral triangle on the boundary.
     # For circumference of an ellipse, see
     # http://en.wikipedia.org/wiki/Ellipse#Circumference
-    eccentricity = np.sqrt( 1.0 - (b/a)**2 )
+    eccentricity = np.sqrt(1.0 - (b/a)**2)
     length_boundary = float(4 * a * special.ellipe(eccentricity))
     a_boundary = length_boundary / args.num_boundary_points
     max_area = a_boundary**2 * np.sqrt(3) / 4
 
     # generate points on the circle
-    Phi = np.linspace(0, 2*np.pi, args.num_boundary_points, endpoint = False)
+    Phi = np.linspace(0, 2*np.pi, args.num_boundary_points, endpoint=False)
     boundary_points = np.column_stack((a * np.cos(Phi), b * np.sin(Phi)))
 
     print 'Create mesh...',
     start = time.time()
-    import meshpy.triangle
     info = meshpy.triangle.MeshInfo()
-    info.set_points( boundary_points )
+    info.set_points(boundary_points)
+
     def _round_trip_connect(start, end):
         result = []
         for i in xrange(start, end):
@@ -43,59 +44,66 @@ def _main():
         result.append((end, start))
         return result
     info.set_facets(_round_trip_connect(0, len(boundary_points)-1))
+
     def _needs_refinement(vertices, area):
         return bool(area > max_area)
+
     meshpy_mesh = meshpy.triangle.build(info,
-                                        refinement_func = _needs_refinement
+                                        refinement_func=_needs_refinement
                                         )
-    mesh = pyfvm.mesh2d(meshpy_mesh.points, meshpy_mesh.elements)
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
 
-    num_nodes = len(mesh.node_coords)
+    num_nodes = len(meshpy_mesh.points)
 
     print
-    print '%d nodes, %d cells' % (num_nodes, len(mesh.cells))
+    print('%d nodes, %d cells' % (num_nodes, len(meshpy_mesh.elements)))
     print
 
+    # append column
+    pts = np.array(meshpy_mesh.points)
+    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(num_nodes)]
 
-    print 'Write to file...',
+    print('Write to file...')
     start = time.time()
-    mesh.write(args.filename)
+    meshio.write(
+            args.filename,
+            points,
+            {'triangle': np.array(meshpy_mesh.elements)}
+            )
     elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    print('done. (%gs)' % elapsed)
 
     return
-# ==============================================================================
+
+
 def _parse_options():
     '''Parse input options.'''
     import argparse
 
-    parser = argparse.ArgumentParser( description = 'Construct a triangulation of an ellipse.' )
-
+    parser = argparse.ArgumentParser(
+            description='Construct a triangulation of an ellipse.'
+            )
 
     parser.add_argument('filename',
-                        metavar = 'FILE',
-                        type    = str,
-                        help    = 'file to be written to'
+                        metavar='FILE',
+                        type=str,
+                        help='file to be written to'
                         )
 
     parser.add_argument('--num-boundary-points', '-b',
-                        required = True,
-                        type    = int,
-                        help    = 'number of nodes on the ellipse boundary'
+                        default=100,
+                        type=int,
+                        help='number of nodes on the ellipse boundary'
                         )
 
     parser.add_argument('--axes', '-a',
-                        required = True,
-                        type = float,
-                        nargs = 2,
-                        default = [10,10],
-                        help = 'axis lengths of the ellipse (default: [10,10])'
+                        type=float,
+                        nargs=2,
+                        default=[1, 0.5],
+                        help='axis lengths of the ellipse (default: [10,10])'
                         )
 
     return parser.parse_args()
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================

@@ -226,17 +226,6 @@ def _parse_options():
               'along each axis')
         )
 
-    parser.add_argument(
-        '--meshpy', '-m',
-        metavar='MAXVOL',
-        dest='maxvol',
-        nargs='?',
-        type=float,
-        const=0.0,
-        default=0.0,
-        help='meshpy tetrahedrization with MAXVOL maximum tetrahedron volume'
-        )
-
     args = parser.parse_args()
 
     return args
