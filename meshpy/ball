@@ -9,14 +9,13 @@ import numpy as np
 import time
 
 
-def _main():
-    args = _parse_options()
+def create_ball_mesh(num_longi_points):
 
     radius = 5.0
 
-    radial_subdiv = 2 * args.num_longi_points
+    radial_subdiv = 2 * num_longi_points
 
-    dphi = np.pi / args.num_longi_points
+    dphi = np.pi / num_longi_points
 
     # Make sure the nodes meet at the poles of the ball.
     def truncate(r):
@@ -32,7 +31,7 @@ def _main():
 
     # Build outline for surface of revolution.
     rz = [(truncate(radius * np.sin(i*dphi)), radius * np.cos(i*dphi))
-          for i in xrange(args.num_longi_points+1)
+          for i in xrange(num_longi_points+1)
           ]
 
     print('Build mesh...')
@@ -55,17 +54,7 @@ def _main():
         (len(meshpy_mesh.points), len(meshpy_mesh.elements))
         )
 
-    print('Write mesh...')
-    start = time.time()
-    meshio.write(
-            args.filename,
-            meshpy_mesh.points,
-            {'tetra': np.array(meshpy_mesh.elements)}
-            )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
-
-    return
+    return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
 def _parse_options():
@@ -94,5 +83,17 @@ def _parse_options():
     args = parser.parse_args()
     return args
 
-if __name__ == "__main__":
-    _main()
+if __name__ == '__main__':
+    args = _parse_options()
+
+    points, cells = create_ball_mesh(args.num_longi_points)
+
+    print('Write mesh...')
+    start = time.time()
+    meshio.write(
+            args.filename,
+            points,
+            {'tetra': cells}
+            )
+    elapsed = time.time()-start
+    print 'done. (%gs)' % elapsed
