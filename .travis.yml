@@ -20,7 +20,7 @@ install:
   - sudo -H pip install codecov
 
 script:
-  - nosetests --with-coverage --cover-package=mesh-zoo
+  - nosetests --with-coverage --cover-package=meshzoo
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
