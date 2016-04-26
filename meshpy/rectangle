@@ -3,13 +3,14 @@
 '''
 Creates a mesh on a rectangle in the x-y-plane.
 '''
+import argparse
+import meshio
+import meshpy.triangle
 import numpy as np
 import time
 
-import pyfvm
-# ==============================================================================
-def _main():
 
+def _main():
     # get the file name to be written to
     args = _parse_options()
 
@@ -19,151 +20,90 @@ def _main():
     # create the mesh data structure
     print 'Create mesh for rectangle (dimensions: %g x %g)...' % (l[0], l[1]),
     start = time.time()
-    if args.cnx != 0:
-        mymesh = _canonical(l, [args.cnx, args.cnx])
-    elif args.znx != 0:
-        mymesh = _zigzag(l, [args.znx, args.znx])
-    elif args.maxarea != 0.0:
-        mymesh = _meshpy(l, args.maxarea)
-    else:
-        raise RuntimeError('Set either -c or -z or -m.')
+    boundary_points = [
+            (-0.5*l[0], -0.5*l[1]),
+            (0.5*l[0],  -0.5*l[1]),
+            (0.5*l[0],   0.5*l[1]),
+            (-0.5*l[0],  0.5*l[1])
+            ]
+    info = meshpy.triangle.MeshInfo()
+    info.set_points(boundary_points)
+
+    def _round_trip_connect(start, end):
+        result = []
+        for i in xrange(start, end):
+            result.append((i, i+1))
+        result.append((end, start))
+        return result
+    info.set_facets(_round_trip_connect(0, len(boundary_points)-1))
+
+    def _needs_refinement(vertices, area):
+        return bool(area > args.maxarea)
+
+    meshpy_mesh = meshpy.triangle.build(
+            info, refinement_func=_needs_refinement
+            )
     elapsed = time.time() - start
     print 'done. (%gs)' % elapsed
 
-    num_nodes = len(mymesh.node_coords)
-    print '\n%d nodes, %d elements\n' % (num_nodes, len(mymesh.cells))
+    num_nodes = len(meshpy_mesh.points)
+    print('\n%d nodes, %d elements\n' %
+          (num_nodes, len(meshpy_mesh.elements))
+          )
 
+    # append column
+    pts = np.array(meshpy_mesh.points)
+    points = np.c_[pts[:, 0], pts[:, 1], np.zeros(num_nodes)]
 
     # write the mesh
     print 'Write mesh...',
     start = time.time()
-    mymesh.write( args.filename )
+    meshio.write(
+            args.filename,
+            points,
+            {'triangle': np.array(meshpy_mesh.elements)}
+            )
     elapsed = time.time()-start
     print 'done. (%gs)' % elapsed
 
     return
-# ==============================================================================
-def _canonical(l, N):
-    # Create the vertices.
-    x_range = np.linspace( -0.5*l[0], 0.5*l[0], N[0] )
-    y_range = np.linspace( -0.5*l[1], 0.5*l[1], N[1] )
-    num_nodes = len(x_range) * len(y_range)
-    nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
-    k = 0
-    for x in x_range:
-        for y in y_range:
-            nodes[k] = np.array([x, y])
-            k += 1
 
-    # create the elements (cells)
-    num_elems = 2 * (N[0]-1) * (N[1]-1)
-    elems = np.empty(num_elems, dtype=np.dtype((int,3)))
-    k = 0
-    for i in xrange(N[0] - 1):
-        for j in xrange(N[1] - 1):
-            elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i     *N[1] + j + 1])
-            k += 1
-            elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j    , (i + 1)*N[1] + j + 1])
-            k += 1
 
-    return pyfvm.mesh2d(nodes, elems)
-# ==============================================================================
-def _zigzag(l, N):
-    # Create the vertices.
-    x_range = np.linspace(-0.5*l[0], 0.5*l[0], N[0])
-    y_range = np.linspace(-0.5*l[1], 0.5*l[1], N[1])
-
-    num_nodes = len(x_range) * len(y_range)
-    nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
-    k = 0
-    for x in x_range:
-        for y in y_range:
-            nodes[k] = np.array([x, y])
-            k += 1
-
-    # create the elements (cells)
-    num_elems = 2 * (N[0]-1) * (N[1]-1)
-    elems = np.empty(num_elems, dtype=np.dtype((int,3)))
-    k = 0
-    for i in xrange(N[0] - 1):
-        for j in xrange(N[1] - 1):
-            if (i+j)%2 == 0:
-                elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i     *N[1] + j + 1])
-                k += 1
-                elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j    , (i + 1)*N[1] + j + 1])
-                k += 1
-            else:
-                elems[k] = np.array([i    *N[1] + j, (i+1)*N[1] + j  , i*N[1] + j+1])
-                k += 1
-                elems[k] = np.array([(i+1)*N[1] + j, (i+1)*N[1] + j+1, i*N[1] + j+1])
-                k += 1
-
-    return pyfvm.mesh2d(nodes, elems)
-# ==============================================================================
-def _meshpy(l, max_area):
-    import mesh.meshpy_interface
-
-    # corner points
-    points = [ ( -0.5*l[0], -0.5*l[1] ),
-               (  0.5*l[0], -0.5*l[1] ),
-               (  0.5*l[0],  0.5*l[1] ),
-               ( -0.5*l[0],  0.5*l[1] ) ]
-
-    return mesh.meshpy_interface.create_mesh(max_area, points)
-# ==============================================================================
 def _parse_options():
     '''Parse input options.'''
-    import argparse
+    parser = argparse.ArgumentParser(
+            description='Construct a triangulation of a rectangle.'
+            )
 
-    parser = argparse.ArgumentParser( description = 'Construct a triangulation of a rectangle.' )
+    parser.add_argument(
+            'filename',
+            metavar='FILE',
+            type=str,
+            help='file to be written to'
+            )
 
-    parser.add_argument( 'filename',
-                         metavar = 'FILE',
-                         type    = str,
-                         help    = 'file to be written to'
-                       )
-
-    cc_radius = 5.0 # circumcircle radius
+    cc_radius = 5.0  # circumcircle radius
     lx = np.sqrt(2.0) * cc_radius
-    parser.add_argument( '--edgelength', '-e',
-                         metavar = 'EDGELENGTH',
-                         type    = float,
-                         default = lx,
-                         help    = 'edgelength of the square (default: %g)' % lx
-                       )
+    parser.add_argument(
+            '--edgelength', '-e',
+            metavar='EDGELENGTH',
+            type=float,
+            default=lx,
+            help='edge length of the square (default: %g)' % lx
+            )
 
-    parser.add_argument( '--canonical', '-c',
-                         metavar = 'NX',
-                         dest='cnx',
-                         nargs='?',
-                         type=int,
-                         const=0,
-                         default=0,
-                         help='canonical triangulation with NX discretization points along each axis'
-                       )
-
-    parser.add_argument( '--zigzag', '-z',
-                         metavar = 'NX',
-                         dest='znx',
-                         nargs='?',
-                         type=int,
-                         const=0,
-                         default=0,
-                         help='zigzag triangulation with NX discretization points along each axis'
-                       )
-
-    parser.add_argument( '--meshpy', '-m',
-                         metavar = 'MAXAREA',
-                         dest='maxarea',
-                         nargs='?',
-                         type=float,
-                         const=0.0,
-                         default=0.0,
-                         help='meshpy triangulation with MAXAREA maximum triangle area'
-                       )
+    parser.add_argument(
+            '--maxarea', '-m',
+            metavar='MAXAREA',
+            dest='maxarea',
+            nargs='?',
+            type=float,
+            default=0.1,
+            help='meshpy triangulation with MAXAREA maximum triangle area'
+            )
 
     return parser.parse_args()
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================
