@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 '''Creates meshes on a 3D L-shape.
 '''
+import meshio
 import meshpy.tet
 import numpy as np
 import time
@@ -53,20 +54,20 @@ def _main():
     info.set_points(points)
     info.set_facets(facets)
     meshpy_mesh = meshpy.tet.build(info, max_volume=args.maxvol)
-    mesh = pyfvm.meshTetra.meshTetra(
-        np.array(meshpy_mesh.points),
-        meshpy_mesh.elements
-        )
     elapsed = time.time() - start
     print 'done. (%gs)' % elapsed
 
-    num_nodes = len(mesh.node_coords)
-    print '\n%d nodes, %d elements\n' % (num_nodes, len(mesh.cells))
+    num_nodes = len(meshpy_mesh.points)
+    print '\n%d nodes, %d elements\n' % (num_nodes, len(meshpy_mesh.elements))
 
     # write the mesh with data
     print 'Write to file...',
     start = time.time()
-    mesh.write(args.filename)
+    meshio.write(
+        args.filename,
+        np.array(meshpy_mesh.points),
+        {'tetra': np.array(meshpy_mesh.elements)}
+        )
     elapsed = time.time()-start
     print 'done. (%gs)' % elapsed
 
