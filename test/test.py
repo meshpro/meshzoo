@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 #
+import os
 import sys
-sys.path.insert(0, '../meshpy/')
+
+# add meshpy path, cf. <http://stackoverflow.com/a/9350788/353337>
+sys.path.insert(
+        0,
+        os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            '..',
+            'meshpy'
+            )
+        )
 
 import ball
 import cube
@@ -24,11 +34,10 @@ def test_cube():
 
 def test_ellipse():
     points, cells = ellipse.create_ellipse_mesh([0.5, 1], 100)
-    print(len(points))
-    print(len(cells))
     assert len(points) == 1444
     assert len(cells) == 2774
     return
+
 
 if __name__ == '__main__':
     test_ball()
