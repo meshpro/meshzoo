@@ -1,0 +1,56 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+# ==============================================================================
+import pyfvm
+import numpy as np
+from scipy.spatial import Delaunay
+# ==============================================================================
+def _main():
+    '''Main function.
+    '''
+    args = _parse_input_arguments()
+
+    # read the mesh
+    print 'Reading the point set...',
+    mesh, _, _ = pyfvm.read( args.in_file )
+    print 'done.'
+
+    print 'Creating Delaunay structure...',
+    dl = Delaunay(mesh.node_coords)
+    print 'done.'
+
+    if mesh.node_coords.shape[1] == 2:
+        dmesh = pyfvm.mesh2d(mesh.node_coords, dl.vertices)
+    elif mesh.node_coords.shape[1] == 3:
+        dmesh = pyfvm.mesh3d(mesh.node_coords, dl.vertices)
+    else:
+        raise RuntimeError('Unknown mesh dimension.')
+
+    dmesh.write( args.out_file )
+
+    return
+# ==============================================================================
+def _parse_input_arguments():
+    '''Parse input arguments.
+    '''
+    import argparse
+
+    parser = argparse.ArgumentParser(description = 'Take a point set and make a Delaunay mesh.')
+
+    parser.add_argument('in_file',
+                        metavar = 'FILE',
+                        type    = str,
+                        help    = 'Mesh file containing the point set'
+                        )
+
+    parser.add_argument('out_file',
+                        metavar = 'FILE',
+                        type    = str,
+                        help    = 'Output file'
+                        )
+
+    return parser.parse_args()
+# ==============================================================================
+if __name__ == '__main__':
+    _main()
+# ==============================================================================
