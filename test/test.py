@@ -27,5 +27,12 @@ def test_ellipse():
     return
 
 
+def test_toy():
+    points, cells = meshzoo.mshr.toy.create_toy_mesh()
+    assert len(points) == 613
+    assert len(cells) == 2046
+    return
+
+
 if __name__ == '__main__':
     test_ball()
