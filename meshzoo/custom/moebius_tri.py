@@ -9,17 +9,12 @@ import numpy as np
 from math import pi, sin, cos
 
 
-def _main():
-
-    # get the file name to be written to
-    args = _parse_options()
-    print(args)
-
+def create_moebius_mesh(num, index):
     # Mesh parameters
     # Number of nodes along the length of the strip
-    nl = args.num[0]
+    nl = num[0]
     # Number of nodes along the width of the strip (>= 2)
-    nw = args.num[1]
+    nw = num[1]
 
     # The width of the strip
     width = 1.0
@@ -62,7 +57,7 @@ def _main():
         #     pre_alpha = - pi / 2 * (1 - (1-abs(u/pi-1)**p)**(1/p)) + pi / 2
         # else:
         #     pre_alpha = pi / 2
-        alpha = args.index * pre_alpha + alpha0
+        alpha = index * pre_alpha + alpha0
         for v in v_range:
             nodes.append([
                 scale * (r + v*cos(alpha)) * cos(u),
@@ -77,7 +72,7 @@ def _main():
             elems.append([i*nw + j, (i + 1)*nw + j + 1,  i*nw + j + 1])
             elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
     # close the geometry
-    if args.index % 2 == 0:
+    if index % 2 == 0:
         # Close the geometry upside up (even M\'obius fold)
         for j in range(nw - 1):
             elems.append([(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
@@ -88,13 +83,7 @@ def _main():
             elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
             elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
 
-    # create the mesh data structure
-    mesh = pyfvm.meshTri.meshTri(nodes, elems)
-
-    # create the mesh
-    mesh.write(args.filename)
-
-    return
+    return np.array(nodes), np.array(elems)
 
 
 def _parse_options():
@@ -134,4 +123,15 @@ def _parse_options():
 
 
 if __name__ == '__main__':
-    _main()
+    import meshio
+
+    args = _parse_options()
+
+    # create the mesh
+    points, cells = create_moebius_mesh(args.num, args.index)
+
+    meshio.write(
+            args.filename,
+            points,
+            {'triangle': cells}
+            )

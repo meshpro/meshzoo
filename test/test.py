@@ -34,5 +34,12 @@ def test_toy():
     return
 
 
+def test_moebius():
+    points, cells = meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
+    assert len(points) == 1000
+    assert len(cells) == 1800
+    return
+
+
 if __name__ == '__main__':
     test_ball()
