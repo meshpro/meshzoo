@@ -6,6 +6,29 @@ import sys
 import meshzoo
 
 
+def test_cylinder():
+    points, cells = \
+        meshzoo.custom.cylinder_tri.create_cylinder_mesh()
+    assert len(points) == 1000
+    assert len(cells) == 1800
+    return
+
+
+def test_moebius():
+    points, cells = \
+        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
+    assert len(points) == 1000
+    assert len(cells) == 1800
+    return
+
+
+def test_hexagon():
+    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
+    assert len(points) == 61
+    assert len(cells) == 96
+    return
+
+
 def test_ball():
     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
     assert len(points) == 1360
@@ -42,21 +65,6 @@ def test_ellipse():
 #     assert len(points) == 2412
 #     assert len(cells) == 7934
 #     return
-
-
-def test_moebius():
-    points, cells = \
-        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
-    assert len(points) == 1000
-    assert len(cells) == 1800
-    return
-
-
-def test_hexagon():
-    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
-    assert len(points) == 61
-    assert len(cells) == 96
-    return
 
 
 def test_pacman():

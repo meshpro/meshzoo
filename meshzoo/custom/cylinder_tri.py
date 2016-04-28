@@ -6,7 +6,7 @@ Creates a simplisitic mesh on a cylinder strip.
 import numpy as np
 
 
-def _main():
+def create_cylinder_mesh():
     # The width of the strip
     width = 1.0
 
@@ -52,11 +52,10 @@ def _main():
         elems[k+1] = [(nl - 1)*nw + j, j, j + 1]
         k += 2
 
-    return
+    return np.array(nodes), np.array(elems)
 
 
 if __name__ == '__main__':
     import meshio
-    _main()
-    # write the mesh
-    meshio.write('cylinder.e', nodes, {'tri': elems})
+    points, cells = create_cylinder_mesh()
+    meshio.write('cylinder.e', points, {'triangle': cells})
