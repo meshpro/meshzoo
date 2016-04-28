@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import argparse
-import meshio
 from meshpy.tet import MeshInfo, build
 from meshpy.geometry import \
         generate_surface_of_revolution, \
@@ -51,17 +50,6 @@ def _main():
           (len(meshpy_mesh.points), len(meshpy_mesh.elements))
           )
 
-    # write the mesh
-    print 'Write mesh...',
-    start = time.time()
-    meshio.write(
-            args.filename,
-            meshpy_mesh.points,
-            {'tetra': np.array(meshpy_mesh.elements)}
-            )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
-
     return
 
 
@@ -105,4 +93,15 @@ def _parse_options():
 
 
 if __name__ == '__main__':
+    import meshio
     _main()
+    # write the mesh
+    print 'Write mesh...',
+    start = time.time()
+    meshio.write(
+            args.filename,
+            meshpy_mesh.points,
+            {'tetra': np.array(meshpy_mesh.elements)}
+            )
+    elapsed = time.time()-start
+    print 'done. (%gs)' % elapsed

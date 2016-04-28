@@ -3,7 +3,6 @@
 '''
 Creates a simplisitic mesh on a cylinder strip.
 '''
-import meshio
 import numpy as np
 
 
@@ -53,11 +52,11 @@ def _main():
         elems[k+1] = [(nl - 1)*nw + j, j, j + 1]
         k += 2
 
-    # write the mesh
-    meshio.write('cylinder.e', nodes, {'tri': elems})
-
     return
 
 
 if __name__ == '__main__':
+    import meshio
     _main()
+    # write the mesh
+    meshio.write('cylinder.e', nodes, {'tri': elems})

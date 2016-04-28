@@ -3,10 +3,10 @@
 '''
 Creates a simplistic triangular mesh the sphere.
 '''
-import pyfvm
 import time
 import numpy as np
-# ==============================================================================
+
+
 def _main():
 
     args = _parse_options()
@@ -32,7 +32,8 @@ def _main():
     print 'done. (%gs)' % elapsed
 
     return
-# ==============================================================================
+
+
 def _parse_options():
     '''Parse input options.'''
     import argparse
@@ -46,7 +47,7 @@ def _parse_options():
                         )
 
     return parser.parse_args()
-# ==============================================================================
-if __name__ == "__main__":
+
+
+if __name__ == '__main__':
     _main()
-# ==============================================================================

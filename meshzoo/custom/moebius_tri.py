@@ -3,8 +3,6 @@
 '''
 Creates a simplistic triangular mesh on a Möbius strip.
 '''
-#import vtk
-import pyfvm
 import numpy as np
 from math import pi, sin, cos
 
