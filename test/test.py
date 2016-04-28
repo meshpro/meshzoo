@@ -14,6 +14,13 @@ def test_cylinder():
     return
 
 
+def test_hexagon():
+    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
+    assert len(points) == 61
+    assert len(cells) == 96
+    return
+
+
 def test_moebius():
     points, cells = \
         meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
@@ -22,10 +29,10 @@ def test_moebius():
     return
 
 
-def test_hexagon():
-    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
-    assert len(points) == 61
-    assert len(cells) == 96
+def test_pseudomoebius():
+    points, cells = meshzoo.custom.pseudomoebius.create_mesh()
+    assert len(points) == 5890
+    assert len(cells) == 11400
     return
 
 
