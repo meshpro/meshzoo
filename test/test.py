@@ -34,11 +34,13 @@ def test_toy():
     return
 
 
-def test_screw():
-    points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
-    assert len(points) == 2412
-    assert len(cells) == 7934
-    return
+# Disable for now since Gmsh doesn't pass for the version installed on travis
+# (trusty).
+# def test_screw():
+#     points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
+#     assert len(points) == 2412
+#     assert len(cells) == 7934
+#     return
 
 
 def test_moebius():
