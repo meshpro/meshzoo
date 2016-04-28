@@ -36,6 +36,13 @@ def test_pseudomoebius():
     return
 
 
+def test_sphere():
+    points, cells = meshzoo.custom.sphere.create_mesh()
+    assert len(points) == 162
+    assert len(cells) == 320
+    return
+
+
 def test_ball():
     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
     assert len(points) == 1360
