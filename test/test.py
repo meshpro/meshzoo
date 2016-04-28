@@ -111,5 +111,12 @@ def test_tetrahedron():
     return
 
 
+def test_torus():
+    points, cells = meshzoo.meshpy.torus.create_mesh()
+    assert len(points) == 921
+    assert len(cells) == 2681
+    return
+
+
 if __name__ == '__main__':
     test_ball()
