@@ -12,8 +12,8 @@ virtualenv:
 
 # install dependencies
 before_install:
-  # - sudo apt-add-repository -y ppa:fenics-packages/fenics
-  - sudo apt-add-repository -y ppa:nschloe/fenics-nightly
+  - sudo apt-add-repository -y ppa:fenics-packages/fenics
+  # - sudo apt-add-repository -y ppa:nschloe/fenics-nightly
   - sudo apt-get update -qq
   - sudo apt-get -y install gmsh python-nose python-numpy python-scipy python-mshr
 
