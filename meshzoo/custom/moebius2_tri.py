@@ -1,17 +1,16 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-Creates a simplistic triangular mesh on a slightly M\'obius strip.
-The M\'obius strip here deviates slightly from the ordinary geometry
-in that it is constructed in such a way that the two halves can be
-exchanged as to allow better comparison with the pseudo-M\'obius
-geometry.
+Creates a simplistic triangular mesh on a slightly Möbius strip.  The Möbius
+strip here deviates slightly from the ordinary geometry in that it is
+constructed in such a way that the two halves can be exchanged as to allow
+better comparison with the pseudo-Möbius geometry.
 '''
 import numpy as np
 from math import pi, sin, cos, copysign
 
 
-def create_moebius_mesh():
+def create_mesh():
     # Mesh parameters
     # Number of nodes along the length of the strip
     nl = 190
@@ -32,21 +31,20 @@ def create_moebius_mesh():
     alpha0 = 0.0  # pi / 2
 
     # How flat the strip will be.
-    # Positive values result in left-turning M\'obius strips, negative in
+    # Positive values result in left-turning Möbius strips, negative in
     # right-turning ones.
     # Also influences the width of the strip.
     flatness = 1.0
 
     # How many twists are there in the 'paper'?
     moebius_index = 1
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Generate suitable ranges for parametrization
     u_range = np.linspace(0.0, 2*pi, num=nl, endpoint=False)
     v_range = np.linspace(-0.5*width, 0.5*width, num=nw)
 
     # Create the vertices. This is based on the parameterization
-    # of the M\'obius strip as given in
+    # of the Möbius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     nodes = []
     for u in u_range:
@@ -69,125 +67,42 @@ def create_moebius_mesh():
             # are the squares.
             # It is also possible to to abs() the respective sines and cosines,
             # but this results in a non-smooth manifold.
-            nodes.append( mesh.Node( [ scale * ( r + v*copysign( cos(alpha)**2, cos(alpha) ) ) * cos(u),
-                                       scale * ( r + v*copysign( cos(alpha)**2, cos(alpha) ) ) * sin(u),
-                                       flatness * scale * v*copysign( sin(alpha)**2, sin(alpha) )
-                                     ]
-                                   )
-                       )
+            a = v*copysign(np.cos(alpha)**2, np.cos(alpha))
+            nodes.append([
+                scale * (r + a) * np.cos(u),
+                scale * (r + a) * np.sin(u),
+                flatness * scale * v*copysign(sin(alpha)**2, np.sin(alpha))
+                ])
 
     # create the elements (cells)
     elems = []
     for i in range(nl - 1):
         for j in range(nw - 1):
-            elem_nodes = [ i*nw + j, (i + 1)*nw + j + 1,  i     *nw + j + 1 ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
-            elem_nodes = [ i*nw + j, (i + 1)*nw + j    , (i + 1)*nw + j + 1 ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
+            elem_nodes = [i*nw + j, (i + 1)*nw + j + 1,  i*nw + j + 1]
+            elems.append(elem_nodes)
+            elem_nodes = [i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1]
+            elems.append(elem_nodes)
 
     # close the geometry
     if moebius_index % 2 == 0:
-        # Close the geometry upside up (even M\'obius fold)
+        # Close the geometry upside up (even Möbius fold)
         for j in range(nw - 1):
-            elem_nodes = [ (nl - 1)*nw + j, j + 1 , (nl - 1)*nw + j + 1 ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
-            elem_nodes = [ (nl - 1)*nw + j, j     , j + 1  ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
+            elem_nodes = [(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1]
+            elems.append(elem_nodes)
+            elem_nodes = [(nl - 1)*nw + j, j, j + 1]
+            elems.append(elem_nodes)
     else:
-        # Close the geometry upside down (odd M\'obius fold)
+        # Close the geometry upside down (odd Möbius fold)
         for j in range(nw - 1):
-            elem_nodes = [ (nl-1)*nw + j, (nw-1) - (j+1) , (nl-1)*nw +  j+1  ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
-            elem_nodes = [ (nl-1)*nw + j, (nw-1) - j     , (nw-1)    - (j+1) ]
-            elems.append( mesh.Cell( elem_nodes,
-                                     [], # edges
-                                     [], # faces
-                                     vtk.VTK_TRIANGLE
-                                   )
-                        )
+            elem_nodes = [(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1]
+            elems.append(elem_nodes)
+            elem_nodes = [(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)]
+            elems.append(elem_nodes)
 
-    # add values
-    num_nodes = len( nodes )
-    X = np.empty( num_nodes, dtype = complex )
-    k = 0
-    for u in u_range:
-        for v in v_range:
-            X[k] = complex( 1.0, 0.0 )
-            k += 1
-
-    # Add thickness values in such a way as to increase
-    # the thickness towards the boundaries.
-    thickness = np.empty(num_nodes, dtype=float)
-    alpha = 1.0  # thickness at the center of the tube
-    beta = 512.0  # thickness at the boundary
-    p = 8  # steepness of the thickness function towards the boundary
-    t = (beta-alpha) / (0.5*width)**p
-    k = 0
-    for u in u_range:
-        for v in v_range:
-            thickness[k] = alpha + t * abs(v)**p
-            k += 1
-
-    return
-
-
-def _parse_options():
-    '''Parse input options.'''
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description='Construct a trival .'
-        )
-
-    parser.add_argument(
-        'filename',
-        metavar='FILE',
-        type=str,
-        help='file to be written to'
-        )
-
-    args = parser.parse_args()
-
-    return args
+    return np.array(nodes), np.array(elems)
 
 
 if __name__ == '__main__':
     import meshio
-
-    args = _parse_options()
-
-    # create the mesh
-    points, cells = create_moebius_mesh(args.ref_steps)
-
-    print('\n%d nodes, %d elements' % (len(points), len(cells)))
-
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': cells}
-            )
+    points, cells = create_mesh()
+    meshio.write('moebius2.e', points, {'triangle': cells})
