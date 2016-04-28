@@ -2,15 +2,11 @@
 '''
 Create irregular mesh on a regular tetrahedron centered at the origin.
 '''
-import argparse
 import meshpy.tet
 import numpy as np
-import time
 
 
-def _main():
-    args = _parse_options()
-
+def create_tetrahedron_mesh(maxvol=0.1):
     # circumcircle radius
     r = 5.0
     # max_volume = 1.0 / args.n**3
@@ -44,59 +40,16 @@ def _main():
             ]
 
     # create the mesh
-    print 'Create mesh...',
-    start = time.time()
     # Set the geometry and build the mesh.
     info = meshpy.tet.MeshInfo()
     info.set_points(points)
     info.set_facets(facets)
-    meshpy_mesh = meshpy.tet.build(info, max_volume=1.0/args.n**3)
-    elapsed = time.time() - start
-    print 'done. (%gs)' % elapsed
+    meshpy_mesh = meshpy.tet.build(info, max_volume=maxvol)
 
-
-    return
-
-
-def _parse_options():
-    '''Parse input options.'''
-    parser = argparse.ArgumentParser(
-        description='Construct tetrahedrization of a cube.'
-        )
-
-    parser.add_argument(
-            'filename',
-            metavar='FILE',
-            type=str,
-            help='file to be written to'
-            )
-
-    parser.add_argument(
-            '--maxvol', '-m',
-            metavar='N',
-            dest='n',
-            nargs='?',
-            type=int,
-            const=1,
-            default=1,
-            help='max volume of a tetrahedron is 1.0/N^3'
-            )
-
-    args = parser.parse_args()
-
-    return args
+    return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
 if __name__ == '__main__':
     import meshio
-    _main()
-    print(
-        '\n%d nodes, %d elements' % (
-            len(meshpy_mesh.points), len(meshpy_mesh.elements))
-        )
-
-    meshio.write(
-            args.filename,
-            meshpy_mesh.points,
-            {'tetra': np.array(meshpy_mesh.elements)}
-            )
+    points, cells = create_tetrahedron_mesh()
+    meshio.write('tetrahedron.e', points, {'tetra': cells})

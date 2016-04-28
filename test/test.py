@@ -63,5 +63,12 @@ def test_pacman():
     return
 
 
+def test_tetrahedron():
+    points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
+    assert len(points) == 604
+    assert len(cells) == 1805
+    return
+
+
 if __name__ == '__main__':
     test_ball()
