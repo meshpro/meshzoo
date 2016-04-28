@@ -29,8 +29,8 @@ def test_ellipse():
 
 def test_toy():
     points, cells = meshzoo.mshr.toy.create_toy_mesh()
-    assert len(points) == 613
-    assert len(cells) == 2046
+    assert len(points) == 2760
+    assert len(cells) == 11779
     return
 
 
