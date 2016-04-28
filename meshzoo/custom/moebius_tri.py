@@ -4,10 +4,9 @@
 Creates a simplistic triangular mesh on a Möbius strip.
 '''
 import numpy as np
-from math import pi, sin, cos
 
 
-def create_moebius_mesh(num, index):
+def create_moebius_mesh(num=[51, 11], index=1):
     # Mesh parameters
     # Number of nodes along the length of the strip
     nl = num[0]
@@ -34,7 +33,7 @@ def create_moebius_mesh(num, index):
     flatness = 1.0
 
     # Generate suitable ranges for parametrization
-    u_range = np.linspace(0.0, 2*pi, num=nl, endpoint=False)
+    u_range = np.linspace(0.0, 2*np.pi, num=nl, endpoint=False)
     v_range = np.linspace(-0.5*width, 0.5*width, num=nw)
 
     # Create the vertices. This is based on the parameterization
@@ -58,9 +57,9 @@ def create_moebius_mesh(num, index):
         alpha = index * pre_alpha + alpha0
         for v in v_range:
             nodes.append([
-                scale * (r + v*cos(alpha)) * cos(u),
-                scale * (r + v*cos(alpha)) * sin(u),
-                flatness * scale * v*sin(alpha)
+                scale * (r + v*np.cos(alpha)) * np.cos(u),
+                scale * (r + v*np.cos(alpha)) * np.sin(u),
+                flatness * scale * v*np.sin(alpha)
                 ])
 
     # create the elements (cells)
@@ -84,52 +83,7 @@ def create_moebius_mesh(num, index):
     return np.array(nodes), np.array(elems)
 
 
-def _parse_options():
-    '''Parse input options.'''
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description='Construct a triangulation of the Möbius strip.'
-        )
-
-    parser.add_argument(
-        'filename',
-        metavar='file',
-        type=str,
-        help='file to be written to'
-        )
-
-    parser.add_argument(
-        '--index', '-i',
-        type=int,
-        default=1,
-        help='Möbius index, the number of twists (default: 1)'
-        )
-
-    parser.add_argument(
-        '--num', '-n',
-        nargs=2,
-        type=int,
-        default=(51, 11),
-        help=('Number of discreitization points ' +
-              'in length and width of the strip (default: 101, 21)')
-        )
-
-    args = parser.parse_args()
-
-    return args
-
-
 if __name__ == '__main__':
     import meshio
-
-    args = _parse_options()
-
-    # create the mesh
-    points, cells = create_moebius_mesh(args.num, args.index)
-
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': cells}
-            )
+    points, cells = create_moebius_mesh()
+    meshio.write('moebius.e', points, {'triangle': cells})

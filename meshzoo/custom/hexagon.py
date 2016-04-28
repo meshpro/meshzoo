@@ -3,14 +3,12 @@
 '''
 Creates a mesh on a hexahedron in the x-y-plane.
 '''
-import argparse
 import numpy as np
-import time
 
 import refine
 
 
-def create_hexagon_mesh(ref_steps):
+def create_hexagon_mesh(ref_steps=4):
     # Circumcircle radius of the triangle.
     cc_radius = 5.0
 
@@ -63,54 +61,7 @@ def create_hexagon_mesh(ref_steps):
     return nodes, cells_nodes
 
 
-def _parse_options():
-    '''Parse input options.'''
-    parser = argparse.ArgumentParser(
-            description='Construct triangulation of a hexahedron.'
-            )
-
-    parser.add_argument(
-            'filename',
-            metavar='FILE',
-            type=str,
-            help='file to be written to'
-            )
-
-    parser.add_argument(
-            '--refinements', '-r',
-            metavar='NUM_REFINEMENTS',
-            dest='ref_steps',
-            nargs='?',
-            type=int,
-            default=0,
-            help='number of mesh refinement steps to be performed (default: 0)'
-            )
-
-    args = parser.parse_args()
-
-    return args
-
-
 if __name__ == '__main__':
     import meshio
-
-    args = _parse_options()
-
-    # create the mesh
-    print 'Mesh creation...',
-    start = time.time()
-    points, cells = create_hexagon_mesh(args.ref_steps)
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
-
-    print '\n%d nodes, %d elements' % (len(points), len(cells))
-
-    print 'Write mesh...',
-    start = time.time()
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': cells}
-            )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    points, cells = create_hexagon_mesh()
+    meshio.write('hexagon.e', points, {'triangle': cells})
