@@ -4,7 +4,7 @@ import numpy as np
 import refine
 
 
-def create_triangle_mesh(ref_steps=2):
+def create_mesh(ref_steps=2):
 
     # Circumcircle radius of the triangle.
     cc_radius = 5.0

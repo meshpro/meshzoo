@@ -73,6 +73,13 @@ def test_sphere():
     return
 
 
+def test_triangle():
+    points, cells = meshzoo.custom.triangle.create_mesh()
+    assert len(points) == 15
+    assert len(cells) == 16
+    return
+
+
 def test_tube():
     points, cells = meshzoo.custom.tube.create_mesh()
     assert len(points) == 150
