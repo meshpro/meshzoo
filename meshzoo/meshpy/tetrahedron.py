@@ -3,7 +3,6 @@
 Create irregular mesh on a regular tetrahedron centered at the origin.
 '''
 import argparse
-import meshio
 import meshpy.tet
 import numpy as np
 import time
@@ -55,16 +54,6 @@ def _main():
     elapsed = time.time() - start
     print 'done. (%gs)' % elapsed
 
-    print(
-        '\n%d nodes, %d elements' % (
-            len(meshpy_mesh.points), len(meshpy_mesh.elements))
-        )
-
-    meshio.write(
-            args.filename,
-            meshpy_mesh.points,
-            {'tetra': np.array(meshpy_mesh.elements)}
-            )
 
     return
 
@@ -99,4 +88,15 @@ def _parse_options():
 
 
 if __name__ == '__main__':
+    import meshio
     _main()
+    print(
+        '\n%d nodes, %d elements' % (
+            len(meshpy_mesh.points), len(meshpy_mesh.elements))
+        )
+
+    meshio.write(
+            args.filename,
+            meshpy_mesh.points,
+            {'tetra': np.array(meshpy_mesh.elements)}
+            )

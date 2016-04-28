@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 '''Creates meshes on a 3D L-shape.
 '''
-import meshio
 import meshpy.tet
 import numpy as np
 import time
@@ -60,17 +59,6 @@ def _main():
     num_nodes = len(meshpy_mesh.points)
     print '\n%d nodes, %d elements\n' % (num_nodes, len(meshpy_mesh.elements))
 
-    # write the mesh with data
-    print 'Write to file...',
-    start = time.time()
-    meshio.write(
-        args.filename,
-        np.array(meshpy_mesh.points),
-        {'tetra': np.array(meshpy_mesh.elements)}
-        )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
-
     return
 
 
@@ -107,4 +95,15 @@ def _parse_options():
 
 
 if __name__ == "__main__":
+    import meshio
     _main()
+    # write the mesh with data
+    print 'Write to file...',
+    start = time.time()
+    meshio.write(
+        args.filename,
+        np.array(meshpy_mesh.points),
+        {'tetra': np.array(meshpy_mesh.elements)}
+        )
+    elapsed = time.time()-start
+    print 'done. (%gs)' % elapsed

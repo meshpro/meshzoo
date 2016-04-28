@@ -4,7 +4,6 @@
 Creates a mesh for a circle with a cut.
 '''
 import argparse
-import meshio
 import meshpy.triangle
 import numpy as np
 import time
@@ -73,17 +72,6 @@ def _main():
     pts = np.array(meshpy_mesh.points)
     points = np.c_[pts[:, 0], pts[:, 1], np.zeros(len(pts))]
 
-    # write the mesh
-    print('Write mesh...')
-    start = time.time()
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': np.array(meshpy_mesh.elements)}
-            )
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
     return
 
 
@@ -117,4 +105,16 @@ def _parse_options():
 
 
 if __name__ == '__main__':
+    import meshio
     _main()
+
+    # write the mesh
+    print('Write mesh...')
+    start = time.time()
+    meshio.write(
+            args.filename,
+            points,
+            {'triangle': np.array(meshpy_mesh.elements)}
+            )
+    elapsed = time.time()-start
+    print('done. (%gs)' % elapsed)
