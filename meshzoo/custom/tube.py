@@ -3,7 +3,6 @@
 '''
 Creates a tetrahedral mesh on a ball.
 '''
-from mesh import mesh
 import numpy as np
 
 

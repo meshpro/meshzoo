@@ -9,6 +9,7 @@ import time
 
 import refine
 
+
 def create_hexagon_mesh(ref_steps):
     # Circumcircle radius of the triangle.
     cc_radius = 5.0
@@ -55,7 +56,7 @@ def create_hexagon_mesh(ref_steps):
         ])
 
     # Refine.
-    for k in range(args.ref_steps):
+    for k in range(ref_steps):
         nodes, edges, cells_nodes, cells_edges = \
             refine.refine(nodes, edges, cells_nodes, cells_edges)
 

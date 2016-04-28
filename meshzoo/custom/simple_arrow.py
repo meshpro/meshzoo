@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from mesh.mesh2d import Mesh2D
-
 import argparse
 import numpy as np
 import time

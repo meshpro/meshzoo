@@ -35,7 +35,8 @@ def test_toy():
 
 
 def test_moebius():
-    points, cells = meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
+    points, cells = \
+        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
     assert len(points) == 1000
     assert len(cells) == 1800
     return
@@ -43,9 +44,8 @@ def test_moebius():
 
 def test_hexagon():
     points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
-    print(len(points), len(cells))
-    assert len(points) == 1000
-    assert len(cells) == 1800
+    assert len(points) == 61
+    assert len(cells) == 96
     return
 
 
