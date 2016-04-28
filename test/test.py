@@ -34,6 +34,14 @@ def test_toy():
     return
 
 
+def test_screw():
+    points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
+    print(len(points), len(cells))
+    assert len(points) == 2412
+    assert len(cells) == 7934
+    return
+
+
 def test_moebius():
     points, cells = \
         meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)

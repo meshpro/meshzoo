@@ -37,8 +37,7 @@ def create_screw_mesh():
         )
 
     points, cells = pg.generate_mesh(geom)
-
-    return points, cells
+    return points, cells['tetra']
 
 
 def _parse_options():
