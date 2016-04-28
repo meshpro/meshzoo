@@ -36,7 +36,6 @@ def test_toy():
 
 def test_screw():
     points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
-    print(len(points), len(cells))
     assert len(points) == 2412
     assert len(cells) == 7934
     return
@@ -54,6 +53,13 @@ def test_hexagon():
     points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
     assert len(points) == 61
     assert len(cells) == 96
+    return
+
+
+def test_pacman():
+    points, cells = meshzoo.meshpy.pacman.create_pacman_mesh()
+    assert len(points) == 446
+    assert len(cells) == 831
     return
 
 

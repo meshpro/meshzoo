@@ -3,20 +3,16 @@
 '''
 Creates a mesh for a circle with a cut.
 '''
-import argparse
 import meshpy.triangle
 import numpy as np
-import time
 
 
-def _main():
-    args = _parse_options()
-
-    n_phi = args.num_boundary_points
+def create_pacman_mesh(num_boundary_points=50):
+    n_phi = num_boundary_points
     radius = 5.0
 
     # set those to 0.0 for perfect circle
-    cut_angle = 0.1 * 2*np.pi
+    cut_angle = 0.1 * 2 * np.pi
     cut_deepness = 0.5 * radius
 
     # Choose the maximum area of a triangle equal to the area of
@@ -39,8 +35,6 @@ def _main():
         boundary_points.append((radius * np.cos(phi), radius * np.sin(phi)))
 
     # create the mesh
-    print 'Create mesh...',
-    start = time.time()
     info = meshpy.triangle.MeshInfo()
     info.set_points(boundary_points)
 
@@ -59,62 +53,15 @@ def _main():
             info,
             refinement_func=_needs_refinement
             )
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
-    print(
-        '\n%d nodes, %d elements' % (
-            len(meshpy_mesh.points), len(meshpy_mesh.elements)
-            )
-        )
 
     # append column
     pts = np.array(meshpy_mesh.points)
     points = np.c_[pts[:, 0], pts[:, 1], np.zeros(len(pts))]
 
-    return
-
-
-def _parse_options():
-    '''Parse input options.'''
-
-    parser = argparse.ArgumentParser(
-        description='Construct a MeshPy triangulation of a circle with a cut.'
-        )
-
-    parser.add_argument(
-            'filename',
-            metavar='FILE',
-            type=str,
-            help='file to be written to'
-            )
-
-    parser.add_argument(
-            '--num-boundary-points', '-b',
-            metavar='NUM_BOUNDARY_POINTS',
-            dest='num_boundary_points',
-            nargs='?',
-            type=int,
-            default=50,
-            help='number of points on the outer boundary (default: 10)'
-            )
-
-    args = parser.parse_args()
-
-    return args
+    return points, np.array(meshpy_mesh.elements)
 
 
 if __name__ == '__main__':
     import meshio
-    _main()
-
-    # write the mesh
-    print('Write mesh...')
-    start = time.time()
-    meshio.write(
-            args.filename,
-            points,
-            {'triangle': np.array(meshpy_mesh.elements)}
-            )
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
+    points, cells = create_pacman_mesh()
+    meshio.write('pacman.e', points, {'triangle': cells})
