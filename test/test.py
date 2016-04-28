@@ -29,6 +29,14 @@ def test_moebius():
     return
 
 
+def test_moebius_alt():
+    points, cells = \
+        meshzoo.custom.moebius_tri_alt.create_mesh()
+    assert len(points) == 5700
+    assert len(cells) == 11020
+    return
+
+
 def test_moebius2():
     points, cells = \
         meshzoo.custom.moebius2_tri.create_mesh()
