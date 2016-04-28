@@ -59,6 +59,13 @@ def test_simple_arrow():
     return
 
 
+def test_simple_shell():
+    points, cells = meshzoo.custom.simple_shell.create_mesh()
+    assert len(points) == 5
+    assert len(cells) == 4
+    return
+
+
 def test_sphere():
     points, cells = meshzoo.custom.sphere.create_mesh()
     assert len(points) == 162
