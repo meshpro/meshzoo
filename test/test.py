@@ -59,6 +59,13 @@ def test_sphere():
     return
 
 
+def test_tube():
+    points, cells = meshzoo.custom.tube.create_mesh()
+    assert len(points) == 150
+    assert len(cells) == 240
+    return
+
+
 def test_ball():
     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
     assert len(points) == 1360
