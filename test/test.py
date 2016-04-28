@@ -41,5 +41,13 @@ def test_moebius():
     return
 
 
+def test_hexagon():
+    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
+    print(len(points), len(cells))
+    assert len(points) == 1000
+    assert len(cells) == 1800
+    return
+
+
 if __name__ == '__main__':
     test_ball()
