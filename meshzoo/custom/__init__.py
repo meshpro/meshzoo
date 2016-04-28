@@ -9,4 +9,5 @@ import pseudomoebius
 import simple_arrow
 import simple_shell
 import sphere
+import triangle
 import tube
