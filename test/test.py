@@ -80,21 +80,11 @@ def test_ellipse():
     return
 
 
-# Disable for now since we need mshr in a dev version for mshr.Extrude2D
-# def test_toy():
-#     points, cells = meshzoo.mshr.toy.create_toy_mesh()
-#     assert len(points) == 2760
-#     assert len(cells) == 11779
-#     return
-
-
-# Disable for now since Gmsh doesn't pass for the version installed on travis
-# (trusty).
-# def test_screw():
-#     points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
-#     assert len(points) == 2412
-#     assert len(cells) == 7934
-#     return
+def test_lshape3d():
+    points, cells = meshzoo.meshpy.lshape3d.create_mesh()
+    assert len(points) == 943
+    assert len(cells) == 3394
+    return
 
 
 def test_pacman():
@@ -116,6 +106,23 @@ def test_torus():
     assert len(points) == 921
     assert len(cells) == 2681
     return
+
+
+# Disable for now since Gmsh doesn't pass for the version installed on travis
+# (trusty).
+# def test_screw():
+#     points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
+#     assert len(points) == 2412
+#     assert len(cells) == 7934
+#     return
+
+
+# Disable for now since we need mshr in a dev version for mshr.Extrude2D
+# def test_toy():
+#     points, cells = meshzoo.mshr.toy.create_toy_mesh()
+#     assert len(points) == 2760
+#     assert len(cells) == 11779
+#     return
 
 
 if __name__ == '__main__':

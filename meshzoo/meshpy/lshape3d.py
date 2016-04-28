@@ -4,22 +4,15 @@
 '''
 import meshpy.tet
 import numpy as np
-import time
 
 
-def _main():
-
-    # get the file name to be written to
-    args = _parse_options()
-
+def create_mesh(maxvol=1.0):
     # circumcirlce radius
     cc_radius = 10.0
     lx = 2.0/np.sqrt(3.0) * cc_radius
     l = [lx, lx, lx]
 
     # create the mesh data structure
-    print 'Create mesh...',
-    start = time.time()
     # Corner points of the cube
     points = [
         (-0.5*l[0], -0.5*l[1], -0.5*l[2]),
@@ -52,58 +45,12 @@ def _main():
     info = meshpy.tet.MeshInfo()
     info.set_points(points)
     info.set_facets(facets)
-    meshpy_mesh = meshpy.tet.build(info, max_volume=args.maxvol)
-    elapsed = time.time() - start
-    print 'done. (%gs)' % elapsed
+    meshpy_mesh = meshpy.tet.build(info, max_volume=maxvol)
 
-    num_nodes = len(meshpy_mesh.points)
-    print '\n%d nodes, %d elements\n' % (num_nodes, len(meshpy_mesh.elements))
-
-    return
-
-
-def _parse_options():
-    '''Parse input options.'''
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description='Construct a trival tetrahedrization of a 3D L-shape.'
-        )
-
-    parser.add_argument(
-        'filename',
-        metavar='FILE',
-        type=str,
-        help='file to be written to'
-        )
-
-    parser.add_argument(
-        '--maxvol', '-m',
-        metavar='MAXVOL',
-        dest='maxvol',
-        nargs='?',
-        type=float,
-        const=1.0,
-        default=1.0,
-        help=('maximum tetrahedron volume ' +
-              'of the tetrahedrization (default: 1.0)')
-        )
-
-    args = parser.parse_args()
-
-    return args
+    return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
 if __name__ == "__main__":
     import meshio
-    _main()
-    # write the mesh with data
-    print 'Write to file...',
-    start = time.time()
-    meshio.write(
-        args.filename,
-        np.array(meshpy_mesh.points),
-        {'tetra': np.array(meshpy_mesh.elements)}
-        )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    points, cells = create_mesh()
+    meshio.write('lshape3d.e', points, {'tetra': cells})
