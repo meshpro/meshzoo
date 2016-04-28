@@ -58,7 +58,7 @@ def test_cube():
 
 
 def test_ellipse():
-    points, cells = meshzoo.meshpy.ellipse.create_ellipse_mesh([0.5, 1], 100)
+    points, cells = meshzoo.meshpy.ellipse.create_mesh([0.5, 1], 100)
     assert len(points) == 1444
     assert len(cells) == 2774
     return

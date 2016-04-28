@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 
-import argparse
 import meshpy.triangle
 import numpy as np
 from scipy import special
-import time
 
 
-def create_ellipse_mesh(axes, num_boundary_points):
-
+def create_mesh(axes=[1, 0.5], num_boundary_points=100):
     # lengths of major and minor axes
     if axes[0] > axes[1]:
         a = axes[0]
@@ -55,50 +52,7 @@ def create_ellipse_mesh(axes, num_boundary_points):
     return points, np.array(meshpy_mesh.elements)
 
 
-def _parse_options():
-    '''Parse input options.'''
-    parser = argparse.ArgumentParser(
-            description='Construct a triangulation of an ellipse.'
-            )
-
-    parser.add_argument('filename',
-                        metavar='FILE',
-                        type=str,
-                        help='file to be written to'
-                        )
-
-    parser.add_argument('--num-boundary-points', '-b',
-                        default=100,
-                        type=int,
-                        help='number of nodes on the ellipse boundary'
-                        )
-
-    parser.add_argument('--axes', '-a',
-                        type=float,
-                        nargs=2,
-                        default=[1, 0.5],
-                        help='axis lengths of the ellipse (default: [10,10])'
-                        )
-
-    return parser.parse_args()
-
-
 if __name__ == '__main__':
     import meshio
-    args = _parse_options()
-
-    print('Create mesh...')
-    start = time.time()
-    points, cells = create_ellipse_mesh(args.axes, args.num_boundary_points)
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
-    print
-    print('%d nodes, %d cells' % (len(points), len(cells)))
-    print
-
-    print('Write to file...')
-    start = time.time()
-    meshio.write(args.filename, points, {'triangle': cells})
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
+    points, cells = create_mesh()
+    meshio.write('ellipse.e', points, {'triangle': cells})

@@ -6,7 +6,6 @@ import time
 
 
 def _main():
-
     # get the file name to be written to
     args = _parse_options()
 

@@ -1,8 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-Creates a tetrahedral mesh on a ball.
-'''
 import numpy as np
 
 

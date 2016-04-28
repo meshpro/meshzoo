@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-import argparse
 from meshpy.tet import MeshInfo, build
 from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, \
     GeometryBuilder
 import numpy as np
-import time
 
 
-def create_ball_mesh(num_longi_points):
+def create_ball_mesh(num_longi_points=10):
 
     radius = 5.0
 
@@ -48,50 +46,7 @@ def create_ball_mesh(num_longi_points):
     return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
-def _parse_options():
-    '''Parse input options.'''
-    import argparse
-    parser = argparse.ArgumentParser(
-        description='Construct tetrahedrization of a ball.'
-        )
-
-    parser.add_argument('filename',
-                        metavar='FILE',
-                        type=str,
-                        help='file to be written to'
-                        )
-
-    parser.add_argument('--numpoints', '-p',
-                        metavar='N',
-                        dest='num_longi_points',
-                        nargs='?',
-                        type=int,
-                        const=10,
-                        default=10,
-                        help=('number of discretization points ' +
-                              'along a logitudinal line')
-                        )
-    args = parser.parse_args()
-    return args
-
 if __name__ == '__main__':
     import meshio
-    args = _parse_options()
-
-    print('Build mesh...')
-    start = time.time()
-    points, cells = create_ball_mesh(args.num_longi_points)
-    elapsed = time.time()-start
-    print('done. (%gs)' % elapsed)
-
-    print('\n%d nodes, %d elements' % (len(points), len(cells)))
-
-    print('Write mesh...')
-    start = time.time()
-    meshio.write(
-            args.filename,
-            points,
-            {'tetra': cells}
-            )
-    elapsed = time.time()-start
-    print 'done. (%gs)' % elapsed
+    points, cells = create_ball_mesh()
+    meshio.write('ball.e', points, {'tetra': cells})
