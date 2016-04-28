@@ -12,6 +12,15 @@ computation. This repostory contains some instructive examples for
 
 and a few simple custom meshes.
 
+### Examples
+
+![](https://nschloe.github.io/meshzoo/hexagon.png)
+![](https://nschloe.github.io/meshzoo/pacman.png)
+![](https://nschloe.github.io/meshzoo/moebius.png)
+![](https://nschloe.github.io/meshzoo/tetrahedron.png)
+![](https://nschloe.github.io/meshzoo/screw.png)
+![](https://nschloe.github.io/meshzoo/toy.png)
+
 ### Testing
 
 To run the Mesh ZOO unit tests, check out this repository and run
