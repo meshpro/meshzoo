@@ -30,6 +30,10 @@ def test_moebius():
         meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
     assert len(points) == 1000
     assert len(cells) == 1800
+    points, cells = \
+        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 2)
+    assert len(points) == 1000
+    assert len(cells) == 1800
     return
 
 
@@ -38,12 +42,20 @@ def test_moebius_alt():
         meshzoo.custom.moebius_tri_alt.create_mesh()
     assert len(points) == 5700
     assert len(cells) == 11020
+    points, cells = \
+        meshzoo.custom.moebius_tri_alt.create_mesh(moebius_index=2)
+    assert len(points) == 5700
+    assert len(cells) == 11020
     return
 
 
 def test_moebius2():
     points, cells = \
         meshzoo.custom.moebius2_tri.create_mesh()
+    assert len(points) == 5890
+    assert len(cells) == 11400
+    points, cells = \
+        meshzoo.custom.moebius2_tri.create_mesh(moebius_index=2)
     assert len(points) == 5890
     assert len(cells) == 11400
     return
