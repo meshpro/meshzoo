@@ -1,7 +1,8 @@
 # Mesh Zoo
 
 [![Build Status](https://travis-ci.org/nschloe/meshzoo.svg?branch=master)](https://travis-ci.org/nschloe/meshzoo)
-[![codecov.io](https://codecov.io/github/nschloe/meshzoo/coverage.svg?branch=master)](https://codecov.io/github/nschloe/meshzoo?branch=master)
+[![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
+
 
 There are various Python tools assisting with mesh generation for numerical
 computation. This repostory contains some instructive examples for
