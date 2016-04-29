@@ -33,5 +33,5 @@ def create_mesh(ref_steps=2):
 
 if __name__ == '__main__':
     import meshio
-    points, cells = create_triangle_mesh()
+    points, cells = create_mesh()
     meshio.write('triangle.e', points, {'triangle': cells})
