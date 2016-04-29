@@ -56,6 +56,17 @@ def test_pseudomoebius():
     return
 
 
+def test_rectangle_custom():
+    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=False)
+    assert len(points) == 121
+    assert len(cells) == 200
+
+    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=True)
+    assert len(points) == 121
+    assert len(cells) == 200
+    return
+
+
 def test_simple_arrow():
     points, cells = meshzoo.custom.simple_arrow.create_mesh()
     assert len(points) == 5
