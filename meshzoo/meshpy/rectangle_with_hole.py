@@ -1,26 +1,40 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-Creates a mesh on a rectangle in the x-y-plane.
-'''
+#
 import meshpy.triangle
 import numpy as np
 
 
-def create_mesh(edgelength=1.0, max_area=0.01):
+def create_mesh(max_area=1.0):
     # dimensions of the rectangle
-    l = [edgelength, edgelength]
+    cc_radius = 15.0  # circumcircle radius
+    lx = np.sqrt(2.0) * cc_radius
+    l = [lx, lx]
+
+    h_radius = 1.0
 
     # corner points
     boundary_points = [
+            (0.5*l[0],  0.0),
+            (0.5*l[0],  0.5*l[1]),
+            (-0.5*l[0],  0.5*l[1]),
             (-0.5*l[0], -0.5*l[1]),
-            ( 0.5*l[0], -0.5*l[1]),
-            ( 0.5*l[0],  0.5*l[1]),
-            (-0.5*l[0],  0.5*l[1])
+            (0.5*l[0], -0.5*l[1]),
+            (0.5*l[0],  0.0)
             ]
+    # create circular boundary on the inside
+    segments = 100
+    for k in range(segments+1):
+        angle = k * 2.0 * np.pi / segments
+        boundary_points.append(
+                (h_radius * np.cos(angle), h_radius * np.sin(angle))
+                )
+    # mark the hole by an interior point
+    holes = [(0, 0)]
 
     info = meshpy.triangle.MeshInfo()
     info.set_points(boundary_points)
+    info.set_holes(holes)
 
     def _round_trip_connect(start, end):
         result = []
@@ -47,4 +61,4 @@ def create_mesh(edgelength=1.0, max_area=0.01):
 if __name__ == '__main__':
     import meshio
     points, cells = create_mesh()
-    meshio.write('rectangle.e', points, {'triangle': cells})
+    meshio.write('rectangle_with_hole.e', points, {'triangle': cells})

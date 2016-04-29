@@ -135,6 +135,13 @@ def test_ellipse():
     return
 
 
+def test_lshape():
+    points, cells = meshzoo.meshpy.lshape.create_mesh()
+    assert len(points) == 38
+    assert len(cells) == 58
+    return
+
+
 def test_lshape3d():
     points, cells = meshzoo.meshpy.lshape3d.create_mesh()
     assert len(points) == 943
@@ -153,6 +160,13 @@ def test_rectangle():
     points, cells = meshzoo.meshpy.rectangle.create_mesh()
     assert len(points) == 88
     assert len(cells) == 150
+    return
+
+
+def test_rectangle_with_hole():
+    points, cells = meshzoo.meshpy.rectangle_with_hole.create_mesh()
+    assert len(points) == 570
+    assert len(cells) == 964
     return
 
 

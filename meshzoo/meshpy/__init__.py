@@ -1,8 +1,10 @@
 import ball
 import cube
 import ellipse
+import lshape
 import lshape3d
 import pacman
 import rectangle
+import rectangle_with_hole
 import tetrahedron
 import torus
