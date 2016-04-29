@@ -137,6 +137,13 @@ def test_pacman():
     return
 
 
+def test_rectangle():
+    points, cells = meshzoo.meshpy.rectangle.create_mesh()
+    assert len(points) == 88
+    assert len(cells) == 150
+    return
+
+
 def test_tetrahedron():
     points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
     assert len(points) == 604
