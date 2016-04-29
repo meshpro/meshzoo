@@ -23,7 +23,7 @@ and a few simple custom meshes.
 
 ### Testing
 
-To run the Mesh ZOO unit tests, check out this repository and run
+To run the Mesh Zoo unit tests, check out this repository and run
 ```
 nosetests
 ```
