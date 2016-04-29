@@ -32,7 +32,7 @@ def create_mesh(axes=[1, 0.5], num_boundary_points=100):
 
     def _round_trip_connect(start, end):
         result = []
-        for i in xrange(start, end):
+        for i in range(start, end):
             result.append((i, i+1))
         result.append((end, start))
         return result

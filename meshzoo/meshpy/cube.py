@@ -8,7 +8,7 @@ import meshpy.tet
 import numpy as np
 
 
-def create_cube_mesh(maxvol=0.1):
+def create_mesh(maxvol=0.1):
     # get the file name to be written to
 
     # circumcirlce radius
@@ -47,5 +47,5 @@ def create_cube_mesh(maxvol=0.1):
 
 if __name__ == '__main__':
     import meshio
-    points, cells = create_cube_mesh()
+    points, cells = create_mesh()
     meshio.write('cube.e', points, {'tetra': cells})

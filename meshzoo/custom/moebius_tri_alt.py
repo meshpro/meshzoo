@@ -6,7 +6,9 @@ Creates a simplistic triangular mesh on a Möbius strip.
 import numpy as np
 
 
-def create_mesh():
+def create_mesh(
+        moebius_index=1  # How many twists are there in the 'paper'?
+        ):
     # Mesh parameters
     # Number of nodes along the length of the strip
     nl = 190
@@ -31,9 +33,6 @@ def create_mesh():
     # right-turning ones.
     # Also influences the width of the strip
     flatness = 1.0
-
-    # How many twists are there in the 'paper'?
-    moebius_index = 1
 
     # Generate suitable ranges for parametrization
     u_range = np.linspace(0.0, 2*np.pi, num=nl, endpoint=False)

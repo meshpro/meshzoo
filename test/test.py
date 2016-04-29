@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 #
-import os
-import sys
-
 import meshzoo
+
+
+def test_cube_custom():
+    points, cells = meshzoo.custom.cube.create_mesh()
+    assert len(points) == 1000
+    assert len(cells) == 3645
+    return
 
 
 def test_cylinder():
@@ -26,12 +30,20 @@ def test_moebius():
         meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
     assert len(points) == 1000
     assert len(cells) == 1800
+    points, cells = \
+        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 2)
+    assert len(points) == 1000
+    assert len(cells) == 1800
     return
 
 
 def test_moebius_alt():
     points, cells = \
         meshzoo.custom.moebius_tri_alt.create_mesh()
+    assert len(points) == 5700
+    assert len(cells) == 11020
+    points, cells = \
+        meshzoo.custom.moebius_tri_alt.create_mesh(moebius_index=2)
     assert len(points) == 5700
     assert len(cells) == 11020
     return
@@ -42,6 +54,10 @@ def test_moebius2():
         meshzoo.custom.moebius2_tri.create_mesh()
     assert len(points) == 5890
     assert len(cells) == 11400
+    points, cells = \
+        meshzoo.custom.moebius2_tri.create_mesh(moebius_index=2)
+    assert len(points) == 5890
+    assert len(cells) == 11400
     return
 
 
@@ -49,6 +65,17 @@ def test_pseudomoebius():
     points, cells = meshzoo.custom.pseudomoebius.create_mesh()
     assert len(points) == 5890
     assert len(cells) == 11400
+    return
+
+
+def test_rectangle_custom():
+    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=False)
+    assert len(points) == 121
+    assert len(cells) == 200
+
+    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=True)
+    assert len(points) == 121
+    assert len(cells) == 200
     return
 
 
@@ -95,7 +122,7 @@ def test_ball():
 
 
 def test_cube():
-    points, cells = meshzoo.meshpy.cube.create_cube_mesh(10)
+    points, cells = meshzoo.meshpy.cube.create_mesh(10)
     assert len(points) == 50
     assert len(cells) == 68
     return
@@ -119,6 +146,13 @@ def test_pacman():
     points, cells = meshzoo.meshpy.pacman.create_pacman_mesh()
     assert len(points) == 446
     assert len(cells) == 831
+    return
+
+
+def test_rectangle():
+    points, cells = meshzoo.meshpy.rectangle.create_mesh()
+    assert len(points) == 88
+    assert len(cells) == 150
     return
 
 
