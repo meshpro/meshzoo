@@ -163,6 +163,13 @@ def test_rectangle():
     return
 
 
+def test_rectangle_with_hole():
+    points, cells = meshzoo.meshpy.rectangle_with_hole.create_mesh()
+    assert len(points) == 570
+    assert len(cells) == 964
+    return
+
+
 def test_tetrahedron():
     points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
     assert len(points) == 604
