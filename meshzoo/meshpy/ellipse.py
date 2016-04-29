@@ -5,10 +5,10 @@ import numpy as np
 from scipy import special
 
 
-def create_mesh(axes=[1, 0.5], num_boundary_points=100):
+def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     # lengths of major and minor axes
-    a = max(axis[0], axis[1])
-    b = min(axis[0], axis[1])
+    a = max(axis0, axis1)
+    b = min(axis0, axis1)
 
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
