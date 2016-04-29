@@ -6,22 +6,17 @@ Creates a simplistic triangular mesh on a Möbius strip.
 import numpy as np
 
 
-def create_moebius_mesh(num=[51, 11], index=1):
-    # Mesh parameters
-    # Number of nodes along the length of the strip
-    nl = num[0]
-    # Number of nodes along the width of the strip (>= 2)
-    nw = num[1]
-
+def create_moebius_mesh(
+        nl=51,  # Number of nodes along the length of the strip
+        nw=11,  # Number of nodes along the width of the strip (>= 2)
+        index=1
+        ):
     # The width of the strip
     width = 1.0
     scale = 10.0
 
     # radius of the strip when flattened out
     r = 1.0
-
-    # l = 5
-    p = 1.5
 
     # seam displacement
     alpha0 = 0.0  # pi / 2

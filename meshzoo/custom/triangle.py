@@ -24,7 +24,7 @@ def create_mesh(ref_steps=2):
     cells_edges = np.array([[0, 1, 2]], dtype=int)
 
     # Refine.
-    for k in range(ref_steps):
+    for _ in range(ref_steps):
         nodes, edges, cells_nodes, cells_edges = \
             refine.refine(nodes, edges, cells_nodes, cells_edges)
 
@@ -33,5 +33,5 @@ def create_mesh(ref_steps=2):
 
 if __name__ == '__main__':
     import meshio
-    points, cells = create_triangle_mesh()
+    points, cells = create_mesh()
     meshio.write('triangle.e', points, {'triangle': cells})

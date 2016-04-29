@@ -3,7 +3,6 @@
 from meshpy.tet import MeshInfo, build
 from meshpy.geometry import \
         generate_surface_of_revolution, \
-        EXT_OPEN, \
         EXT_CLOSED_IN_RZ, \
         GeometryBuilder
 import numpy as np

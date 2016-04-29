@@ -27,11 +27,11 @@ def test_hexagon():
 
 def test_moebius():
     points, cells = \
-        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 1)
+        meshzoo.custom.moebius_tri.create_moebius_mesh(100, 10, 1)
     assert len(points) == 1000
     assert len(cells) == 1800
     points, cells = \
-        meshzoo.custom.moebius_tri.create_moebius_mesh([100, 10], 2)
+        meshzoo.custom.moebius_tri.create_moebius_mesh(100, 10, 2)
     assert len(points) == 1000
     assert len(cells) == 1800
     return
@@ -129,7 +129,7 @@ def test_cube():
 
 
 def test_ellipse():
-    points, cells = meshzoo.meshpy.ellipse.create_mesh([0.5, 1], 100)
+    points, cells = meshzoo.meshpy.ellipse.create_mesh(0.5, 1, 100)
     assert len(points) == 1444
     assert len(cells) == 2774
     return
