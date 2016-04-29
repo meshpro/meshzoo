@@ -9,8 +9,6 @@ import numpy as np
 def create_tetrahedron_mesh(maxvol=0.1):
     # circumcircle radius
     r = 5.0
-    # max_volume = 1.0 / args.n**3
-    max_volume = 8.0
 
     # boundary points
     points = []

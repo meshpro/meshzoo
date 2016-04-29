@@ -38,7 +38,6 @@ def create_cylinder_mesh():
     # create the elements (cells)
     numelems = 2 * nl * (nw-1)
     elems = np.zeros([numelems, 3], dtype=int)
-    elem_types = np.zeros(numelems, dtype=int)
     k = 0
     for i in range(nl - 1):
         for j in range(nw - 1):

@@ -24,7 +24,7 @@ def create_mesh(ref_steps=2):
     cells_edges = np.array([[0, 1, 2]], dtype=int)
 
     # Refine.
-    for k in range(ref_steps):
+    for _ in range(ref_steps):
         nodes, edges, cells_nodes, cells_edges = \
             refine.refine(nodes, edges, cells_nodes, cells_edges)
 

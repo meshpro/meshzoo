@@ -7,7 +7,7 @@ constructed in such a way that the two halves can be exchanged as to allow
 better comparison with the pseudo-Möbius geometry.
 '''
 import numpy as np
-from math import pi, sin, cos, copysign
+from math import copysign
 
 
 def create_mesh(
@@ -26,9 +26,6 @@ def create_mesh(
     # radius of the strip when flattened out
     r = 1.0
 
-    # l = 5
-    p = 1.5
-
     # seam displacement
     alpha0 = 0.0  # pi / 2
 
@@ -39,7 +36,7 @@ def create_mesh(
     flatness = 1.0
 
     # Generate suitable ranges for parametrization
-    u_range = np.linspace(0.0, 2*pi, num=nl, endpoint=False)
+    u_range = np.linspace(0.0, 2*np.pi, num=nl, endpoint=False)
     v_range = np.linspace(-0.5*width, 0.5*width, num=nw)
 
     # Create the vertices. This is based on the parameterization
@@ -70,7 +67,7 @@ def create_mesh(
             nodes.append([
                 scale * (r + a) * np.cos(u),
                 scale * (r + a) * np.sin(u),
-                flatness * scale * v*copysign(sin(alpha)**2, np.sin(alpha))
+                flatness * scale * v*copysign(np.sin(alpha)**2, np.sin(alpha))
                 ])
 
     # create the elements (cells)

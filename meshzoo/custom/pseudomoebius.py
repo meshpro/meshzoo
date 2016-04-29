@@ -17,9 +17,6 @@ def create_mesh():
     # radius of the strip when flattened out
     r = 1.0
 
-    # l = 5
-    p = 1.5
-
     # seam displacement
     alpha0 = 0.0  # pi / 2
 
