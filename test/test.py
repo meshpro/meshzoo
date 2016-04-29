@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 #
-import os
-import sys
-
 import meshzoo
+
+
+def test_cube_custom():
+    points, cells = meshzoo.custom.cube.create_mesh()
+    assert len(points) == 1000
+    assert len(cells) == 3645
+    return
 
 
 def test_cylinder():
@@ -95,7 +99,7 @@ def test_ball():
 
 
 def test_cube():
-    points, cells = meshzoo.meshpy.cube.create_cube_mesh(10)
+    points, cells = meshzoo.meshpy.cube.create_mesh(10)
     assert len(points) == 50
     assert len(cells) == 68
     return
