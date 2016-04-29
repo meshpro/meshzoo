@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nschloe/meshzoo.svg?branch=master)](https://travis-ci.org/nschloe/meshzoo)
 [![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
+[![Code Health](https://landscape.io/github/nschloe/meshzoo/master/landscape.svg?style=flat)](https://landscape.io/github/nschloe/meshzoo/master)
 
 
 There are various Python tools assisting with mesh generation for numerical
