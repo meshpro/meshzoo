@@ -7,12 +7,8 @@ from scipy import special
 
 def create_mesh(axes=[1, 0.5], num_boundary_points=100):
     # lengths of major and minor axes
-    if axes[0] > axes[1]:
-        a = axes[0]
-        b = axes[1]
-    else:
-        a = axes[1]
-        b = axes[0]
+    a = max(axis[0], axis[1])
+    b = min(axis[0], axis[1])
 
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
