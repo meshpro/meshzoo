@@ -1,2 +1,5 @@
 *.pyc
 *.e
+README.rst
+dist/
+meshzoo.egg-info/
