@@ -3,8 +3,8 @@
 import meshzoo
 
 
-def test_cube_custom():
-    points, cells = meshzoo.custom.cube.create_mesh()
+def test_cube():
+    points, cells = meshzoo.cube.create_mesh()
     assert len(points) == 1000
     assert len(cells) == 3645
     return
@@ -12,14 +12,14 @@ def test_cube_custom():
 
 def test_cylinder():
     points, cells = \
-        meshzoo.custom.cylinder_tri.create_cylinder_mesh()
+        meshzoo.cylinder_tri.create_cylinder_mesh()
     assert len(points) == 1000
     assert len(cells) == 1800
     return
 
 
 def test_hexagon():
-    points, cells = meshzoo.custom.hexagon.create_hexagon_mesh(2)
+    points, cells = meshzoo.hexagon.create_hexagon_mesh(2)
     assert len(points) == 61
     assert len(cells) == 96
     return
@@ -27,11 +27,11 @@ def test_hexagon():
 
 def test_moebius():
     points, cells = \
-        meshzoo.custom.moebius_tri.create_moebius_mesh(100, 10, 1)
+        meshzoo.moebius_tri.create_moebius_mesh(100, 10, 1)
     assert len(points) == 1000
     assert len(cells) == 1800
     points, cells = \
-        meshzoo.custom.moebius_tri.create_moebius_mesh(100, 10, 2)
+        meshzoo.moebius_tri.create_moebius_mesh(100, 10, 2)
     assert len(points) == 1000
     assert len(cells) == 1800
     return
@@ -39,11 +39,11 @@ def test_moebius():
 
 def test_moebius_alt():
     points, cells = \
-        meshzoo.custom.moebius_tri_alt.create_mesh()
+        meshzoo.moebius_tri_alt.create_mesh()
     assert len(points) == 5700
     assert len(cells) == 11020
     points, cells = \
-        meshzoo.custom.moebius_tri_alt.create_mesh(moebius_index=2)
+        meshzoo.moebius_tri_alt.create_mesh(moebius_index=2)
     assert len(points) == 5700
     assert len(cells) == 11020
     return
@@ -51,64 +51,64 @@ def test_moebius_alt():
 
 def test_moebius2():
     points, cells = \
-        meshzoo.custom.moebius2_tri.create_mesh()
+        meshzoo.moebius2_tri.create_mesh()
     assert len(points) == 5890
     assert len(cells) == 11400
     points, cells = \
-        meshzoo.custom.moebius2_tri.create_mesh(moebius_index=2)
+        meshzoo.moebius2_tri.create_mesh(moebius_index=2)
     assert len(points) == 5890
     assert len(cells) == 11400
     return
 
 
 def test_pseudomoebius():
-    points, cells = meshzoo.custom.pseudomoebius.create_mesh()
+    points, cells = meshzoo.pseudomoebius.create_mesh()
     assert len(points) == 5890
     assert len(cells) == 11400
     return
 
 
-def test_rectangle_custom():
-    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=False)
+def test_rectangle():
+    points, cells = meshzoo.rectangle.create_mesh(zigzag=False)
     assert len(points) == 121
     assert len(cells) == 200
 
-    points, cells = meshzoo.custom.rectangle.create_mesh(zigzag=True)
+    points, cells = meshzoo.rectangle.create_mesh(zigzag=True)
     assert len(points) == 121
     assert len(cells) == 200
     return
 
 
 def test_simple_arrow():
-    points, cells = meshzoo.custom.simple_arrow.create_mesh()
+    points, cells = meshzoo.simple_arrow.create_mesh()
     assert len(points) == 5
     assert len(cells) == 4
     return
 
 
 def test_simple_shell():
-    points, cells = meshzoo.custom.simple_shell.create_mesh()
+    points, cells = meshzoo.simple_shell.create_mesh()
     assert len(points) == 5
     assert len(cells) == 4
     return
 
 
 def test_sphere():
-    points, cells = meshzoo.custom.sphere.create_mesh()
+    points, cells = meshzoo.sphere.create_mesh()
     assert len(points) == 162
     assert len(cells) == 320
     return
 
 
 def test_triangle():
-    points, cells = meshzoo.custom.triangle.create_mesh()
+    points, cells = meshzoo.triangle.create_mesh()
     assert len(points) == 15
     assert len(cells) == 16
     return
 
 
 def test_tube():
-    points, cells = meshzoo.custom.tube.create_mesh()
+    points, cells = meshzoo.tube.create_mesh()
     assert len(points) == 150
     assert len(cells) == 240
     return
