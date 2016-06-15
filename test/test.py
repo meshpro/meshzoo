@@ -114,74 +114,74 @@ def test_tube():
     return
 
 
-def test_ball():
-    points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
-    assert len(points) == 1360
-    assert len(cells) == 5005
-    return
-
-
-def test_cube():
-    points, cells = meshzoo.meshpy.cube.create_mesh(10)
-    assert len(points) == 50
-    assert len(cells) == 68
-    return
-
-
-def test_ellipse():
-    points, cells = meshzoo.meshpy.ellipse.create_mesh(0.5, 1, 100)
-    assert len(points) == 1444
-    assert len(cells) == 2774
-    return
-
-
-def test_lshape():
-    points, cells = meshzoo.meshpy.lshape.create_mesh()
-    assert len(points) == 38
-    assert len(cells) == 58
-    return
-
-
-def test_lshape3d():
-    points, cells = meshzoo.meshpy.lshape3d.create_mesh()
-    assert len(points) == 943
-    assert len(cells) == 3394
-    return
-
-
-def test_pacman():
-    points, cells = meshzoo.meshpy.pacman.create_pacman_mesh()
-    assert len(points) == 446
-    assert len(cells) == 831
-    return
-
-
-def test_rectangle():
-    points, cells = meshzoo.meshpy.rectangle.create_mesh()
-    assert len(points) == 88
-    assert len(cells) == 150
-    return
-
-
-def test_rectangle_with_hole():
-    points, cells = meshzoo.meshpy.rectangle_with_hole.create_mesh()
-    assert len(points) == 570
-    assert len(cells) == 964
-    return
-
-
-def test_tetrahedron():
-    points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
-    assert len(points) == 604
-    assert len(cells) == 1805
-    return
-
-
-def test_torus():
-    points, cells = meshzoo.meshpy.torus.create_mesh()
-    assert len(points) == 921
-    assert len(cells) == 2681
-    return
+# def test_ball():
+#     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
+#     assert len(points) == 1360
+#     assert len(cells) == 5005
+#     return
+#
+#
+# def test_cube():
+#     points, cells = meshzoo.meshpy.cube.create_mesh(10)
+#     assert len(points) == 50
+#     assert len(cells) == 68
+#     return
+#
+#
+# def test_ellipse():
+#     points, cells = meshzoo.meshpy.ellipse.create_mesh(0.5, 1, 100)
+#     assert len(points) == 1444
+#     assert len(cells) == 2774
+#     return
+#
+#
+# def test_lshape():
+#     points, cells = meshzoo.meshpy.lshape.create_mesh()
+#     assert len(points) == 38
+#     assert len(cells) == 58
+#     return
+#
+#
+# def test_lshape3d():
+#     points, cells = meshzoo.meshpy.lshape3d.create_mesh()
+#     assert len(points) == 943
+#     assert len(cells) == 3394
+#     return
+#
+#
+# def test_pacman():
+#     points, cells = meshzoo.meshpy.pacman.create_pacman_mesh()
+#     assert len(points) == 446
+#     assert len(cells) == 831
+#     return
+#
+#
+# def test_rectangle():
+#     points, cells = meshzoo.meshpy.rectangle.create_mesh()
+#     assert len(points) == 88
+#     assert len(cells) == 150
+#     return
+#
+#
+# def test_rectangle_with_hole():
+#     points, cells = meshzoo.meshpy.rectangle_with_hole.create_mesh()
+#     assert len(points) == 570
+#     assert len(cells) == 964
+#     return
+#
+#
+# def test_tetrahedron():
+#     points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
+#     assert len(points) == 604
+#     assert len(cells) == 1805
+#     return
+#
+#
+# def test_torus():
+#     points, cells = meshzoo.meshpy.torus.create_mesh()
+#     assert len(points) == 921
+#     assert len(cells) == 2681
+#     return
 
 
 # Disable for now since Gmsh doesn't pass for the version installed on travis
