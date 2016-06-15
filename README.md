@@ -47,6 +47,7 @@ meshzoo is [available from the Python Package
 Index](https://pypi.python.org/pypi/meshzoo/), so to install/upgrade simply type
 ```
 pip install meshzoo -U
+```
 
 #### Manual installation
 
