@@ -39,6 +39,24 @@ examples for other mesh generators like
 ![](https://nschloe.github.io/meshzoo/screw.png)
 ![](https://nschloe.github.io/meshzoo/toy.png)
 
+### Installation
+
+#### Python Package Index
+
+meshzoo is [available from the Python Package
+Index](https://pypi.python.org/pypi/meshzoo/), so to install/upgrade simply type
+```
+pip install meshzoo -U
+
+#### Manual installation
+
+Download meshzoo from [PyPi](https://pypi.python.org/pypi/meshzoo/)
+or [GitHub](https://github.com/nschloe/meshzoo) and
+install it with
+```
+python setup.py install
+```
+
 ### Testing
 
 To run the Mesh Zoo unit tests, check out this repository and run
