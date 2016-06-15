@@ -10,14 +10,27 @@
 Mesh Zoo provides a couple of simple example meshes that can be used for your
 FEM/FVM application.
 
-Furthermore, the `examples/` directory contains a couple of instructive
+Example usage:
+```python
+points, cells = meshzoo.rectangle.create_mesh(
+    edgelength=2.0,
+    nx=101,
+    zigzag=True
+    )
+
+# Process the mesh, e.g., write it to a file using meshio
+# meshio.write('rectangle.e', points, {'triangle': cells})
+```
+
+In addition to this, the `examples/` directory contains a couple of instructive
 examples for other mesh generators like
 
   * [MeshPy](https://github.com/inducer/meshpy),
   * [meshzoo](https://github.com/nschloe/meshzoo), and
   * [mshr](https://bitbucket.org/fenics-project/mshr).
 
-### Examples
+
+### Showcase
 
 ![](https://nschloe.github.io/meshzoo/hexagon.png)
 ![](https://nschloe.github.io/meshzoo/pacman.png)
