@@ -24,7 +24,7 @@ install:
 
 script:
   # cd into test directory to make sure we're using the pip-installed version.
-  - cd tests
+  - cd test
   - nosetests --with-coverage --cover-package=meshzoo
 
 after_success:
