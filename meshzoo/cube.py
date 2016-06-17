@@ -12,9 +12,6 @@ def create_mesh(ax=1.0, ay=1.0, az=1.0, nx=11, ny=11, nz=11):
     Number of nodes along the edges.
     '''
     N = [nx, ny, nz]
-    # circumcirlce radius
-    cc_radius = 5.0
-    lx = 2.0/np.sqrt(3.0) * cc_radius
     l = [ax, ay, az]
 
     # Generate suitable ranges for parametrization
