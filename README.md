@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/nschloe/meshzoo.svg?branch=master)](https://travis-ci.org/nschloe/meshzoo)
 [![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
 [![Code Health](https://landscape.io/github/nschloe/meshzoo/master/landscape.svg?style=flat)](https://landscape.io/github/nschloe/meshzoo/master)
-[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/`meshzoo)
+[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
 [![PyPi Downloads](https://img.shields.io/pypi/dm/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/meshzoo)
 
