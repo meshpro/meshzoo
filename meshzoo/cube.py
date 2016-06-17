@@ -5,22 +5,22 @@
 import numpy as np
 
 
-def create_mesh(nx=10):
+def create_mesh(ax=1.0, ay=1.0, az=1.0, nx=11, ny=11, nz=11):
     '''Canonical tetrahedrization of the cube.
     Input:
     Edge lenghts of the cube
     Number of nodes along the edges.
     '''
-    N = [nx, nx, nx]
+    N = [nx, ny, nz]
     # circumcirlce radius
     cc_radius = 5.0
     lx = 2.0/np.sqrt(3.0) * cc_radius
-    l = [lx, lx, lx]
+    l = [ax, ay, az]
 
     # Generate suitable ranges for parametrization
-    x_range = np.linspace(-0.5*l[0], 0.5*l[0], N[0])
-    y_range = np.linspace(-0.5*l[1], 0.5*l[1], N[1])
-    z_range = np.linspace(-0.5*l[2], 0.5*l[2], N[2])
+    x_range = np.linspace(0.0, l[0], N[0])
+    y_range = np.linspace(0.0, l[1], N[1])
+    z_range = np.linspace(0.0, l[2], N[2])
 
     # Create the vertices.
     num_nodes = len(x_range) * len(y_range) * len(z_range)

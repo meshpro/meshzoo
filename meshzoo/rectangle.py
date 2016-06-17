@@ -6,14 +6,14 @@ Creates a mesh on a rectangle in the x-y-plane.
 import numpy as np
 
 
-def create_mesh(edgelength=1.0, nx=11, zigzag=False):
+def create_mesh(ax=1.0, ay=1.0, nx=11, ny=11, zigzag=False):
     # dimensions of the rectangle
-    l = [edgelength, edgelength]
+    l = [ax, ay]
 
     if zigzag:
-        return _zigzag(l, [nx, nx])
+        return _zigzag(l, [nx, ny])
     else:
-        return _canonical(l, [nx, nx])
+        return _canonical(l, [nx, ny])
 
 
 def _canonical(l, N):
