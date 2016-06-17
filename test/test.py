@@ -5,8 +5,8 @@ import meshzoo
 
 def test_cube():
     points, cells = meshzoo.cube.create_mesh()
-    assert len(points) == 1000
-    assert len(cells) == 3645
+    assert len(points) == 1331
+    assert len(cells) == 5000
     return
 
 
