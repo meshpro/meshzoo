@@ -5,7 +5,7 @@ Creates a mesh on a hexahedron in the x-y-plane.
 '''
 import numpy as np
 
-import refine
+from . import refine
 
 
 def create_hexagon_mesh(ref_steps=4):

@@ -1,7 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-import refine
+
+from . import refine
 
 
 def create_mesh(ref_steps=2):

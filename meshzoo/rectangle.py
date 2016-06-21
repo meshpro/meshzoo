@@ -32,8 +32,8 @@ def _canonical(l, N):
     num_elems = 2 * (N[0]-1) * (N[1]-1)
     elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
     k = 0
-    for i in xrange(N[0] - 1):
-        for j in xrange(N[1] - 1):
+    for i in range(N[0] - 1):
+        for j in range(N[1] - 1):
             elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i*N[1] + j + 1])
             k += 1
             elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j, (i + 1)*N[1] + j + 1])
@@ -61,8 +61,8 @@ def _zigzag(l, N):
     num_elems = 2 * (N[0]-1) * (N[1]-1)
     elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
     k = 0
-    for i in xrange(N[0] - 1):
-        for j in xrange(N[1] - 1):
+    for i in range(N[0] - 1):
+        for j in range(N[1] - 1):
             if (i+j)%2 == 0:
                 elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i     *N[1] + j + 1])
                 k += 1
