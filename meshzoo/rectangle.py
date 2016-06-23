@@ -23,13 +23,10 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = np.linspace(xmin, xmax, nx)
     y_range = np.linspace(ymin, ymax, ny)
-    num_nodes = len(x_range) * len(y_range)
-    nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
-    k = 0
-    for x in x_range:
-        for y in y_range:
-            nodes[k] = np.array([x, y])
-            k += 1
+
+    nodes = np.array([
+        np.array([x, y, 0.0]) for y in y_range for x in x_range
+        ])
 
     # create the elements (cells)
     num_elems = 2 * (nx-1) * (ny-1)
@@ -42,8 +39,6 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
             elems[k] = np.array([i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1])
             k += 1
 
-    nodes = np.c_[nodes[:, 0], nodes[:, 1], np.zeros(len(nodes))]
-
     return nodes, elems
 
 
@@ -52,13 +47,9 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     x_range = np.linspace(xmin, xmax, nx)
     y_range = np.linspace(ymin, ymax, ny)
 
-    num_nodes = len(x_range) * len(y_range)
-    nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
-    k = 0
-    for x in x_range:
-        for y in y_range:
-            nodes[k] = np.array([x, y])
-            k += 1
+    nodes = np.array([
+        np.array([x, y, 0.0]) for y in y_range for x in x_range
+        ])
 
     # create the elements (cells)
     num_elems = 2 * (nx-1) * (ny-1)
@@ -76,8 +67,6 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
                 k += 1
                 elems[k] = np.array([(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1])
                 k += 1
-
-    nodes = np.c_[nodes[:, 0], nodes[:, 1], np.zeros(len(nodes))]
 
     return nodes, elems
 
