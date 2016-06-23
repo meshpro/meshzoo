@@ -202,4 +202,4 @@ def test_tube():
 
 
 if __name__ == '__main__':
-    test_ball()
+    test_rectangle()

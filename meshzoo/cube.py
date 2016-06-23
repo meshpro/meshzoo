@@ -22,14 +22,9 @@ def create_mesh(
     z_range = np.linspace(zmin, zmax, nz)
 
     # Create the vertices.
-    num_nodes = len(x_range) * len(y_range) * len(z_range)
-    nodes = np.empty(num_nodes, dtype=np.dtype((float, 3)))
-    k = 0
-    for x in x_range:
-        for y in y_range:
-            for z in z_range:
-                nodes[k] = np.array([x, y, z])
-                k += 1
+    nodes = np.array([
+        np.array([x, y, z]) for z in z_range for y in y_range for x in x_range
+        ])
 
     # Create the elements (cells).
     # There is 1 way to split a cube into 5 tetrahedra,
