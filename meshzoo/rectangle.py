@@ -6,20 +6,23 @@ Creates a mesh on a rectangle in the x-y-plane.
 import numpy as np
 
 
-def create_mesh(ax=1.0, ay=1.0, nx=11, ny=11, zigzag=False):
+def create_mesh(
+        xmin=0.0, xmax=1.0,
+        ymin=0.0, ymax=1.0,
+        nx=11, ny=11,
+        zigzag=False
+        ):
     # dimensions of the rectangle
-    l = [ax, ay]
-
     if zigzag:
-        return _zigzag(l, [nx, ny])
+        return _zigzag(xmin, xmax, ymin, ymax, nx, ny)
     else:
-        return _canonical(l, [nx, ny])
+        return _canonical(xmin, xmax, ymin, ymax, nx, ny)
 
 
-def _canonical(l, N):
+def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
-    x_range = np.linspace(-0.5*l[0], 0.5*l[0], N[0])
-    y_range = np.linspace(-0.5*l[1], 0.5*l[1], N[1])
+    x_range = np.linspace(xmin, xmax, nx)
+    y_range = np.linspace(ymin, ymax, ny)
     num_nodes = len(x_range) * len(y_range)
     nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
     k = 0
@@ -29,14 +32,14 @@ def _canonical(l, N):
             k += 1
 
     # create the elements (cells)
-    num_elems = 2 * (N[0]-1) * (N[1]-1)
+    num_elems = 2 * (nx-1) * (ny-1)
     elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
     k = 0
-    for i in range(N[0] - 1):
-        for j in range(N[1] - 1):
-            elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i*N[1] + j + 1])
+    for i in range(nx - 1):
+        for j in range(ny - 1):
+            elems[k] = np.array([i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1])
             k += 1
-            elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j, (i + 1)*N[1] + j + 1])
+            elems[k] = np.array([i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1])
             k += 1
 
     nodes = np.c_[nodes[:, 0], nodes[:, 1], np.zeros(len(nodes))]
@@ -44,10 +47,10 @@ def _canonical(l, N):
     return nodes, elems
 
 
-def _zigzag(l, N):
+def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
-    x_range = np.linspace(-0.5*l[0], 0.5*l[0], N[0])
-    y_range = np.linspace(-0.5*l[1], 0.5*l[1], N[1])
+    x_range = np.linspace(xmin, xmax, nx)
+    y_range = np.linspace(ymin, ymax, ny)
 
     num_nodes = len(x_range) * len(y_range)
     nodes = np.empty(num_nodes, dtype=np.dtype((float, 2)))
@@ -58,20 +61,20 @@ def _zigzag(l, N):
             k += 1
 
     # create the elements (cells)
-    num_elems = 2 * (N[0]-1) * (N[1]-1)
+    num_elems = 2 * (nx-1) * (ny-1)
     elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
     k = 0
-    for i in range(N[0] - 1):
-        for j in range(N[1] - 1):
-            if (i+j)%2 == 0:
-                elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j + 1,  i     *N[1] + j + 1])
+    for i in range(nx - 1):
+        for j in range(ny - 1):
+            if (i+j) % 2 == 0:
+                elems[k] = np.array([i*ny + j, (i + 1)*ny + j + 1,  i     *ny + j + 1])
                 k += 1
-                elems[k] = np.array([i*N[1] + j, (i + 1)*N[1] + j    , (i + 1)*N[1] + j + 1])
+                elems[k] = np.array([i*ny + j, (i + 1)*ny + j    , (i + 1)*ny + j + 1])
                 k += 1
             else:
-                elems[k] = np.array([i    *N[1] + j, (i+1)*N[1] + j  , i*N[1] + j+1])
+                elems[k] = np.array([i    *ny + j, (i+1)*ny + j  , i*ny + j+1])
                 k += 1
-                elems[k] = np.array([(i+1)*N[1] + j, (i+1)*N[1] + j+1, i*N[1] + j+1])
+                elems[k] = np.array([(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1])
                 k += 1
 
     nodes = np.c_[nodes[:, 0], nodes[:, 1], np.zeros(len(nodes))]
