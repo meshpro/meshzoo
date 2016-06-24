@@ -13,8 +13,9 @@ FEM/FVM application.
 Example usage:
 ```python
 points, cells = meshzoo.rectangle.create_mesh(
-    edgelength=2.0,
-    nx=101,
+    xmin=0.0, xmax=2.0,
+    ymin=0.0, ymax=1.0,
+    nx=201, ny=101,
     zigzag=True
     )
 
