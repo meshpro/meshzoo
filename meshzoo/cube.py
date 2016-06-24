@@ -23,7 +23,7 @@ def create_mesh(
 
     # Create the vertices.
     nodes = np.array([
-        np.array([x, y, z]) for z in z_range for y in y_range for x in x_range
+        np.array([x, y, z]) for x in x_range for y in y_range for z in z_range
         ])
 
     # Create the elements (cells).
@@ -102,4 +102,4 @@ def create_mesh(
 if __name__ == '__main__':
     import meshio
     points, cells = create_mesh()
-    meshio.write('cube.e', points, {'tetra': cells})
+    meshio.write('cube.vtu', points, {'tetra': cells})
