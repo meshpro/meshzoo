@@ -25,7 +25,7 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     y_range = np.linspace(ymin, ymax, ny)
 
     nodes = np.array([
-        np.array([x, y, 0.0]) for y in y_range for x in x_range
+        np.array([x, y, 0.0]) for x in x_range for y in y_range
         ])
 
     # create the elements (cells)
@@ -48,7 +48,7 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     y_range = np.linspace(ymin, ymax, ny)
 
     nodes = np.array([
-        np.array([x, y, 0.0]) for y in y_range for x in x_range
+        np.array([x, y, 0.0]) for x in x_range for y in y_range
         ])
 
     # create the elements (cells)
@@ -74,4 +74,4 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
 if __name__ == '__main__':
     import meshio
     points, cells = create_mesh()
-    meshio.write('rectangle.e', points, {'triangle': cells})
+    meshio.write('rectangle.vtu', points, {'triangle': cells})
