@@ -12,7 +12,6 @@ def create_mesh(
         nx=11, ny=11,
         zigzag=False
         ):
-    # dimensions of the rectangle
     if zigzag:
         return _zigzag(xmin, xmax, ymin, ymax, nx, ny)
     else:
