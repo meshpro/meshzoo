@@ -12,7 +12,6 @@ def create_mesh(
         nx=11, ny=11,
         zigzag=False
         ):
-    # dimensions of the rectangle
     if zigzag:
         return _zigzag(xmin, xmax, ymin, ymax, nx, ny)
     else:
@@ -25,19 +24,21 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     y_range = np.linspace(ymin, ymax, ny)
 
     nodes = np.array([
-        np.array([x, y, 0.0]) for x in x_range for y in y_range
+        [x, y, 0.0] for x in x_range for y in y_range
         ])
 
     # create the elements (cells)
-    num_elems = 2 * (nx-1) * (ny-1)
-    elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
-    k = 0
-    for i in range(nx - 1):
-        for j in range(ny - 1):
-            elems[k] = np.array([i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1])
-            k += 1
-            elems[k] = np.array([i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1])
-            k += 1
+    elems0 = np.array([
+        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        ])
+    elems1 = np.array([
+        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        ])
+    elems = np.vstack([elems0, elems1])
 
     return nodes, elems
 
@@ -48,25 +49,34 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     y_range = np.linspace(ymin, ymax, ny)
 
     nodes = np.array([
-        np.array([x, y, 0.0]) for x in x_range for y in y_range
+        [x, y, 0.0] for x in x_range for y in y_range
         ])
 
-    # create the elements (cells)
-    num_elems = 2 * (nx-1) * (ny-1)
-    elems = np.empty(num_elems, dtype=np.dtype((int, 3)))
-    k = 0
-    for i in range(nx - 1):
-        for j in range(ny - 1):
-            if (i+j) % 2 == 0:
-                elems[k] = np.array([i*ny + j, (i + 1)*ny + j + 1,  i     *ny + j + 1])
-                k += 1
-                elems[k] = np.array([i*ny + j, (i + 1)*ny + j    , (i + 1)*ny + j + 1])
-                k += 1
-            else:
-                elems[k] = np.array([i    *ny + j, (i+1)*ny + j  , i*ny + j+1])
-                k += 1
-                elems[k] = np.array([(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1])
-                k += 1
+    elems0 = np.array([
+        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        if (i+j) % 2 == 0
+        ])
+    elems1 = np.array([
+        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        if (i+j) % 2 == 0
+        ])
+    elems2 = np.array([
+        [i*ny + j, (i+1)*ny + j, i*ny + j+1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        if (i+j) % 2 != 0
+        ])
+    elems3 = np.array([
+        [(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1]
+        for i in range(nx - 1)
+        for j in range(ny - 1)
+        if (i+j) % 2 != 0
+        ])
+    elems = np.vstack([elems0, elems1, elems2, elems3])
 
     return nodes, elems
 

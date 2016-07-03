@@ -23,7 +23,7 @@ def create_mesh(
 
     # Create the vertices.
     nodes = np.array([
-        np.array([x, y, z]) for x in x_range for y in y_range for z in z_range
+        [x, y, z] for x in x_range for y in y_range for z in z_range
         ])
 
     # Create the elements (cells).
@@ -31,72 +31,116 @@ def create_mesh(
     # and 12 ways to split it into 6 tetrahedra.
     # See <http://private.mcnet.ch/baumann/Splitting%20a%20cube%20in%20tetrahedras2.htm>.
     # Also interesting: <http://en.wikipedia.org/wiki/Marching_tetrahedrons>.
-    num_cells = 5 * (nx-1) * (ny-1) * (nz-1)
-    cellNodes = np.empty(num_cells, dtype=np.dtype((int, 4)))
-    l = 0
-    for i in range(nx - 1):
-        for j in range(ny - 1):
-            for k in range(nz - 1):
-                # Switch the element styles to make sure the edges match at
-                # the faces of the cubes.
-                if (i + j + k) % 2 == 0:
-                    cellNodes[l] = np.array([
-                        nz * (ny*i     + j  ) + k,
-                        nz * (ny*i     + j+1) + k,
-                        nz * (ny*(i+1) + j  ) + k,
-                        nz * (ny*i     + j  ) + k+1
-                        ])
-                    l += 1
-                    cellNodes[l] = np.array([nz * (ny*i     + j+1) + k,
-                                             nz * (ny*(i+1) + j+1) + k,
-                                             nz * (ny*(i+1) + j  ) + k,
-                                             nz * (ny*(i+1) + j+1) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * (ny*i     + j+1) + k,
-                                             nz * (ny*(i+1) + j  ) + k,
-                                             nz * (ny*i     + j  ) + k+1,
-                                             nz * (ny*(i+1) + j+1) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * (ny*i     + j+1) + k,
-                                             nz * (ny*i     + j  ) + k+1,
-                                             nz * (ny*i     + j+1) + k+1,
-                                             nz * (ny*(i+1) + j+1) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * (ny*(i+1) + j  ) + k,
-                                             nz * (ny*i     + j  ) + k+1,
-                                             nz * (ny*(i+1) + j+1) + k+1,
-                                             nz * (ny*(i+1) + j  ) + k+1])
-                    l += 1
-                else:
-                    # Like the previous one, but flipped along the first
-                    # coordinate: i+1 -> i, i -> i+1.
-                    cellNodes[l] = np.array([nz * ( ny*(i+1) + j   ) + k,
-                                             nz * ( ny*(i+1) + j+1 ) + k,
-                                             nz * ( ny*i     + j   ) + k,
-                                             nz * ( ny*(i+1) + j   ) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * ( ny*(i+1) + j+1 ) + k,
-                                             nz * ( ny*i     + j+1 ) + k,
-                                             nz * ( ny*i     + j   ) + k,
-                                             nz * ( ny*i     + j+1 ) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * ( ny*(i+1) + j+1 ) + k,
-                                             nz * ( ny*i     + j   ) + k,
-                                             nz * ( ny*(i+1) + j   ) + k+1,
-                                             nz * ( ny*i     + j+1 ) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * ( ny*(i+1) + j+1 ) + k,
-                                             nz * ( ny*(i+1) + j   ) + k+1,
-                                             nz * ( ny*(i+1) + j+1 ) + k+1,
-                                             nz * ( ny*i     + j+1 ) + k+1])
-                    l += 1
-                    cellNodes[l] = np.array([nz * ( ny*i     + j   ) + k,
-                                             nz * ( ny*(i+1) + j   ) + k+1,
-                                             nz * ( ny*i     + j+1 ) + k+1,
-                                             nz * ( ny*i     + j   ) + k+1])
-                    l += 1
+    # Switch the element styles to make sure the edges match at the faces of
+    # the cubes.
+    elem0 = np.array([
+        [
+            nz * (ny*i     + j  ) + k,
+            nz * (ny*i     + j+1) + k,
+            nz * (ny*(i+1) + j  ) + k,
+            nz * (ny*i     + j  ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 == 0
+        ])
+    elem1 = np.array([
+        [
+            nz * (ny*i     + j+1) + k,
+            nz * (ny*(i+1) + j+1) + k,
+            nz * (ny*(i+1) + j  ) + k,
+            nz * (ny*(i+1) + j+1) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 == 0
+        ])
+    elem2 = np.array([
+        [
+            nz * (ny*i     + j+1) + k,
+            nz * (ny*(i+1) + j  ) + k,
+            nz * (ny*i     + j  ) + k+1,
+            nz * (ny*(i+1) + j+1) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 == 0
+        ])
+    elem3 = np.array([
+        [
+            nz * (ny*i     + j+1) + k,
+            nz * (ny*i     + j  ) + k+1,
+            nz * (ny*i     + j+1) + k+1,
+            nz * (ny*(i+1) + j+1) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 == 0
+        ])
+    elem4 = np.array([
+        [
+            nz * (ny*(i+1) + j  ) + k,
+            nz * (ny*i     + j  ) + k+1,
+            nz * (ny*(i+1) + j+1) + k+1,
+            nz * (ny*(i+1) + j  ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 == 0
+        ])
+    # Like the previous one, but flipped along the first coordinate: i+1 -> i,
+    # i -> i+1.
+    elem5 = np.array([
+        [
+            nz * ( ny*(i+1) + j   ) + k,
+            nz * ( ny*(i+1) + j+1 ) + k,
+            nz * ( ny*i     + j   ) + k,
+            nz * ( ny*(i+1) + j   ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 != 0
+        ])
+    elem6 = np.array([
+        [
+            nz * ( ny*(i+1) + j+1 ) + k,
+            nz * ( ny*i     + j+1 ) + k,
+            nz * ( ny*i     + j   ) + k,
+            nz * ( ny*i     + j+1 ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 != 0
+        ])
+    elem7 = np.array([
+        [
+            nz * ( ny*(i+1) + j+1 ) + k,
+            nz * ( ny*i     + j   ) + k,
+            nz * ( ny*(i+1) + j   ) + k+1,
+            nz * ( ny*i     + j+1 ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 != 0
+        ])
+    elem8 = np.array([
+        [
+            nz * ( ny*(i+1) + j+1 ) + k,
+            nz * ( ny*(i+1) + j   ) + k+1,
+            nz * ( ny*(i+1) + j+1 ) + k+1,
+            nz * ( ny*i     + j+1 ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 != 0
+        ])
+    elem9 = np.array([
+        [
+            nz * ( ny*i     + j   ) + k,
+            nz * ( ny*(i+1) + j   ) + k+1,
+            nz * ( ny*i     + j+1 ) + k+1,
+            nz * ( ny*i     + j   ) + k+1
+        ]
+        for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
+        if (i + j + k) % 2 != 0
+        ])
 
-    return nodes, cellNodes
+    elems = np.vstack([
+        elem0, elem1, elem2, elem3, elem4, elem5, elem6, elem7, elem8, elem9
+        ])
+
+    return nodes, elems
 
 
 if __name__ == '__main__':
