@@ -76,6 +76,11 @@ def test_rectangle():
     points, cells = meshzoo.rectangle.create_mesh(zigzag=True)
     assert len(points) == 121
     assert len(cells) == 200
+
+    points, cells = meshzoo.rectangle.create_mesh(nx=2, ny=2, zigzag=True)
+    assert len(points) == 4
+    assert len(cells) == 2
+
     return
 
 
