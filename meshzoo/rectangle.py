@@ -52,31 +52,33 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
         [x, y, 0.0] for x in x_range for y in y_range
         ])
 
-    elems0 = np.array([
+    elems = []
+    elems.append(np.array([
         [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
         for i in range(nx - 1)
         for j in range(ny - 1)
         if (i+j) % 2 == 0
-        ])
-    elems1 = np.array([
+        ]))
+    elems.append(np.array([
         [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
         for i in range(nx - 1)
         for j in range(ny - 1)
         if (i+j) % 2 == 0
-        ])
-    elems2 = np.array([
-        [i*ny + j, (i+1)*ny + j, i*ny + j+1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        if (i+j) % 2 != 0
-        ])
-    elems3 = np.array([
-        [(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        if (i+j) % 2 != 0
-        ])
-    elems = np.vstack([elems0, elems1, elems2, elems3])
+        ]))
+    if nx + ny > 4:
+        elems.append(np.array([
+            [i*ny + j, (i+1)*ny + j, i*ny + j+1]
+            for i in range(nx - 1)
+            for j in range(ny - 1)
+            if (i+j) % 2 != 0
+            ]))
+        elems.append(np.array([
+            [(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1]
+            for i in range(nx - 1)
+            for j in range(ny - 1)
+            if (i+j) % 2 != 0
+            ]))
+    elems = np.vstack(elems)
 
     return nodes, elems
 
