@@ -7,6 +7,10 @@ def test_cube():
     points, cells = meshzoo.cube.create_mesh()
     assert len(points) == 1331
     assert len(cells) == 5000
+
+    points, cells = meshzoo.cube.create_mesh(nx=2, ny=2, nz=2)
+    assert len(points) == 8
+    assert len(cells) == 5
     return
 
 
