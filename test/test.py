@@ -73,17 +73,29 @@ def test_pseudomoebius():
 
 
 def test_rectangle():
-    points, cells = meshzoo.rectangle.create_mesh(zigzag=False)
+    points, cells = meshzoo.rectangle.create_mesh(nx=11, ny=11, zigzag=False)
     assert len(points) == 121
     assert len(cells) == 200
 
-    points, cells = meshzoo.rectangle.create_mesh(zigzag=True)
+    points, cells = meshzoo.rectangle.create_mesh(nx=11, ny=11, zigzag=True)
     assert len(points) == 121
     assert len(cells) == 200
 
     points, cells = meshzoo.rectangle.create_mesh(nx=2, ny=2, zigzag=True)
     assert len(points) == 4
     assert len(cells) == 2
+
+    points, cells = meshzoo.rectangle.create_mesh(nx=3, ny=2, zigzag=False)
+    assert len(points) == 6
+    assert len(cells) == 4
+    assert set(cells[0]) == set([0, 1, 4])
+    assert set(cells[2]) == set([0, 3, 4])
+
+    points, cells = meshzoo.rectangle.create_mesh(nx=3, ny=2, zigzag=True)
+    assert len(points) == 6
+    assert len(cells) == 4
+    assert set(cells[0]) == set([0, 1, 4])
+    assert set(cells[1]) == set([0, 3, 4])
 
     return
 

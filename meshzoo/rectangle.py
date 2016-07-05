@@ -27,12 +27,12 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
 
     # create the elements (cells)
     elems0 = np.array([
-        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
+        [i + j*nx, i + 1 + j*nx, i + 1 + (j + 1)*nx]
         for i in range(nx - 1)
         for j in range(ny - 1)
         ])
     elems1 = np.array([
-        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
+        [i + j*nx, i + 1 + (j + 1)*nx,  i + (j + 1)*nx]
         for i in range(nx - 1)
         for j in range(ny - 1)
         ])
@@ -50,26 +50,26 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
 
     elems = []
     elems.append(np.array([
-        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
+        [i + j*nx, i + 1 + j*nx, i + 1 + (j + 1)*nx]
         for i in range(nx - 1)
         for j in range(ny - 1)
         if (i+j) % 2 == 0
         ]))
     elems.append(np.array([
-        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
+        [i + j*nx, i + 1 + (j + 1)*nx,  i + (j + 1)*nx]
         for i in range(nx - 1)
         for j in range(ny - 1)
         if (i+j) % 2 == 0
         ]))
     if nx + ny > 4:
         elems.append(np.array([
-            [i*ny + j, (i+1)*ny + j, i*ny + j+1]
+            [i+1 + j*nx, i+1 + (j+1)*nx, i + (j+1)*nx]
             for i in range(nx - 1)
             for j in range(ny - 1)
             if (i+j) % 2 != 0
             ]))
         elems.append(np.array([
-            [(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1]
+            [i + j*nx, i+1 + j*nx, i + (j+1)*nx]
             for i in range(nx - 1)
             for j in range(ny - 1)
             if (i+j) % 2 != 0
