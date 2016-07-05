@@ -138,7 +138,6 @@ def create_mesh(
             if (i + j + k) % 2 != 0
             ]))
 
-    print(elems)
     elems = np.vstack(elems)
 
     return nodes, elems
