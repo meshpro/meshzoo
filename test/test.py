@@ -95,7 +95,7 @@ def test_rectangle():
     assert len(points) == 6
     assert len(cells) == 4
     assert set(cells[0]) == set([0, 1, 4])
-    assert set(cells[1]) == set([0, 3, 4])
+    assert set(cells[2]) == set([0, 3, 4])
 
     return
 
