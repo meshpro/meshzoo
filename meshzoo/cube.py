@@ -22,9 +22,8 @@ def create_mesh(
     z_range = np.linspace(zmin, zmax, nz)
 
     # Create the vertices.
-    nodes = np.array([
-        [x, y, z] for x in x_range for y in y_range for z in z_range
-        ])
+    x, y, z = np.meshgrid(x_range, y_range, z_range, indexing='ij')
+    nodes = np.stack([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
     # There is 1 way to split a cube into 5 tetrahedra,
@@ -36,50 +35,50 @@ def create_mesh(
     elems = []
     elems.append(np.array([
         [
-            nz * (ny*i     + j  ) + k,
-            nz * (ny*i     + j+1) + k,
-            nz * (ny*(i+1) + j  ) + k,
-            nz * (ny*i     + j  ) + k+1
+            i   + nx*j     + nx*ny * k,
+            i   + nx*(j+1) + nx*ny * k,
+            i+1 + nx*j     + nx*ny * k,
+            i   + nx*j     + nx*ny * (k+1)
         ]
         for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
         if (i + j + k) % 2 == 0
         ]))
     elems.append(np.array([
         [
-            nz * (ny*i     + j+1) + k,
-            nz * (ny*(i+1) + j+1) + k,
-            nz * (ny*(i+1) + j  ) + k,
-            nz * (ny*(i+1) + j+1) + k+1
+            i   + nx*(j+1) + nx*ny * k,
+            i+1 + nx*(j+1) + nx*ny * k,
+            i+1 + nx*j     + nx*ny * k,
+            i+1 + nx*(j+1) + nx*ny * (k+1)
         ]
         for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
         if (i + j + k) % 2 == 0
         ]))
     elems.append(np.array([
         [
-            nz * (ny*i     + j+1) + k,
-            nz * (ny*(i+1) + j  ) + k,
-            nz * (ny*i     + j  ) + k+1,
-            nz * (ny*(i+1) + j+1) + k+1
+            i   + nx*(j+1) + nx*ny * k,
+            i+1 + nx*j     + nx*ny * k,
+            i   + nx*j     + nx*ny * (k+1),
+            i+1 + nx*(j+1) + nx*ny * (k+1)
         ]
         for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
         if (i + j + k) % 2 == 0
         ]))
     elems.append(np.array([
         [
-            nz * (ny*i     + j+1) + k,
-            nz * (ny*i     + j  ) + k+1,
-            nz * (ny*i     + j+1) + k+1,
-            nz * (ny*(i+1) + j+1) + k+1
+            i   + nx * (j+1) + nx*ny * k,
+            i   + nx * j     + nx*ny * (k+1),
+            i   + nx * (j+1) + nx*ny * (k+1),
+            i+1 + nx * (j+1) + nx*ny * (k+1)
         ]
         for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
         if (i + j + k) % 2 == 0
         ]))
     elems.append(np.array([
         [
-            nz * (ny*(i+1) + j  ) + k,
-            nz * (ny*i     + j  ) + k+1,
-            nz * (ny*(i+1) + j+1) + k+1,
-            nz * (ny*(i+1) + j  ) + k+1
+            i+1 + nx * j     + nx*ny * k,
+            i   + nx * j     + nx*ny * (k+1),
+            i+1 + nx * (j+1) + nx*ny * (k+1),
+            i+1 + nx * j     + nx*ny * (k+1)
         ]
         for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
         if (i + j + k) % 2 == 0
@@ -89,50 +88,50 @@ def create_mesh(
     if nx + ny + nz > 6:
         elems.append(np.array([
             [
-                nz * ( ny*(i+1) + j   ) + k,
-                nz * ( ny*(i+1) + j+1 ) + k,
-                nz * ( ny*i     + j   ) + k,
-                nz * ( ny*(i+1) + j   ) + k+1
+                i+1 + nx * j     + nx*ny * k,
+                i+1 + nx * (j+1) + nx*ny * k,
+                i   + nx * j     + nx*ny * k,
+                i+1 + nx * j     + nx*ny * (k+1)
             ]
             for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
             if (i + j + k) % 2 != 0
             ]))
         elems.append(np.array([
             [
-                nz * ( ny*(i+1) + j+1 ) + k,
-                nz * ( ny*i     + j+1 ) + k,
-                nz * ( ny*i     + j   ) + k,
-                nz * ( ny*i     + j+1 ) + k+1
+                i+1 + nx * (j+1) + nx*ny * k,
+                i   + nx * (j+1) + nx*ny * k,
+                i   + nx * j     + nx*ny * k,
+                i   + nx * (j+1) + nx*ny * (k+1)
             ]
             for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
             if (i + j + k) % 2 != 0
             ]))
         elems.append(np.array([
             [
-                nz * ( ny*(i+1) + j+1 ) + k,
-                nz * ( ny*i     + j   ) + k,
-                nz * ( ny*(i+1) + j   ) + k+1,
-                nz * ( ny*i     + j+1 ) + k+1
+                i+1 + nx * (j+1) + nx*ny * k,
+                i   + nx * j     + nx*ny * k,
+                i+1 + nx * j     + nx*ny * (k+1),
+                i   + nx * (j+1) + nx*ny * (k+1)
             ]
             for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
             if (i + j + k) % 2 != 0
             ]))
         elems.append(np.array([
             [
-                nz * ( ny*(i+1) + j+1 ) + k,
-                nz * ( ny*(i+1) + j   ) + k+1,
-                nz * ( ny*(i+1) + j+1 ) + k+1,
-                nz * ( ny*i     + j+1 ) + k+1
+                i+1 + nx * (j+1) + nx*ny * k,
+                i+1 + nx * j     + nx*ny * (k+1),
+                i+1 + nx * (j+1) + nx*ny * (k+1),
+                i   + nx * (j+1) + nx*ny * (k+1)
             ]
             for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
             if (i + j + k) % 2 != 0
             ]))
         elems.append(np.array([
             [
-                nz * ( ny*i     + j   ) + k,
-                nz * ( ny*(i+1) + j   ) + k+1,
-                nz * ( ny*i     + j+1 ) + k+1,
-                nz * ( ny*i     + j   ) + k+1
+                i   + nx * j     + nx*ny * k,
+                i+1 + nx * j     + nx*ny * (k+1),
+                i   + nx * (j+1) + nx*ny * (k+1),
+                i   + nx * j     + nx*ny * (k+1)
             ]
             for i in range(nx - 1) for j in range(ny - 1) for k in range(nz - 1)
             if (i + j + k) % 2 != 0
