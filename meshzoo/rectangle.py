@@ -25,17 +25,11 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     nodes = np.dstack(np.meshgrid(x_range, y_range, np.array([0.0]))) \
         .reshape(-1, 3)
 
-    # create the elements (cells)
-    elems0 = np.array([
-        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        ])
-    elems1 = np.array([
-        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        ])
+    # Create the elements (cells).
+    # a = [i + j*nx]
+    a = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
+    elems0 = np.dstack([a, a + 1, a + nx + 1]).reshape(-1, 3)
+    elems1 = np.dstack([a, a + 1 + nx, a + nx]).reshape(-1, 3)
     elems = np.vstack([elems0, elems1])
 
     return nodes, elems
@@ -48,33 +42,29 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     nodes = np.dstack(np.meshgrid(x_range, y_range, np.array([0.0]))) \
         .reshape(-1, 3)
 
+    # Create the elements (cells).
+    # a = [i + j*nx]
+    a = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
     elems = []
-    elems.append(np.array([
-        [i*ny + j, (i + 1)*ny + j + 1,  i*ny + j + 1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        if (i+j) % 2 == 0
-        ]))
-    elems.append(np.array([
-        [i*ny + j, (i + 1)*ny + j, (i + 1)*ny + j + 1]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        if (i+j) % 2 == 0
-        ]))
-    if nx + ny > 4:
-        elems.append(np.array([
-            [i*ny + j, (i+1)*ny + j, i*ny + j+1]
-            for i in range(nx - 1)
-            for j in range(ny - 1)
-            if (i+j) % 2 != 0
-            ]))
-        elems.append(np.array([
-            [(i+1)*ny + j, (i+1)*ny + j+1, i*ny + j+1]
-            for i in range(nx - 1)
-            for j in range(ny - 1)
-            if (i+j) % 2 != 0
-            ]))
-    elems = np.vstack(elems)
+    # [i + j*nx, i+1 + j*nx, i+1 + (j+1)*nx]
+    elems0 = np.dstack([a, a + 1, a + nx + 1])
+    # [i+1 + j*nx, i+1 + (j+1)*nx, i + (j+1)*nx] for "every other" element
+    elems0[0::2, 1::2, 0] += 1
+    elems0[1::2, 0::2, 0] += 1
+    elems0[0::2, 1::2, 1] += nx
+    elems0[1::2, 0::2, 1] += nx
+    elems0[0::2, 1::2, 2] -= 1
+    elems0[1::2, 0::2, 2] -= 1
+
+    # [i + j*nx, i+1 + (j+1)*nx,  i + (j+1)*nx]
+    elems1 = np.dstack([a, a + 1 + nx, a + nx])
+    # [i + j*nx, i+1 + j*nx, i + (j+1)*nx] for "every other" element
+    elems1[0::2, 1::2, 1] -= nx
+    elems1[1::2, 0::2, 1] -= nx
+
+    elems = np.vstack([
+        elems0.reshape(-1, 3), elems1.reshape(-1, 3)
+        ])
 
     return nodes, elems
 
