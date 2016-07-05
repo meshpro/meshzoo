@@ -25,17 +25,11 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     nodes = np.dstack(np.meshgrid(x_range, y_range, np.array([0.0]))) \
         .reshape(-1, 3)
 
-    # create the elements (cells)
-    elems0 = np.array([
-        [i + j*nx, i + 1 + j*nx, i + 1 + (j + 1)*nx]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        ])
-    elems1 = np.array([
-        [i + j*nx, i + 1 + (j + 1)*nx,  i + (j + 1)*nx]
-        for i in range(nx - 1)
-        for j in range(ny - 1)
-        ])
+    # Create the elements (cells).
+    # a = [i + j*nx]
+    a = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
+    elems0 = np.dstack([a, a + 1, a + nx + 1]).reshape(-1, 3)
+    elems1 = np.dstack([a, a + 1 + nx, a + nx]).reshape(-1, 3)
     elems = np.vstack([elems0, elems1])
 
     return nodes, elems
