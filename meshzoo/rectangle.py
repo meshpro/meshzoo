@@ -10,7 +10,7 @@ def create_mesh(
         xmin=0.0, xmax=1.0,
         ymin=0.0, ymax=1.0,
         nx=11, ny=11,
-        zigzag=False
+        zigzag=True
         ):
     if zigzag:
         return _zigzag(xmin, xmax, ymin, ymax, nx, ny)
