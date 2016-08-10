@@ -64,4 +64,4 @@ def create_pacman_mesh(num_boundary_points=50):
 if __name__ == '__main__':
     import meshio
     points, cells = create_pacman_mesh()
-    meshio.write('pacman.e', points, {'triangle': cells})
+    meshio.write('pacman.vtu', points, {'triangle': cells})

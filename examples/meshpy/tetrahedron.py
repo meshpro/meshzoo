@@ -49,5 +49,5 @@ def create_tetrahedron_mesh(maxvol=0.1):
 
 if __name__ == '__main__':
     import meshio
-    points, cells = create_tetrahedron_mesh()
-    meshio.write('tetrahedron.e', points, {'tetra': cells})
+    points, cells = create_tetrahedron_mesh(10.0)
+    meshio.write('tetrahedron.vtu', points, {'tetra': cells})
