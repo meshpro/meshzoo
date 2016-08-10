@@ -100,4 +100,4 @@ def create_mesh(num_points_per_circle=20, num_circles=10, radius=1.0):
 if __name__ == '__main__':
     import meshio
     points, cells = create_mesh()
-    meshio.write('sphere.e', points, {'triangle': cells})
+    meshio.write('sphere.vtu', points, {'triangle': cells})
