@@ -22,7 +22,12 @@ def cube(
 
     # Create the vertices.
     x, y, z = numpy.meshgrid(x_range, y_range, z_range, indexing='ij')
-    nodes = numpy.stack([x, y, z]).T.reshape(-1, 3)
+    # We'd like to do
+    # ```
+    # nodes = numpy.stack([x, y, z]).T.reshape(-1, 3)
+    # ```
+    # but `numpy.stack` isn't available on trusty numpy for Python 3.
+    nodes = numpy.vstack([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
     # There is 1 way to split a cube into 5 tetrahedra,
