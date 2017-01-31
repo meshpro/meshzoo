@@ -1076,12 +1076,13 @@ def tube(length=5.0, radius=1.0, n=30):
     v_range = numpy.linspace(-0.5*length, 0.5*length, num=nw)
 
     # Create the vertices.
-    nodes = []
-    for u in u_range:
-        x = radius * numpy.cos(u)
-        y = radius * numpy.sin(u)
-        for v in v_range:
-            nodes.append(numpy.array([x, y, v]))
+    X = radius * numpy.cos(u_range)
+    Y = radius * numpy.sin(u_range)
+    nodes = numpy.array([
+        [x, y, v]
+        for x, y in zip(X, Y)
+        for v in v_range
+        ])
 
     # create the elements (cells)
     elems = []
