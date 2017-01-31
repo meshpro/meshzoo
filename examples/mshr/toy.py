@@ -4,7 +4,6 @@
 import dolfin
 import mshr
 
-
 def create_toy_mesh():
 
     box = mshr.Box(dolfin.Point(-3, -1, -0.5), dolfin.Point(3, 1, 0.5))

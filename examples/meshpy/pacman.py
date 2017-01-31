@@ -13,7 +13,7 @@ def create_pacman_mesh(num_boundary_points=50):
 
     # set those to 0.0 for perfect circle
     cut_angle = 0.1 * 2 * np.pi
-    cut_deepness = 0.5 * radius
+    cut_depth = 0.5 * radius
 
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.

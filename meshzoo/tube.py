@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def create_mesh(width=1.0, n=30, radius=1.0):
+def create_mesh(width=5.0, n=30, radius=1.0):
     # Number of nodes along the width of the strip (>= 2)
     # Choose it such that we have approximately square boxes.
     nw = int(round(width * n/(2*np.pi*radius)))
@@ -37,4 +37,4 @@ def create_mesh(width=1.0, n=30, radius=1.0):
 if __name__ == '__main__':
     import meshio
     points, cells = create_mesh()
-    meshio.write('tube.e', points, {'triangle': cells})
+    meshio.write('tube.vtu', points, {'triangle': cells})
