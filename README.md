@@ -62,11 +62,7 @@ python setup.py install
 
 To run the Mesh Zoo unit tests, check out this repository and run
 ```
-nosetests
-```
-or
-```
-nose2 -s test
+pytest
 ```
 
 
