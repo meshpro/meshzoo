@@ -62,7 +62,15 @@ def cube(
     # i+1 + nx*j     + nx*ny * k,
     # i   + nx*j     + nx*ny * (k+1)
     # ]
-    elems0 = numpy.stack([a, a + nx, a + 1, a + nx*ny]).T
+    # TODO get
+    # ```
+    # elems0 = numpy.stack([a, a + nx, a + 1, a + nx*ny]).T
+    # ```
+    # back.
+    elems0 = numpy.concatenate([
+        a[..., None], a[..., None] + nx, a[..., None] + 1, a[..., None] + nx*ny
+        ], axis=3
+        )
 
     # Every other element cube:
     # [
@@ -98,7 +106,14 @@ def cube(
     # i+1 + nx*j     + nx*ny * k,
     # i+1 + nx*(j+1) + nx*ny * (k+1)
     # ]
-    elems1 = numpy.stack([a + nx, a + 1 + nx, a + 1, a + 1 + nx + nx*ny]).T
+    # elems1 = numpy.stack([a + nx, a + 1 + nx, a + 1, a + 1 + nx + nx*ny]).T
+    elems1 = numpy.concatenate([
+        a[..., None] + nx,
+        a[..., None] + 1 + nx,
+        a[..., None] + 1,
+        a[..., None] + 1 + nx + nx*ny
+        ], axis=3
+        )
 
     # Every other element cube:
     # [
@@ -134,7 +149,14 @@ def cube(
     # i   + nx*j     + nx*ny * (k+1),
     # i+1 + nx*(j+1) + nx*ny * (k+1)
     # ]
-    elems2 = numpy.stack([a + nx, a + 1, a + nx*ny, a + 1 + nx + nx*ny]).T
+    # elems2 = numpy.stack([a + nx, a + 1, a + nx*ny, a + 1 + nx + nx*ny]).T
+    elems2 = numpy.concatenate([
+        a[..., None] + nx,
+        a[..., None] + 1,
+        a[..., None] + nx*ny,
+        a[..., None] + 1 + nx + nx*ny
+        ], axis=3
+        )
 
     # Every other element cube:
     # [
@@ -170,12 +192,19 @@ def cube(
     # i   + nx * (j+1) + nx*ny * (k+1),
     # i+1 + nx * (j+1) + nx*ny * (k+1)
     # ]
-    elems3 = numpy.stack([
-        a + nx,
-        a + nx*ny,
-        a + nx + nx*ny,
-        a + 1 + nx + nx*ny
-        ]).T
+    # elems3 = numpy.stack([
+    #     a + nx,
+    #     a + nx*ny,
+    #     a + nx + nx*ny,
+    #     a + 1 + nx + nx*ny
+    #     ]).T
+    elems3 = numpy.concatenate([
+        a[..., None] + nx,
+        a[..., None] + nx*ny,
+        a[..., None] + nx + nx*ny,
+        a[..., None] + 1 + nx + nx*ny
+        ], axis=3
+        )
 
     # Every other element cube:
     # [
@@ -211,12 +240,19 @@ def cube(
     # i+1 + nx * (j+1) + nx*ny * (k+1),
     # i+1 + nx * j     + nx*ny * (k+1)
     # ]
-    elems4 = numpy.stack([
-        a + 1,
-        a + nx*ny,
-        a + 1 + nx + nx*ny,
-        a + 1 + nx*ny
-        ]).T
+    # elems4 = numpy.stack([
+    #     a + 1,
+    #     a + nx*ny,
+    #     a + 1 + nx + nx*ny,
+    #     a + 1 + nx*ny
+    #     ]).T
+    elems4 = numpy.concatenate([
+        a[..., None] + 1,
+        a[..., None] + nx*ny,
+        a[..., None] + 1 + nx + nx*ny,
+        a[..., None] + 1 + nx*ny
+        ], axis=3
+        )
 
     # Every other element cube:
     # [
