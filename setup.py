@@ -4,7 +4,11 @@ import os
 from setuptools import setup
 import codecs
 
-from meshzoo import __version__, __author__, __author_email__
+# https://packaging.python.org/single_source_version/
+base_dir = os.path.abspath(os.path.dirname(__file__))
+about = {}
+with open(os.path.join(base_dir, 'betterbib', '__about__.py')) as f:
+    exec(f.read(), about)
 
 
 def read(fname):
@@ -17,10 +21,11 @@ def read(fname):
         content = ''
     return content
 
+
 setup(name='meshzoo',
-      version=__version__,
-      author=__author__,
-      author_email=__author_email__,
+      version=about['__version__'],
+      author=about['__author__'],
+      author_email=about['__author_email__'],
       packages=['meshzoo'],
       description='A collection of meshes for numerical computation',
       long_description=read('README.rst'),
@@ -28,7 +33,9 @@ setup(name='meshzoo',
       download_url='https://github.com/nschloe/meshzoo/releases',
       license='License :: OSI Approved :: MIT License',
       platforms='any',
-      requires=['numpy'],
+      install_requires=[
+          'numpy'
+          ],
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Science/Research',
