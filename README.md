@@ -1,18 +1,16 @@
-# Mesh Zoo
+# meshzoo
 
 [![Build Status](https://travis-ci.org/nschloe/meshzoo.svg?branch=master)](https://travis-ci.org/nschloe/meshzoo)
 [![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
 [![Code Health](https://landscape.io/github/nschloe/meshzoo/master/landscape.svg?style=flat)](https://landscape.io/github/nschloe/meshzoo/master)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
-[![PyPi Downloads](https://img.shields.io/pypi/dm/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/meshzoo)
 
-Mesh Zoo provides a couple of simple example meshes that can be used for your
-FEM/FVM application.
+meshzoo provides numerous meshes to be used, e.g., in FEM/FVM application.
 
 Example usage:
 ```python
-points, cells = meshzoo.rectangle.create_mesh(
+points, cells = meshzoo.rectangle(
     xmin=0.0, xmax=2.0,
     ymin=0.0, ymax=1.0,
     nx=201, ny=101,
@@ -63,13 +61,8 @@ python setup.py install
 
 To run the Mesh Zoo unit tests, check out this repository and run
 ```
-nosetests
+pytest
 ```
-or
-```
-nose2 -s test
-```
-
 
 ### Distribution
 
@@ -81,7 +74,6 @@ To create a new release
     ```
     make publish
     ```
-
 
 ### License
 

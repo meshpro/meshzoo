@@ -13,7 +13,7 @@ def create_pacman_mesh(num_boundary_points=50):
 
     # set those to 0.0 for perfect circle
     cut_angle = 0.1 * 2 * np.pi
-    cut_deepness = 0.5 * radius
+    cut_depth = 0.5 * radius
 
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
@@ -29,8 +29,8 @@ def create_pacman_mesh(num_boundary_points=50):
             endpoint=False
             )
     boundary_points = []
-    if abs(cut_angle) > 0.0 or cut_deepness != 0.0:
-        boundary_points.append((radius-cut_deepness, 0.0))
+    if abs(cut_angle) > 0.0 or cut_depth != 0.0:
+        boundary_points.append((radius-cut_depth, 0.0))
     for phi in Phi:
         boundary_points.append((radius * np.cos(phi), radius * np.sin(phi)))
 
@@ -40,7 +40,7 @@ def create_pacman_mesh(num_boundary_points=50):
 
     def _round_trip_connect(start, end):
         result = []
-        for i in xrange(start, end):
+        for i in range(start, end):
             result.append((i, i+1))
         result.append((end, start))
         return result

@@ -3,3 +3,4 @@
 README.rst
 dist/
 meshzoo.egg-info/
+.cache/
