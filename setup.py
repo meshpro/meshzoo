@@ -31,15 +31,15 @@ setup(name='meshzoo',
       long_description=read('README.rst'),
       url='https://github.com/nschloe/meshzoo',
       download_url='https://github.com/nschloe/meshzoo/releases',
-      license='License :: OSI Approved :: MIT License',
+      license=about['__license__'],
       platforms='any',
       install_requires=[
           'numpy'
           ],
       classifiers=[
-          'Development Status :: 4 - Beta',
+          about['__status__'],
+          about['__license__'],
           'Intended Audience :: Science/Research',
-          'License :: OSI Approved :: BSD License',
           'Operating System :: OS Independent',
           'Programming Language :: Python',
           'Topic :: Scientific/Engineering :: Mathematics'
