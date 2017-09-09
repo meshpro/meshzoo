@@ -23,7 +23,6 @@ def test_cube():
 def test_cylinder():
     points, cells = meshzoo.cylinder()
     assert len(points) == 1000
-    print(numpy.sum(points, axis=0))
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1800
     return
@@ -91,7 +90,6 @@ def test_moebius3():
 def test_pseudomoebius():
     points, cells = meshzoo.pseudomoebius()
     assert len(points) == 5890
-    print(numpy.sum(points, axis=0))
     assert _near_equal(
         numpy.sum(points, axis=0),
         [-4.10009804e-11, -8.85214124e-12, 1.43687579e-13]
