@@ -3,6 +3,7 @@
 import numpy
 
 
+# pylint: disable=too-many-locals
 def sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     # Mesh parameters
     n_phi = num_points_per_circle

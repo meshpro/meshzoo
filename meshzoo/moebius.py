@@ -4,6 +4,7 @@ from math import copysign
 import numpy
 
 
+# pylint: disable=too-many-locals
 def moebius(
         moebius_index=1  # How many twists are there in the 'paper'?
         ):

@@ -3,6 +3,7 @@
 import numpy
 
 
+# pylint: disable=too-many-arguments
 def rectangle(
         xmin=0.0, xmax=1.0,
         ymin=0.0, ymax=1.0,
