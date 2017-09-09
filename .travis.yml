@@ -12,12 +12,14 @@ addons:
       - python-numpy python3-numpy
 
 before_install:
-  - pip install pytest pytest-cov
+  - pip install pytest pytest-cov pylint
 
 install:
   - pip install .
 
 script:
+  - pylint meshzoo
+  - pylint test/*.py
   - cd test && pytest --cov meshzoo
 
 after_success:

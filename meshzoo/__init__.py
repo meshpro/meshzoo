@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 #
-from meshzoo.helpers import *
+# pylint: disable=wildcard-import
+from .cube import *
+from .cylinder import *
+from .hexagon import *
+from .moebius import *
+from .rectangle import *
+from .simple_arrow import *
+from .simple_shell import *
+from .sphere import *
+from .triangle import *
+from .tube import *
+
 
 from meshzoo.__about__ import (
     __version__,
