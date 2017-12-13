@@ -256,3 +256,9 @@ def test_tube():
 #     assert len(points) == 2760
 #     assert len(cells) == 11779
 #     return
+
+
+if __name__ == '__main__':
+    import meshio
+    points, cells = meshzoo.sphere()
+    meshio.write('sphere.vtu', points, {'triangle': cells})
