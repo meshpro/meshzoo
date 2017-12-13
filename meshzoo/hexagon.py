@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 import numpy
+from numpy import sin, cos, pi
 
 from .helpers import _refine
 
@@ -11,16 +12,12 @@ def hexagon(ref_steps=4):
 
     # Create initial nodes/elements.
     tilt = 0.0
-    num_nodes = 7
-    nodes = numpy.empty(num_nodes, dtype=numpy.dtype((float, 3)))
-    nodes[0] = numpy.array([0.0, 0.0, 0.0])
-    for k in range(6):
-        phi = (tilt + k/3.0) * numpy.pi
-        nodes[k+1] = cc_radius * numpy.array([
-            numpy.cos(phi),
-            numpy.sin(phi),
-            0.0
-            ])
+    nodes = cc_radius * numpy.concatenate([
+            [[0.0, 0.0, 0.0]],
+            [
+                [cos((tilt + k/3.0) * pi), sin((tilt + k/3.0) * pi), 0.0]
+                for k in range(6)
+            ]])
 
     edges = numpy.array([
         [0, 1],
