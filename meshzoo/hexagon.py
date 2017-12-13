@@ -32,7 +32,7 @@ def hexagon(ref_steps=4):
 
     # Refine.
     args = nodes, cells_nodes, edge_nodes, cells_edges
-    for k in range(ref_steps):
+    for _ in range(ref_steps):
         args = _refine(*args)
 
     return args[0], args[1]
