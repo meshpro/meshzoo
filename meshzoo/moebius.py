@@ -67,13 +67,14 @@ def moebius(
         sin2 = copysign(sin_alpha**2, sin_alpha)
         cos2 = copysign(cos_alpha**2, cos_alpha)
         nodes.extend([[
-            scale * (r + v*cos2) * numpy.cos(u),
-            scale * (r + v*cos2) * numpy.sin(u),
-            scale * flatness * v*sin2
+            (r + v*cos2) * numpy.cos(u),
+            (r + v*cos2) * numpy.sin(u),
+            v*sin2
             ] for v in v_range
             ])
 
-    nodes = numpy.array(nodes)
+    nodes = scale * numpy.array(nodes)
+    nodes[:, 2] *= flatness
 
     # create the elements (cells)
     elems = []
