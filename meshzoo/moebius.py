@@ -74,32 +74,31 @@ def moebius(
     nodes = scale * numpy.array(nodes)
     nodes[:, 2] *= flatness
 
-    # create the elements (cells)
+    elems = _create_elements(nl, nw, moebius_index)
+
+    return nodes, elems
+
+
+def _create_elements(nl, nw, moebius_index):
     elems = []
     for i in range(nl - 1):
         for j in range(nw - 1):
-            elem_nodes = [i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1]
-            elems.append(elem_nodes)
-            elem_nodes = [i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1]
-            elems.append(elem_nodes)
+            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
+            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
 
     # close the geometry
     if moebius_index % 2 == 0:
         # Close the geometry upside up (even Möbius fold)
         for j in range(nw - 1):
-            elem_nodes = [(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1]
-            elems.append(elem_nodes)
-            elem_nodes = [(nl - 1)*nw + j, j, j + 1]
-            elems.append(elem_nodes)
+            elems.append([(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
+            elems.append([(nl - 1)*nw + j, j, j + 1])
     else:
         # Close the geometry upside down (odd Möbius fold)
         for j in range(nw - 1):
-            elem_nodes = [(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1]
-            elems.append(elem_nodes)
-            elem_nodes = [(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)]
-            elems.append(elem_nodes)
+            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
+            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
 
-    return nodes, numpy.array(elems)
+    return numpy.array(elems)
 
 
 def moebius3(
@@ -153,25 +152,9 @@ def moebius3(
                 flatness * scale * v*numpy.sin(alpha)
                 ])
 
-    # create the elements (cells)
-    elems = []
-    for i in range(nl - 1):
-        for j in range(nw - 1):
-            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
-            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
-    # close the geometry
-    if index % 2 == 0:
-        # Close the geometry upside up (even M\'obius fold)
-        for j in range(nw - 1):
-            elems.append([(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
-            elems.append([(nl - 1)*nw + j, j, j + 1])
-    else:
-        # Close the geometry upside down (odd M\'obius fold)
-        for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
-            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+    elems = _create_elements(nl, nw, index)
 
-    return numpy.array(nodes), numpy.array(elems)
+    return numpy.array(nodes), elems
 
 
 def pseudomoebius():
@@ -235,19 +218,6 @@ def pseudomoebius():
                 ])
 
     # create the elements (cells)
-    elems = []
-    for i in range(nl - 1):
-        for j in range(nw - 1):
-            elem_nodes = [i*nw + j, (i + 1)*nw + j + 1, i * nw + j + 1]
-            elems.append(elem_nodes)
-            elem_nodes = [i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1]
-            elems.append(elem_nodes)
+    elems = _create_elements(nl, nw, 0)
 
-    # close the geometry
-    for j in range(nw - 1):
-        elem_nodes = [(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1]
-        elems.append(elem_nodes)
-        elem_nodes = [(nl - 1)*nw + j, j, j + 1]
-        elems.append(elem_nodes)
-
-    return numpy.array(nodes), numpy.array(elems)
+    return numpy.array(nodes), elems
