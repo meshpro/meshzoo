@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-import numpy
 import meshzoo
+import numpy
+import pytest
 
 
 def _near_equal(a, b, tol=1.0e-12):
@@ -28,83 +29,62 @@ def test_hexagon():
     return
 
 
-def test_moebius():
-    points, cells = meshzoo.moebius()
-    assert len(points) == 5890
-    assert len(cells) == 11400
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [2753575/9.0, 2724125/9.0, 58900/3.0],
-            rtol=1.0e-12, atol=0.0
-            )
-
-    points, cells = meshzoo.moebius(moebius_index=2)
-    assert len(points) == 5890
-    assert len(cells) == 11400
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [2797750/9.0, 2679950/9.0, 58900/3.0],
-            rtol=1.0e-12, atol=0.0
-            )
+@pytest.mark.parametrize(
+    'index, num_points, num_cells, ref1, ref2', [
+        [1, 5890, 11400, [0, 0, 0], [2753575/9.0, 2724125/9.0, 58900/3.0]],
+        [2, 5890, 11400, [0, 0, 0], [2797750/9.0, 2679950/9.0, 58900/3.0]],
+        ])
+def test_moebius(index, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius(moebius_index=index)
+    assert len(points) == num_points
+    assert len(cells) == num_cells
+    assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
+    sum_points2 = numpy.sum(points**2, axis=0)
+    assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
     return
 
 
-def test_moebius2():
-    points, cells = meshzoo.moebius2()
-    assert len(points) == 5700
-    assert len(cells) == 11020
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [296107.21982759, 292933.72844828, 19040.94827586],
-            rtol=1.0e-12, atol=0.0
-            )
-
-    points, cells = meshzoo.moebius2(moebius_index=2)
-    assert len(points) == 5700
-    assert len(cells) == 11020
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-11)
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [300867.45689655, 288173.49137931, 19040.94827586],
-            rtol=1.0e-12, atol=0.0
-            )
+@pytest.mark.parametrize(
+    'index, num_points, num_cells, ref1, ref2', [
+        [
+            1, 5700, 11020, [0, 0, 0],
+            [[296107.21982759, 292933.72844828, 19040.94827586]]
+        ],
+        [
+            2, 5700, 11020, [0, 0, 0],
+            [[300867.45689655, 288173.49137931, 19040.94827586]]
+        ],
+        ])
+def test_moebius2(index, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius2(moebius_index=index)
+    assert len(points) == num_points
+    assert len(cells) == num_cells
+    assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
+    sum_points2 = numpy.sum(points**2, axis=0)
+    assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
     return
 
 
-def test_moebius3():
-    points, cells = meshzoo.moebius3(100, 10, 1)
-    assert len(points) == 1000
-    assert len(cells) == 1800
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [1418750/27.0, 1418750/27.0, 137500/27.0],
-            rtol=1.0e-12, atol=0.0
-            )
-
-    points, cells = meshzoo.moebius3(100, 10, 2)
-    assert len(points) == 1000
-    assert len(cells) == 1800
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert numpy.allclose(
-            numpy.sum(points**2, axis=0),
-            [484375/9.0, 1384375/27.0, 137500/27.0],
-            rtol=1.0e-12, atol=0.0
-            )
+@pytest.mark.parametrize(
+    'index, num_points, num_cells, ref1, ref2', [
+        [1, 1000, 1800, [0, 0, 0], [1418750/27.0, 1418750/27.0, 137500/27.0]],
+        [2, 1000, 1800, [0, 0, 0], [484375/9.0, 1384375/27.0, 137500/27.0]],
+        ])
+def test_moebius3(index, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius3(100, 10, index)
+    assert len(points) == num_points
+    assert len(cells) == num_cells
+    assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
+    sum_points2 = numpy.sum(points**2, axis=0)
+    assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
     return
 
 
 def test_pseudomoebius():
     points, cells = meshzoo.pseudomoebius()
     assert len(points) == 5890
-    assert _near_equal(
-        numpy.sum(points, axis=0),
-        [-4.10009804e-11, -8.85214124e-12, 1.43687579e-13]
-        )
     assert len(cells) == 11400
+    assert _near_equal(numpy.sum(points, axis=0), [0, 0, 0], tol=1.0e-10)
     return
 
 
