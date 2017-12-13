@@ -147,7 +147,7 @@ def iso_sphere(ref_steps=4):
     # Refine.
     edge_nodes, cells_edges = create_edges(cells_nodes)
     args = nodes, cells_nodes, edge_nodes, cells_edges
-    for k in range(ref_steps):
+    for _ in range(ref_steps):
         args = _refine(*args)
 
     # push all nodes to the sphere
