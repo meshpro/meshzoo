@@ -165,9 +165,9 @@ def test_triangle():
 
 def test_tube():
     points, cells = meshzoo.tube(n=10)
-    assert len(points) == 80
+    assert len(points) == 20
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 140
+    assert len(cells) == 20
     return
 
 
