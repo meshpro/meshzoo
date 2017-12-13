@@ -71,7 +71,7 @@ def test_moebius2(index, num_points, num_cells, ref1, ref2):
         [2, 1000, 1800, [0, 0, 0], [484375/9.0, 1384375/27.0, 137500/27.0]],
         ])
 def test_moebius3(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius3(100, 10, index)
+    points, cells = meshzoo.moebius(index, 100, 10, mode='classical')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
