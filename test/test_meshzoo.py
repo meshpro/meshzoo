@@ -20,14 +20,6 @@ def test_cube():
     return
 
 
-def test_cylinder():
-    points, cells = meshzoo.cylinder()
-    assert len(points) == 1000
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 1800
-    return
-
-
 def test_hexagon():
     points, cells = meshzoo.hexagon(2)
     assert len(points) == 61
