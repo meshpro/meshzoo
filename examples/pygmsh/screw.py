@@ -7,7 +7,7 @@ import numpy as np
 
 def create_screw_mesh():
 
-    geom = pg.Geometry()
+    geom = pg.built_in.Geometry()
 
     # Draw a cross.
     poly = geom.add_polygon([
@@ -26,18 +26,18 @@ def create_screw_mesh():
     axis = [0, 0, 1]
 
     geom.extrude(
-        'Surface{%s}' % poly,
+        poly,
         translation_axis=axis,
         rotation_axis=axis,
         point_on_axis=[0, 0, 0],
         angle=2.0 / 6.0 * np.pi
         )
 
-    points, cells = pg.generate_mesh(geom)
+    points, cells, _, _, _ = pg.generate_mesh(geom)
     return points, cells['tetra']
 
 
 if __name__ == '__main__':
     import meshio
     points, cells = create_screw_mesh()
-    meshio.write('screw.e', points, {'tetra': cells})
+    meshio.write('screw.vtu', points, {'tetra': cells})
