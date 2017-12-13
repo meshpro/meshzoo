@@ -60,8 +60,8 @@ def moebius(
         #     pre_alpha = pi / 2
         alpha = moebius_index * pre_alpha + alpha0
         for v in v_range:
-            # The fundamental difference with the ordinary M'obius band here
-            # are the squares.
+            # The fundamental difference with the ordinary Möbius band here are
+            # the squares.
             # It is also possible to to abs() the respective sines and cosines,
             # but this results in a non-smooth manifold.
             a = v*copysign(numpy.cos(alpha)**2, numpy.cos(alpha))

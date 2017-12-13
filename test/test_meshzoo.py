@@ -147,12 +147,20 @@ def test_simple_shell():
     return
 
 
-def test_sphere():
-    points, cells = meshzoo.sphere()
+def test_uv_sphere():
+    points, cells = meshzoo.uv_sphere()
     assert len(points) == 162
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
     return
+
+
+# def test_iso_sphere():
+#     points, cells = meshzoo.iso_sphere()
+#     assert len(points) == 162
+#     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
+#     assert len(cells) == 320
+#     return
 
 
 def test_triangle():
@@ -260,5 +268,5 @@ def test_tube():
 
 if __name__ == '__main__':
     import meshio
-    points, cells = meshzoo.sphere()
+    points, cells = meshzoo.triangle()
     meshio.write('sphere.vtu', points, {'triangle': cells})

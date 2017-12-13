@@ -9,8 +9,8 @@ def cylinder(
         nw=10,  # Number of nodes along the width of the strip (>= 2)
         ):
     # Generate suitable ranges for parametrization
-    u_range = numpy.arange(nl, dtype='d') * 2 * numpy.pi / nl
-    v_range = numpy.arange(nw, dtype='d') / (nw - 1.0)*width - 0.5 * width
+    u_range = numpy.arange(nl, dtype=float) * 2 * numpy.pi / nl
+    v_range = numpy.arange(nw, dtype=float) / (nw - 1.0)*width - 0.5 * width
 
     # Create the vertices. This is based on the parameterization
     # of the Möbius strip as given in

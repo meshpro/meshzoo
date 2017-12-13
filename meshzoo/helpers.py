@@ -4,13 +4,13 @@ import numpy
 
 
 # pylint: disable=too-many-locals, too-many-statements
-def _refine(node_coords, edges, cells_nodes, cells_edges):
+def _refine(node_coords, cells_nodes, edge_nodes, cells_edges):
     '''Canonically refine a mesh by inserting nodes at all edge midpoints
     and make four triangular elements where there was one.
     This is a very crude refinement; don't use for actual applications.
     '''
     num_nodes = len(node_coords)
-    num_new_nodes = len(edges)
+    num_new_nodes = len(edge_nodes)
 
     # new_nodes = numpy.empty(num_new_nodes, dtype=numpy.dtype((float, 2)))
     node_coords.resize(num_nodes+num_new_nodes, 3, refcheck=False)
@@ -19,7 +19,7 @@ def _refine(node_coords, edges, cells_nodes, cells_edges):
 
     # After the refinement step, all previous edge-node associations will be
     # obsolete, so record *all* the new edges.
-    num_edges = len(edges)
+    num_edges = len(edge_nodes)
     num_cells = len(cells_nodes)
     assert num_cells == len(cells_edges)
     num_new_edges = 2 * num_edges + 3 * num_cells
@@ -47,7 +47,7 @@ def _refine(node_coords, edges, cells_nodes, cells_edges):
         local_neighbor_midpoints = [[], [], []]
         local_neighbor_newedges = [[], [], []]
         for k, edge_gid in enumerate(cell_edges):
-            edgenodes_gids = edges[edge_gid]
+            edgenodes_gids = edge_nodes[edge_gid]
             if is_edge_divided[edge_gid]:
                 # Edge is already divided. Just keep records for the cell
                 # creation.
@@ -122,4 +122,45 @@ def _refine(node_coords, edges, cells_nodes, cells_edges):
                              ])
             new_cell_gid += 1
 
-    return node_coords, new_edges_nodes, new_cells_nodes, new_cells_edges
+    return node_coords, new_cells_nodes, new_edges_nodes, new_cells_edges
+
+
+def create_edges(cells_nodes):
+    '''Setup edge-node and edge-cell relations. Adapted from voropy.
+    '''
+    # Create the idx_hierarchy (nodes->edges->cells), i.e., the value of
+    # `self.idx_hierarchy[0, 2, 27]` is the index of the node of cell 27, edge
+    # 2, node 0. The shape of `self.idx_hierarchy` is `(2, 3, n)`, where `n` is
+    # the number of cells. Make sure that the k-th edge is opposite of the k-th
+    # point in the triangle.
+    local_idx = numpy.array([
+        [1, 2],
+        [2, 0],
+        [0, 1],
+        ]).T
+    # Map idx back to the nodes. This is useful if quantities which are in
+    # idx shape need to be added up into nodes (e.g., equation system rhs).
+    nds = cells_nodes.T
+    idx_hierarchy = nds[local_idx]
+
+    s = idx_hierarchy.shape
+    a = numpy.sort(idx_hierarchy.reshape(s[0], s[1]*s[2]).T)
+
+    b = numpy.ascontiguousarray(a).view(
+            numpy.dtype((numpy.void, a.dtype.itemsize * a.shape[1]))
+            )
+    _, idx, inv, cts = numpy.unique(
+            b,
+            return_index=True,
+            return_inverse=True,
+            return_counts=True
+            )
+
+    # No edge has more than 2 cells. This assertion fails, for example, if
+    # cells are listed twice.
+    assert all(cts < 3)
+
+    edge_nodes = a[idx]
+    cells_edges = inv.reshape(3, -1).T
+
+    return edge_nodes, cells_edges

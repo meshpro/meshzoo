@@ -3,7 +3,7 @@
 import numpy
 from numpy import sin, cos, pi
 
-from .helpers import _refine
+from .helpers import _refine, create_edges
 
 
 def hexagon(ref_steps=4):
@@ -19,21 +19,6 @@ def hexagon(ref_steps=4):
                 for k in range(6)
             ]])
 
-    edges = numpy.array([
-        [0, 1],
-        [0, 2],
-        [0, 3],
-        [0, 4],
-        [0, 5],
-        [0, 6],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [4, 5],
-        [5, 6],
-        [6, 1],
-        ])
-
     cells_nodes = numpy.array([
         [0, 1, 2],
         [0, 2, 3],
@@ -42,18 +27,12 @@ def hexagon(ref_steps=4):
         [0, 5, 6],
         [0, 6, 1],
         ])
-    cells_edges = numpy.array([
-        [0, 6, 1],
-        [1, 7, 2],
-        [2, 8, 3],
-        [3, 9, 4],
-        [4, 10, 5],
-        [5, 11, 0],
-        ])
+
+    edge_nodes, cells_edges = create_edges(cells_nodes)
 
     # Refine.
+    args = nodes, cells_nodes, edge_nodes, cells_edges
     for k in range(ref_steps):
-        nodes, edges, cells_nodes, cells_edges = \
-            _refine(nodes, edges, cells_nodes, cells_edges)
+        args = _refine(*args)
 
-    return nodes, cells_nodes
+    return args[0], args[1]
