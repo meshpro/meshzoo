@@ -33,7 +33,13 @@ def test_moebius():
     assert len(points) == 5890
     assert _near_equal(
             numpy.sum(points, axis=0),
-            [-4.10009804e-11, -8.85214124e-12, -1.43687579e-13]
+            [0.0, 0.0, 0.0],
+            tol=1.0e-10
+            )
+    assert numpy.allclose(
+            numpy.sum(points**2, axis=0),
+            [2753575/9.0, 2724125/9.0, 58900/3.0],
+            rtol=1.0e-12, atol=0.0
             )
     assert len(cells) == 11400
 
@@ -260,7 +266,7 @@ def test_tube():
 
 if __name__ == '__main__':
     import meshio
-    points, cells = meshzoo.tube()
-    meshio.write('tube.vtu', points, {'triangle': cells})
+    points, cells = meshzoo.moebius()
+    meshio.write('moebius.vtu', points, {'triangle': cells})
     # points, cells = meshzoo.cube()
     # meshio.write('cube.vtu', points, {'tetra': cells})

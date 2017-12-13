@@ -69,7 +69,7 @@ def moebius(
         nodes.extend([[
             scale * (r + v*cos2) * numpy.cos(u),
             scale * (r + v*cos2) * numpy.sin(u),
-            flatness * scale * v*sin2
+            scale * flatness * v*sin2
             ] for v in v_range
             ])
 
