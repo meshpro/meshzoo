@@ -116,20 +116,19 @@ def moebius3(
     # Create the vertices. This is based on the parameterization
     # of the M\'obius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
-    nodes = []
-    for u in u_range:
-        alpha = index * 0.5 * u + alpha0
-        sin_alpha = numpy.sin(alpha)
-        cos_alpha = numpy.cos(alpha)
-        sin_u = numpy.sin(u)
-        cos_u = numpy.cos(u)
-        nodes.extend([[
-            (r + v*cos_alpha) * cos_u,
-            (r + v*cos_alpha) * sin_u,
-            v*sin_alpha
-            ] for v in v_range
-            ])
-    nodes = scale * numpy.array(nodes)
+    alpha = index * 0.5 * u_range + alpha0
+    sin_alpha = numpy.sin(alpha)
+    cos_alpha = numpy.cos(alpha)
+    sin_u = numpy.sin(u_range)
+    cos_u = numpy.cos(u_range)
+    nodes = scale * numpy.array([[
+        (r + v*cos_alpha[k]) * cos_u[k],
+        (r + v*cos_alpha[k]) * sin_u[k],
+        v*sin_alpha[k]
+        ]
+        for k, u in enumerate(u_range)
+        for v in v_range
+        ])
     nodes[:, 2] *= flatness
 
     elems = _create_elements(nl, nw, index)
