@@ -9,7 +9,6 @@ from meshzoo.__about__ import (
 
 # pylint: disable=wildcard-import
 from .cube import *
-from .cylinder import *
 from .hexagon import *
 from .moebius import *
 from .rectangle import *

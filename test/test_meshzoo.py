@@ -268,5 +268,7 @@ def test_tube():
 
 if __name__ == '__main__':
     import meshio
-    points, cells = meshzoo.iso_sphere()
-    meshio.write('sphere.vtu', points, {'triangle': cells})
+    points, cells = meshzoo.tube()
+    meshio.write('tube.vtu', points, {'triangle': cells})
+    # points, cells = meshzoo.cube()
+    # meshio.write('cube.vtu', points, {'tetra': cells})
