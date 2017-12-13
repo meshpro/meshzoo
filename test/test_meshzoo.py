@@ -35,7 +35,7 @@ def test_hexagon():
         [2, 5890, 11400, [0, 0, 0], [2797750/9.0, 2679950/9.0, 58900/3.0]],
         ])
 def test_moebius(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(moebius_index=index)
+    points, cells = meshzoo.moebius(moebius_index=index, mode='smooth')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -56,7 +56,7 @@ def test_moebius(index, num_points, num_cells, ref1, ref2):
         ],
         ])
 def test_moebius2(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(nw=30, moebius_index=index)
+    points, cells = meshzoo.moebius(nw=30, moebius_index=index, mode='smooth')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -261,7 +261,7 @@ def test_tube():
 
 if __name__ == '__main__':
     import meshio
-    points, cells = meshzoo.moebius(mode='pseudo')
+    points, cells = meshzoo.moebius(mode='smooth')
     meshio.write('moebius.vtu', points, {'triangle': cells})
     # points, cells = meshzoo.cube()
     # meshio.write('cube.vtu', points, {'tetra': cells})

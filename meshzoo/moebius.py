@@ -30,7 +30,7 @@ def moebius(
         moebius_index=1,  # How many twists are there in the 'paper'?
         nl=190,  # Number of nodes along the length of the strip
         nw=31,  # Number of nodes along the width of the strip (>= 2)
-        mode='smooth'
+        mode='classical'
         ):
     '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
@@ -69,35 +69,30 @@ def moebius(
     alpha = moebius_index * 0.5*u_range + alpha0
     sin_alpha = numpy.sin(alpha)
     cos_alpha = numpy.cos(alpha)
+
     if mode == 'classical':
-        nodes = scale * numpy.array([
-            numpy.outer(cos_alpha*cos_u, v_range) + r*cos_u[:, numpy.newaxis],
-            numpy.outer(cos_alpha*sin_u, v_range) + r*sin_u[:, numpy.newaxis],
-            numpy.outer(sin_alpha, v_range) * flatness
-            ]).reshape(3, -1).T
-        elems = _create_elements(nl, nw, moebius_index % 2 == 1)
+        a = cos_alpha
+        b = sin_alpha
+        reverse_seam = moebius_index % 2 == 1
     elif mode == 'smooth':
         # The fundamental difference with the ordinary Möbius band here are the
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
         # this results in a non-smooth manifold.
-        sin2 = numpy.copysign(sin_alpha**2, sin_alpha)
-        cos2 = numpy.copysign(cos_alpha**2, cos_alpha)
-        nodes = scale * numpy.array([
-            numpy.outer(cos2*cos_u, v_range) + r*cos_u[:, numpy.newaxis],
-            numpy.outer(cos2*sin_u, v_range) + r*sin_u[:, numpy.newaxis],
-            numpy.outer(sin2, v_range) * flatness
-            ]).reshape(3, -1).T
-        elems = _create_elements(nl, nw, moebius_index % 2 == 1)
+        a = numpy.copysign(cos_alpha**2, cos_alpha)
+        b = numpy.copysign(sin_alpha**2, sin_alpha)
+        reverse_seam = moebius_index % 2 == 1
     else:
         assert mode == 'pseudo'
-        sin2 = sin_alpha**2
-        cos2 = cos_alpha**2
-        nodes = scale * numpy.array([
-            numpy.outer(cos2*cos_u, v_range) + r*cos_u[:, numpy.newaxis],
-            numpy.outer(cos2*sin_u, v_range) + r*sin_u[:, numpy.newaxis],
-            numpy.outer(sin2, v_range) * flatness
-            ]).reshape(3, -1).T
-        elems = _create_elements(nl, nw, False)
+        a = cos_alpha**2
+        b = sin_alpha**2
+        reverse_seam = False
 
+    nodes = scale * numpy.array([
+        numpy.outer(a * cos_u, v_range) + r*cos_u[:, numpy.newaxis],
+        numpy.outer(a * sin_u, v_range) + r*sin_u[:, numpy.newaxis],
+        numpy.outer(b, v_range) * flatness
+        ]).reshape(3, -1).T
+
+    elems = _create_elements(nl, nw, reverse_seam)
     return nodes, elems
