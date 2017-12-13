@@ -85,6 +85,9 @@ def test_pseudomoebius():
     assert len(points) == 5890
     assert len(cells) == 11400
     assert _near_equal(numpy.sum(points, axis=0), [0, 0, 0], tol=1.0e-10)
+    sum_points2 = numpy.sum(points**2, axis=0)
+    ref2 = [2753575/9.0, 2724125/9.0, 58900/3.0]
+    assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
     return
 
 
