@@ -2,6 +2,8 @@
 #
 import numpy
 
+from .helpers import create_edges, _refine
+
 
 # pylint: disable=too-many-locals
 def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
@@ -95,14 +97,14 @@ def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     return nodes, elems
 
 
-def iso_sphere():
+def iso_sphere(ref_steps=4):
     # Start off with an isosahedron and refine.
 
     # Construction from
     # <http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html>.
     # Create 12 vertices of a icosahedron.
     t = (1.0 + numpy.sqrt(5.0)) / 2.0
-    points = numpy.array([
+    nodes = numpy.array([
         [-1, +t, +0],
         [+1, +t, +0],
         [-1, -t, +0],
@@ -119,7 +121,7 @@ def iso_sphere():
         [-t, +0, +1],
         ])
 
-    cells = numpy.array([
+    cells_nodes = numpy.array([
         [0, 11, 5],
         [0, 5, 1],
         [0, 1, 7],
@@ -143,8 +145,13 @@ def iso_sphere():
         ])
 
     # Refine.
+    edge_nodes, cells_edges = create_edges(cells_nodes)
+    args = nodes, cells_nodes, edge_nodes, cells_edges
     for k in range(ref_steps):
-        nodes, edges, cells_nodes, cells_edges = \
-            _refine(nodes, edges, cells_nodes, cells_edges)
+        args = _refine(*args)
 
-    return points, cells
+    # push all nodes to the sphere
+    nodes = args[0]
+    nodes = (nodes.T / numpy.sqrt(numpy.einsum('ij,ij->i', nodes, nodes)).T).T
+
+    return nodes, args[1]
