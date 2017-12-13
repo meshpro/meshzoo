@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-from math import copysign
 import numpy
 
 
@@ -60,28 +59,22 @@ def moebius(
     # Create the vertices. This is based on the parameterization
     # of the Möbius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
-    nodes = []
-    for u in u_range:
-        alpha = moebius_index * 0.5*u + alpha0
-        sin_alpha = numpy.sin(alpha)
-        cos_alpha = numpy.cos(alpha)
-        # The fundamental difference with the ordinary Möbius band here are the
-        # squares.
-        # It is also possible to to abs() the respective sines and cosines,
-        # but this results in a non-smooth manifold.
-        sin2 = copysign(sin_alpha**2, sin_alpha)
-        cos2 = copysign(cos_alpha**2, cos_alpha)
-        sin_u = numpy.sin(u)
-        cos_u = numpy.cos(u)
-        nodes.extend([[
-            (r + v*cos2) * cos_u,
-            (r + v*cos2) * sin_u,
-            v*sin2
-            ] for v in v_range
-            ])
-
-    nodes = scale * numpy.array(nodes)
-    nodes[:, 2] *= flatness
+    sin_u = numpy.sin(u_range)
+    cos_u = numpy.cos(u_range)
+    alpha = moebius_index * 0.5*u_range + alpha0
+    sin_alpha = numpy.sin(alpha)
+    cos_alpha = numpy.cos(alpha)
+    # The fundamental difference with the ordinary Möbius band here are the
+    # squares.
+    # It is also possible to to abs() the respective sines and cosines, but
+    # this results in a non-smooth manifold.
+    sin2 = numpy.copysign(sin_alpha**2, sin_alpha)
+    cos2 = numpy.copysign(cos_alpha**2, cos_alpha)
+    nodes = scale * numpy.array([
+        numpy.outer(cos2*cos_u, v_range) + r*cos_u[:, numpy.newaxis],
+        numpy.outer(cos2*sin_u, v_range) + r*sin_u[:, numpy.newaxis],
+        numpy.outer(sin2, v_range) * flatness
+        ]).reshape(3, -1).T
 
     elems = _create_elements(nl, nw, moebius_index)
 
@@ -104,7 +97,7 @@ def moebius3(
     alpha0 = 0.0  # pi / 2
 
     # How flat the strip will be.
-    # Positive values result in left-turning M\'obius strips, negative in
+    # Positive values result in left-turning Möbius strips, negative in
     # right-turning ones.
     # Also influences the width of the strip
     flatness = 1.0
@@ -114,7 +107,7 @@ def moebius3(
     v_range = numpy.linspace(-0.5*width, 0.5*width, num=nw)
 
     # Create the vertices. This is based on the parameterization
-    # of the M\'obius strip as given in
+    # of the Möbius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     alpha = index * 0.5 * u_range + alpha0
     sin_alpha = numpy.sin(alpha)
@@ -151,7 +144,7 @@ def pseudomoebius():
     alpha0 = 0.0  # pi / 2
 
     # How flat the strip will be.
-    # Positive values result in left-turning M\'obius strips, negative in
+    # Positive values result in left-turning Möbius strips, negative in
     # right-turning ones.
     # Also influences the width of the strip
     flatness = 1.0
@@ -175,6 +168,7 @@ def pseudomoebius():
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
         # this results in a non-smooth manifold.
+        from math import copysign
         sin2 = copysign(sin_alpha**2, sin_alpha)
         cos2 = copysign(cos_alpha**2, cos_alpha)
         sin_u = numpy.sin(u)
