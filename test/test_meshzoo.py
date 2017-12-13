@@ -31,25 +31,23 @@ def test_hexagon():
 def test_moebius():
     points, cells = meshzoo.moebius()
     assert len(points) == 5890
-    assert _near_equal(
-            numpy.sum(points, axis=0),
-            [0.0, 0.0, 0.0],
-            tol=1.0e-10
-            )
+    assert len(cells) == 11400
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
     assert numpy.allclose(
             numpy.sum(points**2, axis=0),
             [2753575/9.0, 2724125/9.0, 58900/3.0],
             rtol=1.0e-12, atol=0.0
             )
-    assert len(cells) == 11400
 
     points, cells = meshzoo.moebius(moebius_index=2)
     assert len(points) == 5890
-    assert _near_equal(
-            numpy.sum(points, axis=0),
-            [4.72333284e-12, 4.80460116e-12, 1.88295560e-14]
-            )
     assert len(cells) == 11400
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
+    assert numpy.allclose(
+            numpy.sum(points**2, axis=0),
+            [2797750/9.0, 2679950/9.0, 58900/3.0],
+            rtol=1.0e-12, atol=0.0
+            )
     return
 
 
