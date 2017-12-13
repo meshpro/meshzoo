@@ -2,9 +2,8 @@
 
 [![Build Status](https://travis-ci.org/nschloe/meshzoo.svg?branch=master)](https://travis-ci.org/nschloe/meshzoo)
 [![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
-[![Code Health](https://landscape.io/github/nschloe/meshzoo/master/landscape.svg?style=flat)](https://landscape.io/github/nschloe/meshzoo/master)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Star&maxAge=2592000)](https://github.com/nschloe/meshzoo)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Stars)](https://github.com/nschloe/meshzoo)
 
 meshzoo provides numerous meshes to be used, e.g., in FEM/FVM application.
 
@@ -43,23 +42,15 @@ examples for other mesh generators like
 #### Python Package Index
 
 meshzoo is [available from the Python Package
-Index](https://pypi.python.org/pypi/meshzoo/), so to install/upgrade simply type
+Index](https://pypi.python.org/pypi/meshzoo/), so simply
 ```
 pip install meshzoo -U
 ```
-
-#### Manual installation
-
-Download meshzoo from [PyPi](https://pypi.python.org/pypi/meshzoo/)
-or [GitHub](https://github.com/nschloe/meshzoo) and
-install it with
-```
-python setup.py install
-```
+to install/upgrade.
 
 ### Testing
 
-To run the Mesh Zoo unit tests, check out this repository and run
+To run the meshzoo unit tests, check out this repository and run
 ```
 pytest
 ```
@@ -77,4 +68,4 @@ To create a new release
 
 ### License
 
-Mesh Zoo is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+meshzoo is published under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
