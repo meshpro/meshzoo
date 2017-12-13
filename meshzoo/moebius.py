@@ -3,28 +3,6 @@
 import numpy
 
 
-def _create_elements(nl, nw, reverse_seam):
-    elems = []
-    for i in range(nl - 1):
-        for j in range(nw - 1):
-            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
-            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
-
-    # close the geometry
-    if reverse_seam:
-        # Close the geometry upside down (odd Möbius fold)
-        for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
-            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
-    else:
-        # Close the geometry upside up (even Möbius fold)
-        for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
-            elems.append([(nl-1)*nw + j, j, j + 1])
-
-    return numpy.array(elems)
-
-
 # pylint: disable=too-many-locals
 def moebius(
         moebius_index=1,  # How many twists are there in the 'paper'?
@@ -96,3 +74,25 @@ def moebius(
 
     elems = _create_elements(nl, nw, reverse_seam)
     return nodes, elems
+
+
+def _create_elements(nl, nw, reverse_seam):
+    elems = []
+    for i in range(nl - 1):
+        for j in range(nw - 1):
+            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
+            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+
+    # close the geometry
+    if reverse_seam:
+        # Close the geometry upside down (odd Möbius fold)
+        for j in range(nw - 1):
+            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
+            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+    else:
+        # Close the geometry upside up (even Möbius fold)
+        for j in range(nw - 1):
+            elems.append([(nl-1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
+            elems.append([(nl-1)*nw + j, j, j + 1])
+
+    return numpy.array(elems)
