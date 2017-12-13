@@ -8,10 +8,11 @@ import numpy
 def moebius(
         moebius_index=1  # How many twists are there in the 'paper'?
         ):
-    '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
+    '''
+    Creates a simplistic triangular mesh on a slightly Möbius strip.  The
     Möbius strip here deviates slightly from the ordinary geometry in that it
-    is constructed in such a way that the two halves can be exchanged to allow
-    better comparison with the pseudo-Möbius geometry.
+    is constructed in such a way that the two halves can be exchanged as to
+    allow better comparison with the pseudo-Möbius geometry.
     '''
     # Mesh parameters
     # Number of nodes along the length of the strip
@@ -65,11 +66,11 @@ def moebius(
             # but this results in a non-smooth manifold.
             a = v*copysign(numpy.cos(alpha)**2, numpy.cos(alpha))
             nodes.append([
-                (r + a) * numpy.cos(u),
-                (r + a) * numpy.sin(u),
-                flatness * v * copysign(numpy.sin(alpha)**2, numpy.sin(alpha))
+                scale * (r + a) * numpy.cos(u),
+                scale * (r + a) * numpy.sin(u),
+                flatness * scale * v *
+                copysign(numpy.sin(alpha)**2, numpy.sin(alpha))
                 ])
-    nodes = scale * numpy.array(nodes)
 
     # create the elements (cells)
     elems = []
