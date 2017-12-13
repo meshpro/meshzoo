@@ -66,9 +66,11 @@ def moebius(
         # but this results in a non-smooth manifold.
         sin2 = copysign(sin_alpha**2, sin_alpha)
         cos2 = copysign(cos_alpha**2, cos_alpha)
+        sin_u = numpy.sin(u)
+        cos_u = numpy.cos(u)
         nodes.extend([[
-            (r + v*cos2) * numpy.cos(u),
-            (r + v*cos2) * numpy.sin(u),
+            (r + v*cos2) * cos_u,
+            (r + v*cos2) * sin_u,
             v*sin2
             ] for v in v_range
             ])

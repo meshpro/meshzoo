@@ -54,32 +54,26 @@ def test_moebius():
 def test_moebius2():
     points, cells = meshzoo.moebius2()
     assert len(points) == 5700
-    assert _near_equal(
-            numpy.sum(points, axis=0),
-            [-6.55155930e-11, 8.95811203e-13, -1.15784118e-13]
-            )
     assert len(cells) == 11020
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-10)
 
     points, cells = meshzoo.moebius2(moebius_index=2)
     assert len(points) == 5700
-    assert _near_equal(
-        numpy.sum(points, axis=0),
-        [1.83320026e-12, 2.43982612e-12, -1.11195775e-14]
-        )
     assert len(cells) == 11020
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0], tol=1.0e-11)
     return
 
 
 def test_moebius3():
     points, cells = meshzoo.moebius3(100, 10, 1)
     assert len(points) == 1000
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1800
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
 
     points, cells = meshzoo.moebius3(100, 10, 2)
     assert len(points) == 1000
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1800
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     return
 
 
