@@ -58,22 +58,18 @@ def moebius(
         # else:
         #     pre_alpha = pi / 2
         alpha = moebius_index * pre_alpha + alpha0
-        # The fundamental difference with the ordinary Möbius band here are the
-        # squares.
-        # It is also possible to abs() the respective sines and cosines, but
-        # this results in a non-smooth manifold.
-        sin_alpha = numpy.sin(alpha)
-        cos_alpha = numpy.sin(alpha)
-        sin2 = copysign(sin_alpha**2, sin_alpha)
-        cos2 = copysign(cos_alpha**2, cos_alpha)
-        nodes.extend([[
-            (r + v*cos2) * numpy.cos(u),
-            (r + v*cos2) * numpy.sin(u),
-            v*sin2,
-            ] for v in v_range
-            ])
+        for v in v_range:
+            # The fundamental difference with the ordinary Möbius band here are
+            # the squares.
+            # It is also possible to to abs() the respective sines and cosines,
+            # but this results in a non-smooth manifold.
+            a = v*copysign(numpy.cos(alpha)**2, numpy.cos(alpha))
+            nodes.append([
+                (r + a) * numpy.cos(u),
+                (r + a) * numpy.sin(u),
+                flatness * v * copysign(numpy.sin(alpha)**2, numpy.sin(alpha))
+                ])
     nodes = scale * numpy.array(nodes)
-    nodes[:, 2] *= flatness
 
     # create the elements (cells)
     elems = []
