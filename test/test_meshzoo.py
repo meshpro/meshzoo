@@ -260,7 +260,7 @@ def test_tube():
 
 if __name__ == '__main__':
     import meshio
-    points, cells = meshzoo.tube()
-    meshio.write('tube.vtu', points, {'triangle': cells})
+    points, cells = meshzoo.moebius3()
+    meshio.write('moebius.vtu', points, {'triangle': cells})
     # points, cells = meshzoo.cube()
     # meshio.write('cube.vtu', points, {'tetra': cells})
