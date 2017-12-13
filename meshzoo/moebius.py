@@ -6,19 +6,15 @@ import numpy
 
 # pylint: disable=too-many-locals
 def moebius(
-        moebius_index=1  # How many twists are there in the 'paper'?
+        moebius_index=1,  # How many twists are there in the 'paper'?
+        nl=190,  # Number of nodes along the length of the strip
+        nw=31,  # Number of nodes along the width of the strip (>= 2)
         ):
     '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
     is constructed in such a way that the two halves can be exchanged as to
     allow better comparison with the pseudo-Möbius geometry.
     '''
-    # Mesh parameters
-    # Number of nodes along the length of the strip
-    nl = 190
-    # Number of nodes along the width of the strip (>= 2)
-    nw = 31
-
     # The width of the strip
     width = 1.0
     scale = 10.0
@@ -104,83 +100,6 @@ def moebius(
             elems.append(elem_nodes)
 
     return nodes, numpy.array(elems)
-
-
-def moebius2(
-        moebius_index=1  # How many twists are there in the 'paper'?
-        ):
-    # Mesh parameters
-    # Number of nodes along the length of the strip
-    nl = 190
-    # Number of nodes along the width of the strip (>= 2)
-    nw = 30
-
-    # The width of the strip
-    width = 1.0
-    scale = 10.0
-
-    # radius of the strip when flattened out
-    r = 1.0
-
-    # seam displacement
-    alpha0 = 0.0  # pi / 2
-
-    # How flat the strip will be.
-    # Positive values result in left-turning Möbius strips, negative in
-    # right-turning ones.
-    # Also influences the width of the strip
-    flatness = 1.0
-
-    # Generate suitable ranges for parametrization
-    u_range = numpy.linspace(0.0, 2*numpy.pi, num=nl, endpoint=False)
-    v_range = numpy.linspace(-0.5*width, 0.5*width, num=nw)
-
-    # Create the vertices.
-    nodes = []
-    for u in u_range:
-        pre_alpha = 0.5 * u
-        alpha = moebius_index * pre_alpha + alpha0
-        for v in v_range:
-            if numpy.cos(alpha) > 0:
-                c = numpy.cos(alpha)**2
-            else:
-                c = -numpy.cos(alpha)**2
-            if numpy.sin(alpha) > 0:
-                s = numpy.sin(alpha)**2
-            else:
-                s = -numpy.sin(alpha)**2
-            nodes.append([
-                scale * (r + v*c) * numpy.cos(u),
-                scale * (r + v*c) * numpy.sin(u),
-                scale * flatness * v*s
-               ])
-
-    # create the elements (cells)
-    elems = []
-    for i in range(nl - 1):
-        for j in range(nw - 1):
-            elem_nodes = [i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1]
-            elems.append(elem_nodes)
-            elem_nodes = [i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1]
-            elems.append(elem_nodes)
-    # close the geometry
-    if moebius_index % 2 == 0:
-        # Close the geometry upside up (even Möbius fold)
-        for j in range(nw - 1):
-            elem_nodes = [(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1]
-            elems.append(elem_nodes)
-            elem_nodes = [(nl - 1)*nw + j, j, j + 1]
-            elems.append(elem_nodes)
-    else:
-        # Close the geometry upside down (odd Möbius fold)
-        for j in range(nw - 1):
-            elem_nodes = [(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1]
-            elems.append(elem_nodes)
-            elem_nodes = [(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)]
-            elems.append(elem_nodes)
-
-    # create the mesh
-    return numpy.array(nodes), numpy.array(elems)
 
 
 def moebius3(
