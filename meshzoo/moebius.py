@@ -121,15 +121,12 @@ def moebius3(
     cos_alpha = numpy.cos(alpha)
     sin_u = numpy.sin(u_range)
     cos_u = numpy.cos(u_range)
-    nodes = scale * numpy.array([[
-        (r + v*cos_alpha[k]) * cos_u[k],
-        (r + v*cos_alpha[k]) * sin_u[k],
-        v*sin_alpha[k]
-        ]
-        for k, u in enumerate(u_range)
-        for v in v_range
-        ])
-    nodes[:, 2] *= flatness
+
+    nodes = scale * numpy.array([
+        numpy.outer(cos_alpha*cos_u, v_range) + r*cos_u[:, numpy.newaxis],
+        numpy.outer(cos_alpha*sin_u, v_range) + r*sin_u[:, numpy.newaxis],
+        numpy.outer(sin_alpha, v_range) * flatness
+        ]).reshape(3, -1).T
 
     elems = _create_elements(nl, nw, index)
 
