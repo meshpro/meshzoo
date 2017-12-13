@@ -8,8 +8,7 @@ import numpy
 def moebius(
         moebius_index=1  # How many twists are there in the 'paper'?
         ):
-    '''
-    Creates a simplistic triangular mesh on a slightly Möbius strip.  The
+    '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
     is constructed in such a way that the two halves can be exchanged as to
     allow better comparison with the pseudo-Möbius geometry.
@@ -59,18 +58,22 @@ def moebius(
         # else:
         #     pre_alpha = pi / 2
         alpha = moebius_index * pre_alpha + alpha0
-        for v in v_range:
-            # The fundamental difference with the ordinary Möbius band here are
-            # the squares.
-            # It is also possible to to abs() the respective sines and cosines,
-            # but this results in a non-smooth manifold.
-            a = v*copysign(numpy.cos(alpha)**2, numpy.cos(alpha))
-            nodes.append([
-                scale * (r + a) * numpy.cos(u),
-                scale * (r + a) * numpy.sin(u),
-                flatness * scale * v *
-                copysign(numpy.sin(alpha)**2, numpy.sin(alpha))
-                ])
+        sin_alpha = numpy.sin(alpha)
+        cos_alpha = numpy.cos(alpha)
+        # The fundamental difference with the ordinary Möbius band here are the
+        # squares.
+        # It is also possible to to abs() the respective sines and cosines,
+        # but this results in a non-smooth manifold.
+        sin2 = copysign(sin_alpha**2, sin_alpha)
+        cos2 = copysign(cos_alpha**2, cos_alpha)
+        nodes.extend([[
+            scale * (r + v*cos2) * numpy.cos(u),
+            scale * (r + v*cos2) * numpy.sin(u),
+            flatness * scale * v*sin2
+            ] for v in v_range
+            ])
+
+    nodes = numpy.array(nodes)
 
     # create the elements (cells)
     elems = []
@@ -97,7 +100,7 @@ def moebius(
             elem_nodes = [(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)]
             elems.append(elem_nodes)
 
-    return numpy.array(nodes), numpy.array(elems)
+    return nodes, numpy.array(elems)
 
 
 def moebius2(
