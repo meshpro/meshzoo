@@ -4,6 +4,28 @@ from math import copysign
 import numpy
 
 
+def _create_elements(nl, nw, moebius_index):
+    elems = []
+    for i in range(nl - 1):
+        for j in range(nw - 1):
+            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
+            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+
+    # close the geometry
+    if moebius_index % 2 == 0:
+        # Close the geometry upside up (even Möbius fold)
+        for j in range(nw - 1):
+            elems.append([(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
+            elems.append([(nl - 1)*nw + j, j, j + 1])
+    else:
+        # Close the geometry upside down (odd Möbius fold)
+        for j in range(nw - 1):
+            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
+            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+
+    return numpy.array(elems)
+
+
 # pylint: disable=too-many-locals
 def moebius(
         moebius_index=1,  # How many twists are there in the 'paper'?
@@ -40,20 +62,7 @@ def moebius(
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     nodes = []
     for u in u_range:
-        pre_alpha = 0.5 * u
-        # if u > pi:
-        #     pre_alpha = pi / 2 * abs(u/pi - 1)**l + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * abs(u/pi - 1)**l + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        # if u > pi:
-        #     pre_alpha = pi / 2 * (1 - (1-abs(u/pi-1)**p)**(1/p)) + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * (1 - (1-abs(u/pi-1)**p)**(1/p)) + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        alpha = moebius_index * pre_alpha + alpha0
+        alpha = moebius_index * 0.5*u + alpha0
         sin_alpha = numpy.sin(alpha)
         cos_alpha = numpy.cos(alpha)
         # The fundamental difference with the ordinary Möbius band here are the
@@ -77,28 +86,6 @@ def moebius(
     elems = _create_elements(nl, nw, moebius_index)
 
     return nodes, elems
-
-
-def _create_elements(nl, nw, moebius_index):
-    elems = []
-    for i in range(nl - 1):
-        for j in range(nw - 1):
-            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
-            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
-
-    # close the geometry
-    if moebius_index % 2 == 0:
-        # Close the geometry upside up (even Möbius fold)
-        for j in range(nw - 1):
-            elems.append([(nl - 1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
-            elems.append([(nl - 1)*nw + j, j, j + 1])
-    else:
-        # Close the geometry upside down (odd Möbius fold)
-        for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
-            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
-
-    return numpy.array(elems)
 
 
 def moebius3(
@@ -131,30 +118,23 @@ def moebius3(
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     nodes = []
     for u in u_range:
-        pre_alpha = 0.5 * u
-        # if u > pi:
-        #     pre_alpha = pi / 2 * abs(u/pi -1)**l + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * abs(u/pi -1)**l + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        # if u > pi:
-        #     pre_alpha = pi / 2 * (1 - (1-abs(u/pi-1)**p)**(1/p)) + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * (1 - (1-abs(u/pi-1)**p)**(1/p)) + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        alpha = index * pre_alpha + alpha0
-        for v in v_range:
-            nodes.append([
-                scale * (r + v*numpy.cos(alpha)) * numpy.cos(u),
-                scale * (r + v*numpy.cos(alpha)) * numpy.sin(u),
-                flatness * scale * v*numpy.sin(alpha)
-                ])
+        alpha = index * 0.5 * u + alpha0
+        sin_alpha = numpy.sin(alpha)
+        cos_alpha = numpy.cos(alpha)
+        sin_u = numpy.sin(u)
+        cos_u = numpy.cos(u)
+        nodes.extend([[
+            (r + v*cos_alpha) * cos_u,
+            (r + v*cos_alpha) * sin_u,
+            v*sin_alpha
+            ] for v in v_range
+            ])
+    nodes = scale * numpy.array(nodes)
+    nodes[:, 2] *= flatness
 
     elems = _create_elements(nl, nw, index)
 
-    return numpy.array(nodes), elems
+    return nodes, elems
 
 
 def pseudomoebius():
@@ -192,30 +172,26 @@ def pseudomoebius():
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     nodes = []
     for u in u_range:
-        pre_alpha = 0.5 * u
-        # if u > pi:
-        #     pre_alpha = pi / 2 * abs( u/pi -1 )**l + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * abs( u/pi -1 )**l + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        # if u > pi:
-        #     pre_alpha = pi / 2 * ( 1 - (1-abs(u/pi-1)**p)**(1/p) ) + pi / 2
-        # elif u < pi:
-        #     pre_alpha = - pi / 2 * ( 1 - (1-abs(u/pi-1)**p)**(1/p) ) + pi / 2
-        # else:
-        #     pre_alpha = pi / 2
-        alpha = moebius_index * pre_alpha + alpha0
-        for v in v_range:
-            # The fundamental difference with the ordinary M'obius band here
-            # are the squares.
-            # It is also possible to to abs() the respective sines and cosines,
-            # but this results in a non-smooth manifold.
-            nodes.append([
-                scale * (r - v * numpy.cos(alpha)**2) * numpy.cos(u),
-                scale * (r - v * numpy.cos(alpha)**2) * numpy.sin(u),
-                - flatness * scale * v * numpy.sin(alpha)**2
-                ])
+        alpha = moebius_index * 0.5 * u + alpha0
+        sin_alpha = numpy.sin(alpha)
+        cos_alpha = numpy.cos(alpha)
+        # The fundamental difference with the ordinary Möius band here are the
+        # squares.
+        # It is also possible to to abs() the respective sines and cosines, but
+        # this results in a non-smooth manifold.
+        sin2 = copysign(sin_alpha**2, sin_alpha)
+        cos2 = copysign(cos_alpha**2, cos_alpha)
+        sin_u = numpy.sin(u)
+        cos_u = numpy.cos(u)
+        nodes.extend([[
+            (r - v*cos2) * cos_u,
+            (r - v*cos2) * sin_u,
+            -v * sin2
+            ] for v in v_range
+            ])
+
+    nodes = scale * numpy.array(nodes)
+    nodes[:, 2] *= flatness
 
     # create the elements (cells)
     elems = _create_elements(nl, nw, 0)
