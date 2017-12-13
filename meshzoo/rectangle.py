@@ -51,7 +51,7 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
         numpy.array(range(nx - 1)),
         nx * numpy.array(range(ny - 1))
         )
-    elems = []
+
     # [i + j*nx, i+1 + j*nx, i+1 + (j+1)*nx]
     elems0 = numpy.dstack([a, a + 1, a + nx + 1])
     # [i+1 + j*nx, i+1 + (j+1)*nx, i + (j+1)*nx] for "every other" element
