@@ -49,7 +49,7 @@ points, cells = meshzoo.hexagon(3)
 points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
-#### Sphere
+#### Sphere (surface)
 <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="20%">
 
 ```python
