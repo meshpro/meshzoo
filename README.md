@@ -5,13 +5,11 @@
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Stars)](https://github.com/nschloe/meshzoo)
 
-There are various Python tools for creating 2D and 3D meshes for complex
+There are various Python tools for creating 2D and 3D FEM/FVM meshes for complex
 geometries (e.g., [MeshPy](https://github.com/inducer/meshpy),
 [mshr](https://bitbucket.org/fenics-project/mshr),
 [frentos](https://github.com/nschloe/frentos/)). meshzoo, on the other hand,
-provides an assortment of very structured 2D and 3D meshes.
-
-meshzoo provides numerous meshes to be used, e.g., in FEM/FVM application.
+provides an assortment of highly structured 2D and 3D meshes.
 
 ### Examples
 
