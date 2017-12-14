@@ -5,11 +5,13 @@
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Stars)](https://github.com/nschloe/meshzoo)
 
-There are various Python tools for creating 2D and 3D FEM/FVM meshes for complex
-geometries (e.g., [MeshPy](https://github.com/inducer/meshpy),
+When generating meshes for FEM/FVM computations, sometimes your geometry is so
+simple that you don't need a complex mesh generator (like
+[pygmsh](https://github.com/nschloe/pygmsh/),
+[MeshPy](https://github.com/inducer/meshpy),
 [mshr](https://bitbucket.org/fenics-project/mshr),
-[frentos](https://github.com/nschloe/frentos/)). meshzoo, on the other hand,
-provides an assortment of highly structured 2D and 3D meshes.
+[frentos](https://github.com/nschloe/frentos/)), but something simple and fast
+that makes use of the symmetries of the domain. Enter meshzoo.
 
 ### Examples
 
@@ -17,6 +19,7 @@ provides an assortment of highly structured 2D and 3D meshes.
 <img src="https://nschloe.github.io/meshzoo/triangle.png" width="20%">
 
 ```python
+import meshzoo
 points, cells = meshzoo.triangle(3)
 
 # Process the mesh, e.g., write it to a file using meshio
@@ -53,12 +56,13 @@ points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="20%">
 
 ```python
-points, cells = uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0)
+points, cells = meshzoo.uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0)
 ```
 
 <img src="https://nschloe.github.io/meshzoo/iso_sphere.png" width="20%">
+
 ```python
-points, cells = iso_sphere(3)
+points, cells = meshzoo.iso_sphere(3)
 ```
 
 #### Tube
@@ -83,13 +87,12 @@ points, cells = meshzoo.cube(
 
 ### Extra, extra
 
-In addition to this, the `examples/` directory contains a couple of instructive
-examples for other mesh generators.
+In addition to this, the
+[`examples/`](https://github.com/nschloe/meshzoo/blob/master/examples/)
+directory contains a couple of instructive examples for other mesh generators.
 
 
 ### Installation
-
-#### Python Package Index
 
 meshzoo is [available from the Python Package
 Index](https://pypi.python.org/pypi/meshzoo/), so simply
