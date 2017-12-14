@@ -54,9 +54,11 @@ points, cells = meshzoo.moebius(index=1, nl=60, nw=11)
 #### Sphere
 <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="20%">
 <img src="https://nschloe.github.io/meshzoo/iso_sphere.png" width="20%">
+
 ```python
 points, cells = uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0)
 ```
+
 ```python
 points, cells = iso_sphere(3)
 ```
