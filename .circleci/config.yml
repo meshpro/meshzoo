@@ -18,10 +18,10 @@ jobs:
       - run: make README.rst
       # extract code snippets from readme
       - run: excode README.md test/readme_test.py --filter python
-      - run: echo -e "import meshio\n$(cat test/readme_test.py)" > test/readme_test.py
+      - run: echo -e "import meshzoo\n#pylint: disable=unused-variable\n$(cat test/readme_test.py)" > test/readme_test.py
       # The actual test
       - run: pylint meshzoo/
-      - run: pylint test/*.py --ignore=readme_test.py
+      - run: pylint test/*.py
       - run: cd test/ && pytest --cov meshzoo
       # submit to codecov
       - run: apt-get install -y curl
