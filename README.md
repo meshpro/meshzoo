@@ -30,7 +30,6 @@ points, cells = meshzoo.triangle(3)
 <img src="https://nschloe.github.io/meshzoo/rectangle.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.rectangle(
         xmin=0.0, xmax=1.0,
         ymin=0.0, ymax=1.0,
@@ -43,7 +42,6 @@ points, cells = meshzoo.rectangle(
 <img src="https://nschloe.github.io/meshzoo/hexagon.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.hexagon(3)
 ```
 
@@ -51,7 +49,6 @@ points, cells = meshzoo.hexagon(3)
 <img src="https://nschloe.github.io/meshzoo/moebius.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
@@ -65,7 +62,6 @@ points, cells = meshzoo.uv_sphere(num_points_per_circle=20, num_circles=10, radi
 <img src="https://nschloe.github.io/meshzoo/iso_sphere.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.iso_sphere(3)
 ```
 
@@ -73,7 +69,6 @@ points, cells = meshzoo.iso_sphere(3)
 <img src="https://nschloe.github.io/meshzoo/tube.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 ```
 
@@ -81,7 +76,6 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 <img src="https://nschloe.github.io/meshzoo/cube.png" width="20%">
 
 ```python
-import meshzoo
 points, cells = meshzoo.cube(
         xmin=0.0, xmax=1.0,
         ymin=0.0, ymax=1.0,
