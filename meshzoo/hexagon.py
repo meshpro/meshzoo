@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 import numpy
+from numpy import sin, cos, pi
 
-from .helpers import _refine
+from .helpers import _refine, create_edges
 
 
 def hexagon(ref_steps=4):
@@ -11,52 +12,27 @@ def hexagon(ref_steps=4):
 
     # Create initial nodes/elements.
     tilt = 0.0
-    num_nodes = 7
-    nodes = numpy.empty(num_nodes, dtype=numpy.dtype((float, 3)))
-    nodes[0] = numpy.array([0.0, 0.0, 0.0])
-    for k in range(6):
-        phi = (tilt + k/3.0) * numpy.pi
-        nodes[k+1] = cc_radius * numpy.array([
-            numpy.cos(phi),
-            numpy.sin(phi),
-            0.0
-            ])
-
-    edges = numpy.array([
-        numpy.array([0, 1]),
-        numpy.array([0, 2]),
-        numpy.array([0, 3]),
-        numpy.array([0, 4]),
-        numpy.array([0, 5]),
-        numpy.array([0, 6]),
-        numpy.array([1, 2]),
-        numpy.array([2, 3]),
-        numpy.array([3, 4]),
-        numpy.array([4, 5]),
-        numpy.array([5, 6]),
-        numpy.array([6, 1])
-        ])
+    nodes = cc_radius * numpy.concatenate([
+            [[0.0, 0.0, 0.0]],
+            [
+                [cos((tilt + k/3.0) * pi), sin((tilt + k/3.0) * pi), 0.0]
+                for k in range(6)
+            ]])
 
     cells_nodes = numpy.array([
-        numpy.array([0, 1, 2]),
-        numpy.array([0, 2, 3]),
-        numpy.array([0, 3, 4]),
-        numpy.array([0, 4, 5]),
-        numpy.array([0, 5, 6]),
-        numpy.array([0, 6, 1])
+        [0, 1, 2],
+        [0, 2, 3],
+        [0, 3, 4],
+        [0, 4, 5],
+        [0, 5, 6],
+        [0, 6, 1],
         ])
-    cells_edges = numpy.array([
-        numpy.array([0, 6, 1]),
-        numpy.array([1, 7, 2]),
-        numpy.array([2, 8, 3]),
-        numpy.array([3, 9, 4]),
-        numpy.array([4, 10, 5]),
-        numpy.array([5, 11, 0])
-        ])
+
+    edge_nodes, cells_edges = create_edges(cells_nodes)
 
     # Refine.
-    for k in range(ref_steps):
-        nodes, edges, cells_nodes, cells_edges = \
-            _refine(nodes, edges, cells_nodes, cells_edges)
+    args = nodes, cells_nodes, edge_nodes, cells_edges
+    for _ in range(ref_steps):
+        args = _refine(*args)
 
-    return nodes, cells_nodes
+    return args[0], args[1]

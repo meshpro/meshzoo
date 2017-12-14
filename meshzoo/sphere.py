@@ -2,9 +2,11 @@
 #
 import numpy
 
+from .helpers import create_edges, _refine
+
 
 # pylint: disable=too-many-locals
-def sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
+def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     # Mesh parameters
     n_phi = num_points_per_circle
     n_theta = num_circles
@@ -93,3 +95,63 @@ def sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     assert k == num_elems, 'Wrong element count.'
 
     return nodes, elems
+
+
+def iso_sphere(ref_steps=4):
+    # Start off with an isosahedron and refine.
+
+    # Construction from
+    # <http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html>.
+    # Create 12 vertices of a icosahedron.
+    t = (1.0 + numpy.sqrt(5.0)) / 2.0
+    nodes = numpy.array([
+        [-1, +t, +0],
+        [+1, +t, +0],
+        [-1, -t, +0],
+        [+1, -t, +0],
+        #
+        [+0, -1, +t],
+        [+0, +1, +t],
+        [+0, -1, -t],
+        [+0, +1, -t],
+        #
+        [+t, +0, -1],
+        [+t, +0, +1],
+        [-t, +0, -1],
+        [-t, +0, +1],
+        ])
+
+    cells_nodes = numpy.array([
+        [0, 11, 5],
+        [0, 5, 1],
+        [0, 1, 7],
+        [0, 7, 10],
+        [0, 10, 11],
+        [1, 5, 9],
+        [5, 11, 4],
+        [11, 10, 2],
+        [10, 7, 6],
+        [7, 1, 8],
+        [3, 9, 4],
+        [3, 4, 2],
+        [3, 2, 6],
+        [3, 6, 8],
+        [3, 8, 9],
+        [4, 9, 5],
+        [2, 4, 11],
+        [6, 2, 10],
+        [8, 6, 7],
+        [9, 8, 1],
+        ])
+
+    # Refine.
+    edge_nodes, cells_edges = create_edges(cells_nodes)
+    args = nodes, cells_nodes, edge_nodes, cells_edges
+    for _ in range(ref_steps):
+        args = _refine(*args)
+
+    # push all nodes to the sphere
+    nodes = args[0]
+    nodes = (nodes.T / numpy.sqrt(numpy.einsum('ij,ij->i', nodes, nodes)).T).T
+
+    return nodes, args[1]

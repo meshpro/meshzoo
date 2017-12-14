@@ -2,6 +2,8 @@
 
 disable=
     bad-continuation,
+    duplicate-code,
     fixme,
     invalid-name,
     missing-docstring,
+    no-member,
