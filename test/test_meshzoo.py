@@ -35,7 +35,7 @@ def test_hexagon():
         [2, 5890, 11400, [0, 0, 0], [2797750/9.0, 2679950/9.0, 58900/3.0]],
         ])
 def test_moebius(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(moebius_index=index, mode='smooth')
+    points, cells = meshzoo.moebius(index, 190, 31, mode='smooth')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -56,7 +56,7 @@ def test_moebius(index, num_points, num_cells, ref1, ref2):
         ],
         ])
 def test_moebius2(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(nw=30, moebius_index=index, mode='smooth')
+    points, cells = meshzoo.moebius(nl=190, nw=30, index=index, mode='smooth')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -81,7 +81,7 @@ def test_moebius3(index, num_points, num_cells, ref1, ref2):
 
 
 def test_pseudomoebius():
-    points, cells = meshzoo.moebius(mode='pseudo')
+    points, cells = meshzoo.moebius(nl=190, nw=31, mode='pseudo')
     assert len(points) == 5890
     assert len(cells) == 11400
     assert _near_equal(numpy.sum(points, axis=0), [0, 0, 0], tol=1.0e-10)
@@ -261,7 +261,7 @@ def test_tube():
 
 # if __name__ == '__main__':
 #     import meshio
-#     points_, cells_ = meshzoo.moebius(mode='smooth')
+#     points_, cells_ = meshzoo.moebius(mode='classical')
 #     meshio.write('moebius.vtu', points_, {'triangle': cells_})
 #     # points_, cells_ = meshzoo.cube()
 #     # meshio.write('cube.vtu', points_, {'tetra': cells_})

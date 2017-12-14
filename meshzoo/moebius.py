@@ -5,9 +5,9 @@ import numpy
 
 # pylint: disable=too-many-locals
 def moebius(
-        moebius_index=1,  # How many twists are there in the 'paper'?
-        nl=190,  # Number of nodes along the length of the strip
-        nw=31,  # Number of nodes along the width of the strip (>= 2)
+        index=1,  # How many twists are there in the 'paper'?
+        nl=60,  # Number of nodes along the length of the strip
+        nw=11,  # Number of nodes along the width of the strip (>= 2)
         mode='classical'
         ):
     '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
@@ -44,14 +44,14 @@ def moebius(
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     sin_u = numpy.sin(u_range)
     cos_u = numpy.cos(u_range)
-    alpha = moebius_index * 0.5*u_range + alpha0
+    alpha = index * 0.5*u_range + alpha0
     sin_alpha = numpy.sin(alpha)
     cos_alpha = numpy.cos(alpha)
 
     if mode == 'classical':
         a = cos_alpha
         b = sin_alpha
-        reverse_seam = moebius_index % 2 == 1
+        reverse_seam = index % 2 == 1
     elif mode == 'smooth':
         # The fundamental difference with the ordinary Möbius band here are the
         # squares.
@@ -59,7 +59,7 @@ def moebius(
         # this results in a non-smooth manifold.
         a = numpy.copysign(cos_alpha**2, cos_alpha)
         b = numpy.copysign(sin_alpha**2, sin_alpha)
-        reverse_seam = moebius_index % 2 == 1
+        reverse_seam = index % 2 == 1
     else:
         assert mode == 'pseudo'
         a = cos_alpha**2
@@ -80,19 +80,32 @@ def _create_elements(nl, nw, reverse_seam):
     elems = []
     for i in range(nl - 1):
         for j in range(nw - 1):
-            elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
-            elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+            if (i+j) % 2 == 0:
+                elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
+                elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+            else:
+                elems.append([i*nw + j, i*nw + j + 1, (i+1)*nw + j])
+                elems.append([i*nw + j+1, (i + 1)*nw + j, (i + 1)*nw + j + 1])
 
     # close the geometry
+    i = nl - 1
     if reverse_seam:
         # Close the geometry upside down (odd Möbius fold)
         for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, (nw-1) - (j+1), (nl-1)*nw + j+1])
-            elems.append([(nl-1)*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+            if (i+j) % 2 == 0:
+                elems.append([i*nw + j, (nw-1) - (j+1), i*nw + j+1])
+                elems.append([i*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+            else:
+                elems.append([i*nw + j, i*nw + j+1, (nw-1) - j])
+                elems.append([i*nw + j+1, (nw-1) - j, (nw-1) - (j+1)])
     else:
         # Close the geometry upside up (even Möbius fold)
         for j in range(nw - 1):
-            elems.append([(nl-1)*nw + j, j + 1, (nl - 1)*nw + j + 1])
-            elems.append([(nl-1)*nw + j, j, j + 1])
+            if (i+j) % 2 == 0:
+                elems.append([i*nw + j, j + 1, i*nw + j + 1])
+                elems.append([i*nw + j, j, j + 1])
+            else:
+                elems.append([i*nw + j, i*nw + j + 1, j])
+                elems.append([i*nw + j+1, j, j+1])
 
     return numpy.array(elems)
