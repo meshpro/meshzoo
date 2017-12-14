@@ -5,7 +5,7 @@ import numpy
 
 # pylint: disable=too-many-locals
 def moebius(
-        index=1,  # How many twists are there in the 'paper'?
+        num_twists=1,  # How many twists are there in the 'paper'?
         nl=60,  # Number of nodes along the length of the strip
         nw=11,  # Number of nodes along the width of the strip (>= 2)
         mode='classical'
@@ -44,14 +44,14 @@ def moebius(
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     sin_u = numpy.sin(u_range)
     cos_u = numpy.cos(u_range)
-    alpha = index * 0.5*u_range + alpha0
+    alpha = num_twists * 0.5*u_range + alpha0
     sin_alpha = numpy.sin(alpha)
     cos_alpha = numpy.cos(alpha)
 
     if mode == 'classical':
         a = cos_alpha
         b = sin_alpha
-        reverse_seam = index % 2 == 1
+        reverse_seam = num_twists % 2 == 1
     elif mode == 'smooth':
         # The fundamental difference with the ordinary Möbius band here are the
         # squares.
@@ -59,7 +59,7 @@ def moebius(
         # this results in a non-smooth manifold.
         a = numpy.copysign(cos_alpha**2, cos_alpha)
         b = numpy.copysign(sin_alpha**2, sin_alpha)
-        reverse_seam = index % 2 == 1
+        reverse_seam = num_twists % 2 == 1
     else:
         assert mode == 'pseudo'
         a = cos_alpha**2

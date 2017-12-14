@@ -30,12 +30,12 @@ def test_hexagon():
 
 
 @pytest.mark.parametrize(
-    'index, num_points, num_cells, ref1, ref2', [
+    'num_twists, num_points, num_cells, ref1, ref2', [
         [1, 5890, 11400, [0, 0, 0], [2753575/9.0, 2724125/9.0, 58900/3.0]],
         [2, 5890, 11400, [0, 0, 0], [2797750/9.0, 2679950/9.0, 58900/3.0]],
         ])
-def test_moebius(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(index, 190, 31, mode='smooth')
+def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius(num_twists, 190, 31, mode='smooth')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -45,7 +45,7 @@ def test_moebius(index, num_points, num_cells, ref1, ref2):
 
 
 @pytest.mark.parametrize(
-    'index, num_points, num_cells, ref1, ref2', [
+    'num_twists, num_points, num_cells, ref1, ref2', [
         [
             1, 5700, 11020, [0, 0, 0],
             [[296107.21982759, 292933.72844828, 19040.94827586]]
@@ -55,8 +55,10 @@ def test_moebius(index, num_points, num_cells, ref1, ref2):
             [[300867.45689655, 288173.49137931, 19040.94827586]]
         ],
         ])
-def test_moebius2(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(nl=190, nw=30, index=index, mode='smooth')
+def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius(
+            nl=190, nw=30, num_twists=num_twists, mode='smooth'
+            )
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -66,12 +68,12 @@ def test_moebius2(index, num_points, num_cells, ref1, ref2):
 
 
 @pytest.mark.parametrize(
-    'index, num_points, num_cells, ref1, ref2', [
+    'num_twists, num_points, num_cells, ref1, ref2', [
         [1, 1000, 1800, [0, 0, 0], [1418750/27.0, 1418750/27.0, 137500/27.0]],
         [2, 1000, 1800, [0, 0, 0], [484375/9.0, 1384375/27.0, 137500/27.0]],
         ])
-def test_moebius3(index, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(index, 100, 10, mode='classical')
+def test_moebius3(num_twists, num_points, num_cells, ref1, ref2):
+    points, cells = meshzoo.moebius(num_twists, 100, 10, mode='classical')
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
