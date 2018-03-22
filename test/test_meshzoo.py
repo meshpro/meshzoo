@@ -262,9 +262,9 @@ def test_tube():
 #     return
 
 
-if __name__ == '__main__':
-    import meshio
-    points_, cells_ = meshzoo.triangle()
-    meshio.write('triangle.vtu', points_, {'triangle': cells_})
-    # points_, cells_ = meshzoo.cube()
-    # meshio.write('cube.vtu', points_, {'tetra': cells_})
+# if __name__ == '__main__':
+#     import meshio
+#     points_, cells_ = meshzoo.triangle()
+#     meshio.write('triangle.vtu', points_, {'triangle': cells_})
+#     # points_, cells_ = meshzoo.cube()
+#     # meshio.write('cube.vtu', points_, {'tetra': cells_})
