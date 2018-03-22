@@ -1,6 +1,5 @@
 [MESSAGES CONTROL]
 
-#    bad-continuation,
 disable=
     duplicate-code,
     fixme,
