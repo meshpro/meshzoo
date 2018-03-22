@@ -4,12 +4,10 @@ import numpy
 
 
 # pylint: disable=too-many-locals
-def moebius(
-        num_twists=1,  # How many twists are there in the 'paper'?
-        nl=60,  # Number of nodes along the length of the strip
-        nw=11,  # Number of nodes along the width of the strip (>= 2)
-        mode='classical'
-        ):
+def moebius(num_twists=1,  # How many twists are there in the 'paper'?
+            nl=60,  # Number of nodes along the length of the strip
+            nw=11,  # Number of nodes along the width of the strip (>= 2)
+            mode='classical'):
     '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
     is constructed in such a way that the two halves can be exchanged as to

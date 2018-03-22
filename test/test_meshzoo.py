@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
-import meshzoo
 import numpy
 import pytest
+
+import meshzoo
 
 
 def _near_equal(a, b, tol=1.0e-12):
@@ -57,8 +58,8 @@ def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
         ])
 def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
     points, cells = meshzoo.moebius(
-            nl=190, nw=30, num_twists=num_twists, mode='smooth'
-            )
+        nl=190, nw=30, num_twists=num_twists, mode='smooth'
+        )
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -159,7 +160,7 @@ def test_iso_sphere():
 
 
 def test_triangle():
-    points, cells = meshzoo.triangle()
+    points, cells = meshzoo.triangle(ref_steps=2)
     assert len(points) == 15
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 16
@@ -263,7 +264,7 @@ def test_tube():
 
 # if __name__ == '__main__':
 #     import meshio
-#     points_, cells_ = meshzoo.moebius(mode='classical')
-#     meshio.write('moebius.vtu', points_, {'triangle': cells_})
+#     points_, cells_ = meshzoo.triangle()
+#     meshio.write('triangle.vtu', points_, {'triangle': cells_})
 #     # points_, cells_ = meshzoo.cube()
 #     # meshio.write('cube.vtu', points_, {'tetra': cells_})

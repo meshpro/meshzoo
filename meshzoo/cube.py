@@ -3,12 +3,10 @@
 import numpy
 
 # pylint: disable=too-many-arguments, too-many-locals, too-many-statements
-def cube(
-        xmin=0.0, xmax=1.0,
-        ymin=0.0, ymax=1.0,
-        zmin=0.0, zmax=1.0,
-        nx=11, ny=11, nz=11
-        ):
+def cube(xmin=0.0, xmax=1.0,
+         ymin=0.0, ymax=1.0,
+         zmin=0.0, zmax=1.0,
+         nx=11, ny=11, nz=11):
     '''Canonical tetrahedrization of the cube.
     Input:
     Edge lenghts of the cube
@@ -67,8 +65,7 @@ def cube(
     # back.
     elems0 = numpy.concatenate([
         a[..., None], a[..., None] + nx, a[..., None] + 1, a[..., None] + nx*ny
-        ], axis=3
-        )
+        ], axis=3)
 
     # Every other element cube:
     # [
@@ -110,8 +107,7 @@ def cube(
         a[..., None] + 1 + nx,
         a[..., None] + 1,
         a[..., None] + 1 + nx + nx*ny
-        ], axis=3
-        )
+        ], axis=3)
 
     # Every other element cube:
     # [
@@ -153,8 +149,7 @@ def cube(
         a[..., None] + 1,
         a[..., None] + nx*ny,
         a[..., None] + 1 + nx + nx*ny
-        ], axis=3
-        )
+        ], axis=3)
 
     # Every other element cube:
     # [
@@ -201,8 +196,7 @@ def cube(
         a[..., None] + nx*ny,
         a[..., None] + nx + nx*ny,
         a[..., None] + 1 + nx + nx*ny
-        ], axis=3
-        )
+        ], axis=3)
 
     # Every other element cube:
     # [
@@ -249,8 +243,7 @@ def cube(
         a[..., None] + nx*ny,
         a[..., None] + 1 + nx + nx*ny,
         a[..., None] + 1 + nx*ny
-        ], axis=3
-        )
+        ], axis=3)
 
     # Every other element cube:
     # [

@@ -1,9 +1,9 @@
 # meshzoo
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg)](https://circleci.com/gh/nschloe/meshzoo)
-[![codecov](https://codecov.io/gh/nschloe/meshzoo/branch/master/graph/badge.svg)](https://codecov.io/gh/nschloe/meshzoo)
+[![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg)](https://codecov.io/gh/nschloe/meshzoo)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=social&label=Stars)](https://github.com/nschloe/meshzoo)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&style=social&label=Stars)](https://github.com/nschloe/meshzoo)
 
 When generating meshes for FEM/FVM computations, sometimes your geometry is so
 simple that you don't need a complex mesh generator (like

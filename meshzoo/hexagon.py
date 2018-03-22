@@ -13,11 +13,11 @@ def hexagon(ref_steps=4):
     # Create initial nodes/elements.
     tilt = 0.0
     nodes = cc_radius * numpy.concatenate([
-            [[0.0, 0.0, 0.0]],
-            [
-                [cos((tilt + k/3.0) * pi), sin((tilt + k/3.0) * pi), 0.0]
-                for k in range(6)
-            ]])
+        [[0.0, 0.0, 0.0]],
+        [
+            [cos((tilt + k/3.0) * pi), sin((tilt + k/3.0) * pi), 0.0]
+            for k in range(6)
+        ]])
 
     cells_nodes = numpy.array([
         [0, 1, 2],
