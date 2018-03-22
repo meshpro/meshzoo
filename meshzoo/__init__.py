@@ -17,3 +17,5 @@ from .simple_shell import *
 from .sphere import *
 from .triangle import *
 from .tube import *
+
+from .helpers import *
