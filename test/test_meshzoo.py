@@ -159,7 +159,7 @@ def test_iso_sphere():
 
 
 def test_triangle():
-    points, cells = meshzoo.triangle()
+    points, cells = meshzoo.triangle(ref_steps=2)
     assert len(points) == 15
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 16
@@ -261,9 +261,9 @@ def test_tube():
 #     return
 
 
-# if __name__ == '__main__':
-#     import meshio
-#     points_, cells_ = meshzoo.moebius(mode='classical')
-#     meshio.write('moebius.vtu', points_, {'triangle': cells_})
-#     # points_, cells_ = meshzoo.cube()
-#     # meshio.write('cube.vtu', points_, {'tetra': cells_})
+if __name__ == '__main__':
+    import meshio
+    points_, cells_ = meshzoo.triangle()
+    meshio.write('triangle.vtu', points_, {'triangle': cells_})
+    # points_, cells_ = meshzoo.cube()
+    # meshio.write('cube.vtu', points_, {'tetra': cells_})
