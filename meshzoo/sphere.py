@@ -14,10 +14,10 @@ def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     # Generate suitable ranges for parametrization
     phi_range = numpy.linspace(0.0, 2*numpy.pi, num=n_phi, endpoint=False)
     theta_range = numpy.linspace(
-            -numpy.pi/2 + numpy.pi/(n_theta-1),
-            numpy.pi/2 - numpy.pi/(n_theta-1),
-            num=n_theta - 2
-            )
+        -numpy.pi/2 + numpy.pi/(n_theta-1),
+        numpy.pi/2 - numpy.pi/(n_theta-1),
+        num=n_theta - 2
+        )
 
     num_nodes = len(theta_range) * len(phi_range) + 2
     nodes = numpy.empty(num_nodes, dtype=numpy.dtype((float, 3)))

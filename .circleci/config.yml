@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/meshzoo
     docker:
-      - image: ubuntu:17.10
+      - image: ubuntu:18.04
     steps:
       - run: apt-get update
       - run: apt-get install -y python3-pip
@@ -17,8 +17,7 @@ jobs:
       - run: pip3 install docutils pygments
       - run: make README.rst
       # Lint before excode
-      - run: pylint meshzoo/
-      - run: pylint test/*.py
+      - run: pylint setup.py meshzoo/ test/*.py
       # extract code snippets from readme
       - run: excode README.md test/readme_test.py --filter python
       - run: echo -e "import meshzoo\n$(cat test/readme_test.py)" > test/readme_test.py

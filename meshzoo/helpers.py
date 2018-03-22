@@ -55,37 +55,36 @@ def _refine(node_coords, cells_nodes, edge_nodes, cells_edges):
                 local_edge_newedges[k] = edge_newedges_gids[edge_gid]
             else:
                 # Create new node at the edge midpoint.
-                node_coords[new_node_gid] = \
-                    0.5 * (node_coords[edgenodes_gids[0]] +
-                           node_coords[edgenodes_gids[1]]
-                           )
+                node_coords[new_node_gid] = 0.5 * (
+                    node_coords[edgenodes_gids[0]] +
+                    node_coords[edgenodes_gids[1]]
+                    )
                 local_edge_midpoint_gids[k] = new_node_gid
                 new_node_gid += 1
                 edge_midpoint_gids[edge_gid] = \
                     local_edge_midpoint_gids[k]
 
                 # Divide edge into two.
-                new_edges_nodes[new_edge_gid] = \
-                    numpy.array([edgenodes_gids[0],
-                                 local_edge_midpoint_gids[k]
-                                 ])
+                new_edges_nodes[new_edge_gid] = numpy.array([
+                    edgenodes_gids[0],
+                    local_edge_midpoint_gids[k]
+                    ])
                 new_edge_gid += 1
-                new_edges_nodes[new_edge_gid] = \
-                    numpy.array([local_edge_midpoint_gids[k],
-                                 edgenodes_gids[1]
-                                 ])
+                new_edges_nodes[new_edge_gid] = numpy.array([
+                    local_edge_midpoint_gids[k],
+                    edgenodes_gids[1]
+                    ])
                 new_edge_gid += 1
 
                 local_edge_newedges[k] = [new_edge_gid-2, new_edge_gid-1]
-                edge_newedges_gids[edge_gid] = \
-                    local_edge_newedges[k]
+                edge_newedges_gids[edge_gid] = local_edge_newedges[k]
                 # Do the household.
                 is_edge_divided[edge_gid] = True
             # Keep a record of the new neighbors of the old nodes.
             # Get local node IDs.
             edgenodes_lids = [
                 numpy.nonzero(cell_nodes == edgenodes_gids[0])[0][0],
-                numpy.nonzero(cell_nodes == edgenodes_gids[1])[0][0]
+                numpy.nonzero(cell_nodes == edgenodes_gids[1])[0][0],
                 ]
             local_neighbor_midpoints[edgenodes_lids[0]] \
                 .append(local_edge_midpoint_gids[k])
@@ -111,15 +110,17 @@ def _refine(node_coords, cells_nodes, edge_nodes, cells_edges):
         # The three corner elements:
         for k in range(3):
             new_cells_nodes[new_cell_gid] = \
-                numpy.array([cells_nodes[cell_id][k],
-                             local_neighbor_midpoints[k][0],
-                             local_neighbor_midpoints[k][1]
-                             ])
+                numpy.array([
+                    cells_nodes[cell_id][k],
+                    local_neighbor_midpoints[k][0],
+                    local_neighbor_midpoints[k][1]
+                    ])
             new_cells_edges[new_cell_gid] = \
-                numpy.array([new_edge_opposite_of_local_node[k],
-                             local_neighbor_newedges[k][0],
-                             local_neighbor_newedges[k][1]
-                             ])
+                numpy.array([
+                    new_edge_opposite_of_local_node[k],
+                    local_neighbor_newedges[k][0],
+                    local_neighbor_newedges[k][1]
+                    ])
             new_cell_gid += 1
 
     return node_coords, new_cells_nodes, new_edges_nodes, new_cells_edges
@@ -147,14 +148,14 @@ def create_edges(cells_nodes):
     a = numpy.sort(idx_hierarchy.reshape(s[0], s[1]*s[2]).T)
 
     b = numpy.ascontiguousarray(a).view(
-            numpy.dtype((numpy.void, a.dtype.itemsize * a.shape[1]))
-            )
+        numpy.dtype((numpy.void, a.dtype.itemsize * a.shape[1]))
+        )
     _, idx, inv, cts = numpy.unique(
-            b,
-            return_index=True,
-            return_inverse=True,
-            return_counts=True
-            )
+        b,
+        return_index=True,
+        return_inverse=True,
+        return_counts=True
+        )
 
     # No edge has more than 2 cells. This assertion fails, for example, if
     # cells are listed twice.
