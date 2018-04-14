@@ -4,3 +4,5 @@ README.rst
 dist/
 meshzoo.egg-info/
 .cache/
+build/
+.pytest_cache/
