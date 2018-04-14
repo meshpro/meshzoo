@@ -20,7 +20,7 @@ that makes use of the symmetries of the domain. Enter meshzoo.
 
 ```python
 import meshzoo
-points, cells = meshzoo.triangle(3)
+points, cells = meshzoo.triangle(8)
 
 # Process the mesh, e.g., write it to a file using meshio
 # meshio.write('rectangle.e', points, {'triangle': cells})
