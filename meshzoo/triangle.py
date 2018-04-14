@@ -2,25 +2,32 @@
 #
 import numpy
 
-from .helpers import _refine, create_edges
 
-
-def triangle(ref_steps=4,
-             corners=None):
+def triangle(n, corners=None):
     if corners is None:
-        corners = numpy.array([
+        corners = [
             [0.0, 1.0, 0.0],
             [-0.5*numpy.sqrt(3.0), -0.5, 0.0],
-            [0.5*numpy.sqrt(3.0), -0.5, 0.0],
-            ])
+            [+0.5*numpy.sqrt(3.0), -0.5, 0.0],
+            ]
+    corners = numpy.array(corners)
 
-    cells_nodes = numpy.array([[0, 1, 2]], dtype=int)
+    bary = 1.0 / n * numpy.hstack([[
+        numpy.full(n-i+1, i),
+        numpy.arange(n-i+1),
+        ] for i in range(n+1)])
+    bary = numpy.array([bary[0], bary[1], 1.0 - bary[0] - bary[1]])
+    points = numpy.dot(corners.T, bary).T
 
-    edge_nodes, cells_edges = create_edges(cells_nodes)
+    # First create the mesh in barycentric coordinates
+    cells = []
+    k = 0
+    for i in range(n):
+        for j in range(n-i):
+            cells.append([k+j, k+j+1, k+n-i+j+1])
+        for j in range(n-i-1):
+            cells.append([k+j+1, k+n-i+j+2, k+n-i+j+1])
+        k += n-i+1
+    cells = numpy.array(cells)
 
-    # Refine.
-    args = corners, cells_nodes, edge_nodes, cells_edges
-    for _ in range(ref_steps):
-        args = _refine(*args)
-
-    return args[0], args[1]
+    return points, cells

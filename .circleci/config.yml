@@ -12,10 +12,6 @@ jobs:
       - run: pip3 install -U pytest pytest-cov pylint excode
       - checkout
       - run: pip3 install .
-      # make sure that rst converts correctly
-      - run: apt install -y pandoc
-      - run: pip3 install docutils pygments
-      - run: make README.rst
       # Lint before excode
       - run: pylint setup.py meshzoo/ test/*.py
       # extract code snippets from readme
