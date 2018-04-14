@@ -2,8 +2,8 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg)](https://circleci.com/gh/nschloe/meshzoo)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg)](https://codecov.io/gh/nschloe/meshzoo)
-[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.python.org/pypi/meshzoo)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&style=social&label=Stars)](https://github.com/nschloe/meshzoo)
+[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.org/project/meshzoo)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&label=Stars)](https://github.com/nschloe/meshzoo)
 
 When generating meshes for FEM/FVM computations, sometimes your geometry is so
 simple that you don't need a complex mesh generator (like
@@ -95,7 +95,7 @@ directory contains a couple of instructive examples for other mesh generators.
 ### Installation
 
 meshzoo is [available from the Python Package
-Index](https://pypi.python.org/pypi/meshzoo/), so simply
+Index](https://pypi.org/project/meshzoo/), so simply
 ```
 pip install meshzoo -U
 ```
