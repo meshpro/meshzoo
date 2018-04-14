@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-from __future__ import division
-
 import numpy
 
 
@@ -14,10 +12,9 @@ def triangle(n, corners=None):
             ]
     corners = numpy.array(corners)
 
-    h = 1/n
-    bary = numpy.hstack([[
-        numpy.full(n-i+1, i*h),
-        numpy.arange(0, n-i+1) * h,
+    bary = 1.0 / n * numpy.hstack([[
+        numpy.full(n-i+1, i),
+        numpy.arange(n-i+1),
         ] for i in range(n+1)])
     bary = numpy.array([bary[0], bary[1], 1.0 - bary[0] - bary[1]])
     points = numpy.dot(corners.T, bary).T
