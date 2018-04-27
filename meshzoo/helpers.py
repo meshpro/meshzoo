@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 #
 import numpy
-import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
 
 
 # pylint: disable=too-many-locals, too-many-statements
@@ -170,6 +168,7 @@ def create_edges(cells_nodes):
 
 
 def show2d(*args, **kwargs):
+    import matplotlib.pyplot as plt
     plot2d(*args, **kwargs)
     plt.show()
     return
@@ -181,6 +180,9 @@ def plot2d(points, cells,
            show_axes=False):
     '''Plot a 2D mesh using matplotlib.
     '''
+    import matplotlib.pyplot as plt
+    from matplotlib.collections import LineCollection
+
     fig = plt.figure()
     ax = fig.gca()
     plt.axis('equal')

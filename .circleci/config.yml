@@ -1,9 +1,8 @@
 version: 2
 
 jobs:
-  # python3:
   build:
-    working_directory: ~/meshzoo
+    working_directory: ~/work
     docker:
       - image: ubuntu:18.04
     steps:
@@ -11,7 +10,7 @@ jobs:
       - run: apt-get install -y python3-pip
       - run: pip3 install -U pytest pytest-cov pylint excode
       - checkout
-      - run: pip3 install .
+      - run: pip3 install .[all]
       # Lint before excode
       - run: pylint setup.py meshzoo/ test/*.py
       # extract code snippets from readme
@@ -21,4 +20,4 @@ jobs:
       - run: cd test/ && pytest --cov meshzoo
       # submit to codecov
       - run: apt-get install -y curl
-      - run: bash <(curl -s https://codecov.io/bash) -R ~/meshzoo
+      - run: bash <(curl -s https://codecov.io/bash) -R ~/work

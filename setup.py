@@ -31,8 +31,12 @@ setup(
     license=about['__license__'],
     platforms='any',
     install_requires=[
-        'numpy'
+        'numpy',
         ],
+    extras_require={
+        'all': ['matplotlib'],
+        'plot': ['matplotlib'],
+        },
     classifiers=[
         about['__status__'],
         about['__license__'],
