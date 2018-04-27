@@ -175,6 +175,12 @@ def test_tube():
     return
 
 
+def test_plot2d():
+    points, cells = meshzoo.triangle(4)
+    meshzoo.show2d(points, cells)
+    return
+
+
 # def test_ball():
 #     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
 #     assert len(points) == 1360
@@ -263,8 +269,9 @@ def test_tube():
 
 
 # if __name__ == '__main__':
-#     import meshio
-#     points_, cells_ = meshzoo.triangle(7)
-#     meshio.write('triangle.vtu', points_, {'triangle': cells_})
+#     test_plot2d()
+#     # import meshio
+#     # points_, cells_ = meshzoo.triangle(7)
+#     # meshio.write('triangle.vtu', points_, {'triangle': cells_})
 #     # points_, cells_ = meshzoo.cube()
 #     # meshio.write('cube.vtu', points_, {'tetra': cells_})
