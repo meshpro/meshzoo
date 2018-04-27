@@ -174,10 +174,7 @@ def show2d(*args, **kwargs):
     return
 
 
-def plot2d(points, cells,
-           mesh_color='k',
-           boundary_edge_color=None,
-           show_axes=False):
+def plot2d(points, cells, mesh_color='k', show_axes=False):
     '''Plot a 2D mesh using matplotlib.
     '''
     import matplotlib.pyplot as plt
