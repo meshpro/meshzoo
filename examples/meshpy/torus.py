@@ -21,7 +21,7 @@ def create_mesh(big_r=1.0, small_r=0.5, num_points=10):
 
     rz = [
         (big_r + small_r * np.cos(i * dphi), 0.5 * small_r * np.sin(i * dphi))
-        for i in xrange(num_points)
+        for i in range(num_points)
     ]
 
     geob = GeometryBuilder()

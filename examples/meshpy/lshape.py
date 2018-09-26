@@ -9,16 +9,16 @@ def create_mesh(maxarea=1.0):
     # dimensions of the rectangle
     cc_radius = 5.0  # circumcircle radius
     lx = np.sqrt(2.0) * cc_radius
-    l = [lx, lx]
+    ly = lx
 
     # corner points
     points = [
-        (-0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], 0.0),
+        (-0.5 * lx, -0.5 * ly),
+        (0.5 * lx, -0.5 * ly),
+        (0.5 * lx, 0.0),
         (0.0, 0.0),
-        (0.0, 0.5 * l[1]),
-        (-0.5 * l[0], 0.5 * l[1]),
+        (0.0, 0.5 * ly),
+        (-0.5 * lx, 0.5 * ly),
     ]
 
     info = meshpy.triangle.MeshInfo()

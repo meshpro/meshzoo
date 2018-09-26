@@ -12,7 +12,7 @@ from .sphere import uv_sphere, iso_sphere
 from .triangle import triangle
 from .tube import tube
 
-from .helpers import *
+from .helpers import plot2d, show2d
 
 __all__ = [
     "__version__",
@@ -30,4 +30,7 @@ __all__ = [
     "iso_sphere",
     "triangle",
     "tube",
+    #
+    "show2d",
+    "plot2d",
 ]

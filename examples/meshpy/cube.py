@@ -8,24 +8,25 @@ import meshpy.tet
 import numpy as np
 
 
-def create_mesh(maxvol=0.1):
+def create_mesh(maxvol):
     # get the file name to be written to
 
     # circumcirlce radius
     cc_radius = 5.0
     lx = 2.0 / np.sqrt(3.0) * cc_radius
-    l = [lx, lx, lx]
+    ly = lx
+    lz = lx
 
     # Corner points of the cube
     points = [
-        (-0.5 * l[0], -0.5 * l[1], -0.5 * l[2]),
-        (0.5 * l[0], -0.5 * l[1], -0.5 * l[2]),
-        (0.5 * l[0], 0.5 * l[1], -0.5 * l[2]),
-        (-0.5 * l[0], 0.5 * l[1], -0.5 * l[2]),
-        (-0.5 * l[0], -0.5 * l[1], 0.5 * l[2]),
-        (0.5 * l[0], -0.5 * l[1], 0.5 * l[2]),
-        (0.5 * l[0], 0.5 * l[1], 0.5 * l[2]),
-        (-0.5 * l[0], 0.5 * l[1], 0.5 * l[2]),
+        (-0.5 * lx, -0.5 * ly, -0.5 * lz),
+        (0.5 * lx, -0.5 * ly, -0.5 * lz),
+        (0.5 * lx, 0.5 * ly, -0.5 * lz),
+        (-0.5 * lx, 0.5 * ly, -0.5 * lz),
+        (-0.5 * lx, -0.5 * ly, 0.5 * lz),
+        (0.5 * lx, -0.5 * ly, 0.5 * lz),
+        (0.5 * lx, 0.5 * ly, 0.5 * lz),
+        (-0.5 * lx, 0.5 * ly, 0.5 * lz),
     ]
     facets = [
         [0, 1, 2, 3],

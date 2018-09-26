@@ -29,7 +29,7 @@ def create_ball_mesh(num_longi_points=10):
     # Build outline for surface of revolution.
     rz = [
         (truncate(radius * np.sin(i * dphi)), radius * np.cos(i * dphi))
-        for i in xrange(num_longi_points + 1)
+        for i in range(num_longi_points + 1)
     ]
 
     geob = GeometryBuilder()

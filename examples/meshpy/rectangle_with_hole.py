@@ -9,18 +9,18 @@ def create_mesh(max_area=1.0):
     # dimensions of the rectangle
     cc_radius = 15.0  # circumcircle radius
     lx = np.sqrt(2.0) * cc_radius
-    l = [lx, lx]
+    ly = lx
 
     h_radius = 1.0
 
     # corner points
     boundary_points = [
-        (0.5 * l[0], 0.0),
-        (0.5 * l[0], 0.5 * l[1]),
-        (-0.5 * l[0], 0.5 * l[1]),
-        (-0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], 0.0),
+        (0.5 * lx, 0.0),
+        (0.5 * lx, 0.5 * ly),
+        (-0.5 * lx, 0.5 * ly),
+        (-0.5 * lx, -0.5 * ly),
+        (0.5 * lx, -0.5 * ly),
+        (0.5 * lx, 0.0),
     ]
     # create circular boundary on the inside
     segments = 100

@@ -9,14 +9,15 @@ import numpy as np
 
 def create_mesh(edgelength=1.0, max_area=0.01):
     # dimensions of the rectangle
-    l = [edgelength, edgelength]
+    lx = edgelength
+    ly = edgelength
 
     # corner points
     boundary_points = [
-        (-0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], -0.5 * l[1]),
-        (0.5 * l[0], 0.5 * l[1]),
-        (-0.5 * l[0], 0.5 * l[1]),
+        (-0.5 * lx, -0.5 * ly),
+        (0.5 * lx, -0.5 * ly),
+        (0.5 * lx, 0.5 * ly),
+        (-0.5 * lx, 0.5 * ly),
     ]
 
     info = meshpy.triangle.MeshInfo()
