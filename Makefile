@@ -24,8 +24,8 @@ clean:
 	@rm -rf *.egg-info/ build/ dist/
 
 black:
-	black setup.py meshzoo/ test/*.py
+	black setup.py meshzoo/ test/*.py examples/
 
 lint:
-	black --check setup.py meshzoo/ test/*.py
-	flake8 setup.py meshzoo/ test/*.py
+	black --check setup.py meshzoo/ test/*.py examples/
+	flake8 setup.py meshzoo/ test/*.py examples/

@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
+"""
 Creates a mesh on a rectangle in the x-y-plane.
-'''
+"""
 import meshpy.triangle
 import numpy as np
 
@@ -13,11 +13,11 @@ def create_mesh(edgelength=1.0, max_area=0.01):
 
     # corner points
     boundary_points = [
-            (-0.5*l[0], -0.5*l[1]),
-            ( 0.5*l[0], -0.5*l[1]),
-            ( 0.5*l[0],  0.5*l[1]),
-            (-0.5*l[0],  0.5*l[1])
-            ]
+        (-0.5 * l[0], -0.5 * l[1]),
+        (0.5 * l[0], -0.5 * l[1]),
+        (0.5 * l[0], 0.5 * l[1]),
+        (-0.5 * l[0], 0.5 * l[1]),
+    ]
 
     info = meshpy.triangle.MeshInfo()
     info.set_points(boundary_points)
@@ -25,17 +25,16 @@ def create_mesh(edgelength=1.0, max_area=0.01):
     def _round_trip_connect(start, end):
         result = []
         for i in range(start, end):
-            result.append((i, i+1))
+            result.append((i, i + 1))
         result.append((end, start))
         return result
-    info.set_facets(_round_trip_connect(0, len(boundary_points)-1))
+
+    info.set_facets(_round_trip_connect(0, len(boundary_points) - 1))
 
     def _needs_refinement(vertices, area):
         return bool(area > max_area)
 
-    meshpy_mesh = meshpy.triangle.build(info,
-                                        refinement_func=_needs_refinement
-                                        )
+    meshpy_mesh = meshpy.triangle.build(info, refinement_func=_needs_refinement)
 
     # append column
     pts = np.array(meshpy_mesh.points)
@@ -44,7 +43,8 @@ def create_mesh(edgelength=1.0, max_area=0.01):
     return points, np.array(meshpy_mesh.elements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import meshio
+
     points, cells = create_mesh()
-    meshio.write('rectangle.e', points, {'triangle': cells})
+    meshio.write("rectangle.e", points, {"triangle": cells})

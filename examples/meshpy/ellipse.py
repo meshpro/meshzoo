@@ -14,13 +14,13 @@ def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     # an equilateral triangle on the boundary.
     # For circumference of an ellipse, see
     # http://en.wikipedia.org/wiki/Ellipse#Circumference
-    eccentricity = np.sqrt(1.0 - (b/a)**2)
+    eccentricity = np.sqrt(1.0 - (b / a) ** 2)
     length_boundary = float(4 * a * special.ellipe(eccentricity))
     a_boundary = length_boundary / num_boundary_points
-    max_area = a_boundary**2 * np.sqrt(3) / 4
+    max_area = a_boundary ** 2 * np.sqrt(3) / 4
 
     # generate points on the circle
-    Phi = np.linspace(0, 2*np.pi, num_boundary_points, endpoint=False)
+    Phi = np.linspace(0, 2 * np.pi, num_boundary_points, endpoint=False)
     boundary_points = np.column_stack((a * np.cos(Phi), b * np.sin(Phi)))
 
     info = meshpy.triangle.MeshInfo()
@@ -29,17 +29,16 @@ def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     def _round_trip_connect(start, end):
         result = []
         for i in range(start, end):
-            result.append((i, i+1))
+            result.append((i, i + 1))
         result.append((end, start))
         return result
-    info.set_facets(_round_trip_connect(0, len(boundary_points)-1))
+
+    info.set_facets(_round_trip_connect(0, len(boundary_points) - 1))
 
     def _needs_refinement(vertices, area):
         return bool(area > max_area)
 
-    meshpy_mesh = meshpy.triangle.build(info,
-                                        refinement_func=_needs_refinement
-                                        )
+    meshpy_mesh = meshpy.triangle.build(info, refinement_func=_needs_refinement)
 
     # append column
     pts = np.array(meshpy_mesh.points)
@@ -48,7 +47,8 @@ def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     return points, np.array(meshpy_mesh.elements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import meshio
+
     points, cells = create_mesh()
-    meshio.write('ellipse.e', points, {'triangle': cells})
+    meshio.write("ellipse.e", points, {"triangle": cells})
