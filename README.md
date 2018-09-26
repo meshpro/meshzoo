@@ -2,15 +2,18 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg)](https://circleci.com/gh/nschloe/meshzoo)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg)](https://codecov.io/gh/nschloe/meshzoo)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.org/project/meshzoo)
-[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&label=Stars)](https://github.com/nschloe/meshzoo)
+[![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
 
 When generating meshes for FEM/FVM computations, sometimes your geometry is so
 simple that you don't need a complex mesh generator (like
 [pygmsh](https://github.com/nschloe/pygmsh/),
 [MeshPy](https://github.com/inducer/meshpy),
 [mshr](https://bitbucket.org/fenics-project/mshr),
-[frentos](https://github.com/nschloe/frentos/)), but something simple and fast
+[pygalmesh](https://github.com/nschloe/pygalmesh/)),
+[dmsh](https://github.com/nschloe/dmsh/)),
+but something simple and fast
 that makes use of the symmetries of the domain. Enter meshzoo.
 
 ### Examples

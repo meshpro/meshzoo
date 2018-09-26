@@ -9,17 +9,17 @@ def create_mesh(maxarea=1.0):
     # dimensions of the rectangle
     cc_radius = 5.0  # circumcircle radius
     lx = np.sqrt(2.0) * cc_radius
-    l = [lx, lx]
+    ly = lx
 
     # corner points
     points = [
-        (-0.5*l[0], -0.5*l[1]),
-        (0.5*l[0], -0.5*l[1]),
-        (0.5*l[0], 0.0),
+        (-0.5 * lx, -0.5 * ly),
+        (0.5 * lx, -0.5 * ly),
+        (0.5 * lx, 0.0),
         (0.0, 0.0),
-        (0.0, 0.5*l[1]),
-        (-0.5*l[0], 0.5*l[1])
-        ]
+        (0.0, 0.5 * ly),
+        (-0.5 * lx, 0.5 * ly),
+    ]
 
     info = meshpy.triangle.MeshInfo()
     info.set_points(points)
@@ -27,19 +27,16 @@ def create_mesh(maxarea=1.0):
     def _round_trip_connect(start, end):
         result = []
         for i in range(start, end):
-            result.append((i, i+1))
+            result.append((i, i + 1))
         result.append((end, start))
         return result
 
-    info.set_facets(_round_trip_connect(0, len(points)-1))
+    info.set_facets(_round_trip_connect(0, len(points) - 1))
 
     def _needs_refinement(vertices, area):
         return bool(area > maxarea)
 
-    meshpy_mesh = meshpy.triangle.build(
-            info,
-            refinement_func=_needs_refinement
-            )
+    meshpy_mesh = meshpy.triangle.build(info, refinement_func=_needs_refinement)
 
     # append column
     pts = np.array(meshpy_mesh.points)
@@ -48,7 +45,8 @@ def create_mesh(maxarea=1.0):
     return points, np.array(meshpy_mesh.elements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import meshio
+
     points, cells = create_mesh()
-    meshio.write('lshape.e', points, {'triangle': cells})
+    meshio.write("lshape.e", points, {"triangle": cells})

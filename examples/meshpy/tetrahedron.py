@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-'''
+"""
 Create irregular mesh on a regular tetrahedron centered at the origin.
-'''
+"""
 import meshpy.tet
 import numpy as np
 
@@ -30,12 +30,7 @@ def create_tetrahedron_mesh(maxvol=0.1):
     points.append((r * cosphi * sintheta, r * sinphi * sintheta, r * costheta))
 
     # boundary faces
-    facets = [
-            [0, 1, 2],
-            [0, 2, 3],
-            [0, 3, 1],
-            [1, 2, 3]
-            ]
+    facets = [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 2, 3]]
 
     # create the mesh
     # Set the geometry and build the mesh.
@@ -47,7 +42,8 @@ def create_tetrahedron_mesh(maxvol=0.1):
     return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import meshio
+
     points, cells = create_tetrahedron_mesh(10.0)
-    meshio.write('tetrahedron.vtu', points, {'tetra': cells})
+    meshio.write("tetrahedron.vtu", points, {"tetra": cells})

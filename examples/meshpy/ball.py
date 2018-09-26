@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 from meshpy.tet import MeshInfo, build
-from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, \
-    GeometryBuilder
+from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, GeometryBuilder
 import numpy as np
 
 
@@ -25,20 +24,20 @@ def create_ball_mesh(num_longi_points=10):
     # Compute the volume of a canonical tetrahedron
     # with edgelength radius*dphi.
     a = radius * dphi
-    canonical_tet_volume = np.sqrt(2.0) / 12 * a**3
+    canonical_tet_volume = np.sqrt(2.0) / 12 * a ** 3
 
     # Build outline for surface of revolution.
-    rz = [(truncate(radius * np.sin(i*dphi)), radius * np.cos(i*dphi))
-          for i in xrange(num_longi_points+1)
-          ]
+    rz = [
+        (truncate(radius * np.sin(i * dphi)), radius * np.cos(i * dphi))
+        for i in range(num_longi_points + 1)
+    ]
 
     geob = GeometryBuilder()
     geob.add_geometry(
-            *generate_surface_of_revolution(
-                rz,
-                closure=EXT_OPEN,
-                radial_subdiv=radial_subdiv
-                ))
+        *generate_surface_of_revolution(
+            rz, closure=EXT_OPEN, radial_subdiv=radial_subdiv
+        )
+    )
     mesh_info = MeshInfo()
     geob.set(mesh_info)
     meshpy_mesh = build(mesh_info, max_volume=canonical_tet_volume)
@@ -46,7 +45,8 @@ def create_ball_mesh(num_longi_points=10):
     return np.array(meshpy_mesh.points), np.array(meshpy_mesh.elements)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import meshio
+
     points, cells = create_ball_mesh()
-    meshio.write('ball.e', points, {'tetra': cells})
+    meshio.write("ball.e", points, {"tetra": cells})

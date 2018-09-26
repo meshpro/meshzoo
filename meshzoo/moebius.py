@@ -4,11 +4,13 @@ import numpy
 
 
 # pylint: disable=too-many-locals
-def moebius(num_twists=1,  # How many twists are there in the 'paper'?
-            nl=60,  # Number of nodes along the length of the strip
-            nw=11,  # Number of nodes along the width of the strip (>= 2)
-            mode='classical'):
-    '''Creates a simplistic triangular mesh on a slightly Möbius strip. The
+def moebius(
+    num_twists=1,  # How many twists are there in the 'paper'?
+    nl=60,  # Number of nodes along the length of the strip
+    nw=11,  # Number of nodes along the width of the strip (>= 2)
+    mode="classical",
+):
+    """Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
     is constructed in such a way that the two halves can be exchanged as to
     allow better comparison with the pseudo-Möbius geometry.
@@ -16,7 +18,7 @@ def moebius(num_twists=1,  # How many twists are there in the 'paper'?
     The mode is either `'classical'` or `'smooth'`. The first is the classical
     Möbius band parametrization, the latter a smoothed variant matching
     `'pseudo'`.
-    '''
+    """
     # The width of the strip
     width = 1.0
     scale = 10.0
@@ -34,41 +36,48 @@ def moebius(num_twists=1,  # How many twists are there in the 'paper'?
     flatness = 1.0
 
     # Generate suitable ranges for parametrization
-    u_range = numpy.linspace(0.0, 2*numpy.pi, num=nl, endpoint=False)
-    v_range = numpy.linspace(-0.5*width, 0.5*width, num=nw)
+    u_range = numpy.linspace(0.0, 2 * numpy.pi, num=nl, endpoint=False)
+    v_range = numpy.linspace(-0.5 * width, 0.5 * width, num=nw)
 
     # Create the vertices. This is based on the parameterization
     # of the Möbius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     sin_u = numpy.sin(u_range)
     cos_u = numpy.cos(u_range)
-    alpha = num_twists * 0.5*u_range + alpha0
+    alpha = num_twists * 0.5 * u_range + alpha0
     sin_alpha = numpy.sin(alpha)
     cos_alpha = numpy.cos(alpha)
 
-    if mode == 'classical':
+    if mode == "classical":
         a = cos_alpha
         b = sin_alpha
         reverse_seam = num_twists % 2 == 1
-    elif mode == 'smooth':
+    elif mode == "smooth":
         # The fundamental difference with the ordinary Möbius band here are the
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
         # this results in a non-smooth manifold.
-        a = numpy.copysign(cos_alpha**2, cos_alpha)
-        b = numpy.copysign(sin_alpha**2, sin_alpha)
+        a = numpy.copysign(cos_alpha ** 2, cos_alpha)
+        b = numpy.copysign(sin_alpha ** 2, sin_alpha)
         reverse_seam = num_twists % 2 == 1
     else:
-        assert mode == 'pseudo'
-        a = cos_alpha**2
-        b = sin_alpha**2
+        assert mode == "pseudo"
+        a = cos_alpha ** 2
+        b = sin_alpha ** 2
         reverse_seam = False
 
-    nodes = scale * numpy.array([
-        numpy.outer(a * cos_u, v_range) + r*cos_u[:, numpy.newaxis],
-        numpy.outer(a * sin_u, v_range) + r*sin_u[:, numpy.newaxis],
-        numpy.outer(b, v_range) * flatness
-        ]).reshape(3, -1).T
+    nodes = (
+        scale
+        * numpy.array(
+            [
+                numpy.outer(a * cos_u, v_range) + r * cos_u[:, numpy.newaxis],
+                numpy.outer(a * sin_u, v_range) + r * sin_u[:, numpy.newaxis],
+                numpy.outer(b, v_range) * flatness,
+            ]
+        )
+        .reshape(3, -1)
+        .T
+    )
 
     elems = _create_elements(nl, nw, reverse_seam)
     return nodes, elems
@@ -78,32 +87,32 @@ def _create_elements(nl, nw, reverse_seam):
     elems = []
     for i in range(nl - 1):
         for j in range(nw - 1):
-            if (i+j) % 2 == 0:
-                elems.append([i*nw + j, (i + 1)*nw + j + 1, i*nw + j + 1])
-                elems.append([i*nw + j, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+            if (i + j) % 2 == 0:
+                elems.append([i * nw + j, (i + 1) * nw + j + 1, i * nw + j + 1])
+                elems.append([i * nw + j, (i + 1) * nw + j, (i + 1) * nw + j + 1])
             else:
-                elems.append([i*nw + j, i*nw + j + 1, (i+1)*nw + j])
-                elems.append([i*nw + j+1, (i + 1)*nw + j, (i + 1)*nw + j + 1])
+                elems.append([i * nw + j, i * nw + j + 1, (i + 1) * nw + j])
+                elems.append([i * nw + j + 1, (i + 1) * nw + j, (i + 1) * nw + j + 1])
 
     # close the geometry
     i = nl - 1
     if reverse_seam:
         # Close the geometry upside down (odd Möbius fold)
         for j in range(nw - 1):
-            if (i+j) % 2 == 0:
-                elems.append([i*nw + j, (nw-1) - (j+1), i*nw + j+1])
-                elems.append([i*nw + j, (nw-1) - j, (nw-1) - (j+1)])
+            if (i + j) % 2 == 0:
+                elems.append([i * nw + j, (nw - 1) - (j + 1), i * nw + j + 1])
+                elems.append([i * nw + j, (nw - 1) - j, (nw - 1) - (j + 1)])
             else:
-                elems.append([i*nw + j, i*nw + j+1, (nw-1) - j])
-                elems.append([i*nw + j+1, (nw-1) - j, (nw-1) - (j+1)])
+                elems.append([i * nw + j, i * nw + j + 1, (nw - 1) - j])
+                elems.append([i * nw + j + 1, (nw - 1) - j, (nw - 1) - (j + 1)])
     else:
         # Close the geometry upside up (even Möbius fold)
         for j in range(nw - 1):
-            if (i+j) % 2 == 0:
-                elems.append([i*nw + j, j + 1, i*nw + j + 1])
-                elems.append([i*nw + j, j, j + 1])
+            if (i + j) % 2 == 0:
+                elems.append([i * nw + j, j + 1, i * nw + j + 1])
+                elems.append([i * nw + j, j, j + 1])
             else:
-                elems.append([i*nw + j, i*nw + j + 1, j])
-                elems.append([i*nw + j+1, j, j+1])
+                elems.append([i * nw + j, i * nw + j + 1, j])
+                elems.append([i * nw + j + 1, j, j + 1])
 
     return numpy.array(elems)
