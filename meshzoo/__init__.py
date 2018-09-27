@@ -12,7 +12,7 @@ from .sphere import uv_sphere, iso_sphere
 from .triangle import triangle
 from .tube import tube
 
-from .helpers import plot2d, show2d
+from .helpers import plot2d, show2d, create_edges
 
 __all__ = [
     "__version__",
@@ -33,4 +33,5 @@ __all__ = [
     #
     "show2d",
     "plot2d",
+    "create_edges",
 ]

@@ -285,3 +285,14 @@ def test_plot2d():
 #     # meshio.write('triangle.vtu', points_, {'triangle': cells_})
 #     # points_, cells_ = meshzoo.cube()
 #     # meshio.write('cube.vtu', points_, {'tetra': cells_})
+
+
+def test_edges():
+    _, cells = meshzoo.triangle(2)
+    edges_nodes, edges_cells = meshzoo.create_edges(cells)
+    assert numpy.all(
+        edges_nodes
+        == [[0, 1], [0, 3], [1, 2], [1, 3], [1, 4], [2, 4], [3, 4], [3, 5], [4, 5]]
+    )
+    assert numpy.all(edges_cells == [[3, 1, 0], [5, 4, 2], [6, 3, 4], [8, 7, 6]])
+    return
