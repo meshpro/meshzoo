@@ -2,10 +2,7 @@ import numpy
 import pytest
 
 import meshzoo
-
-
-def _near_equal(a, b, tol=1.0e-12):
-    return numpy.allclose(a, b, rtol=0.0, atol=tol)
+from helpers import _near_equal
 
 
 def test_cube():
@@ -139,20 +136,6 @@ def test_simple_shell():
     assert len(points) == 5
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 1.0])
     assert len(cells) == 4
-
-
-def test_uv_sphere():
-    points, cells = meshzoo.uv_sphere()
-    assert len(points) == 162
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 320
-
-
-def test_iso_sphere():
-    points, cells = meshzoo.iso_sphere()
-    assert len(points) == 2562
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 5120
 
 
 def test_triangle():

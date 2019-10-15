@@ -66,7 +66,7 @@ points, cells = meshzoo.uv_sphere(num_points_per_circle=20, num_circles=10, radi
 <img src="https://nschloe.github.io/meshzoo/iso_sphere.png" width="20%">
 
 ```python
-points, cells = meshzoo.iso_sphere(3)
+points, cells = meshzoo.iso_sphere(8)
 ```
 
 #### Tube
