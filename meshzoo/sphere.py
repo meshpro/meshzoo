@@ -94,7 +94,7 @@ def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     return nodes, elems
 
 
-def iso_sphere(n=4):
+def iso_sphere(n):
     # Start off with an isosahedron and refine.
 
     # Construction from
@@ -258,7 +258,7 @@ def iso_sphere(n=4):
     cells = numpy.concatenate(cells)
 
     # push all nodes to the sphere
-    # norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
-    # vertices = (vertices.T / norms.T).T
+    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
+    vertices = (vertices.T / norms.T).T
 
     return vertices, cells

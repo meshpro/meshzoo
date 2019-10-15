@@ -138,20 +138,6 @@ def test_simple_shell():
     assert len(cells) == 4
 
 
-def test_uv_sphere():
-    points, cells = meshzoo.uv_sphere()
-    assert len(points) == 162
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 320
-
-
-def test_iso_sphere():
-    points, cells = meshzoo.iso_sphere()
-    assert len(points) == 2562
-    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
-    assert len(cells) == 5120
-
-
 def test_triangle():
     points, cells = meshzoo.triangle(4)
     assert len(points) == 15

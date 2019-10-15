@@ -11,16 +11,12 @@ def test_uv_sphere():
     assert len(cells) == 320
 
 
-def test_iso_sphere(n=8):
+def test_iso_sphere(n=16):
     points, cells = meshzoo.iso_sphere(n)
-    print(len(points))
     assert len(points) == 2562
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 5120
 
-    import meshio
-    meshio.write_points_cells("out.vtk", points, {"triangle": cells})
-
 
 if __name__ == "__main__":
-    test_iso_sphere(6)
+    test_iso_sphere(16)
