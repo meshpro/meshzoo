@@ -5,16 +5,17 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.org/project/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
+[![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)
 
-When generating meshes for FEM/FVM computations, sometimes your geometry is so
-simple that you don't need a complex mesh generator (like
+When generating meshes for FEM/FVM computations, sometimes your geometry is so simple
+that you don't need a complex mesh generator (like
 [pygmsh](https://github.com/nschloe/pygmsh/),
 [MeshPy](https://github.com/inducer/meshpy),
 [mshr](https://bitbucket.org/fenics-project/mshr),
 [pygalmesh](https://github.com/nschloe/pygalmesh/),
 [dmsh](https://github.com/nschloe/dmsh/)),
-but something simple and fast
-that makes use of the symmetries of the domain. Enter meshzoo.
+but something simple and fast that makes use of the symmetries of the domain. Enter
+meshzoo.
 
 ### Examples
 
@@ -91,8 +92,8 @@ points, cells = meshzoo.cube(
 ### Extra, extra
 
 In addition to this, the
-[`examples/`](https://github.com/nschloe/meshzoo/blob/master/examples/)
-directory contains a couple of instructive examples for other mesh generators.
+[`examples/`](https://github.com/nschloe/meshzoo/blob/master/examples/) directory
+contains a couple of instructive examples for other mesh generators.
 
 
 ### Installation
@@ -100,7 +101,7 @@ directory contains a couple of instructive examples for other mesh generators.
 meshzoo is [available from the Python Package
 Index](https://pypi.org/project/meshzoo/), so simply
 ```
-pip install meshzoo -U
+pip install meshzoo -U --user
 ```
 to install/upgrade.
 
