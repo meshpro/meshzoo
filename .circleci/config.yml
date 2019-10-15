@@ -1,24 +1,37 @@
 version: 2
 
 jobs:
+  lint:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - run: pip3 install -U black flake8 --user
+      - run: black --check .
+      - run: flake8 .
   build:
     working_directory: ~/work
     docker:
-      - image: ubuntu:18.04
+      - image: circleci/python:3
     steps:
-      - run: apt-get update
-      - run: apt-get install -y python3-pip
-      - run: pip3 install -U pytest pytest-cov flake8 black excode
+      - run: pip3 install -U pytest pytest-cov excode --user
       - checkout
-      - run: pip3 install .[all]
-      # Lint before excode
-      - run: LC_ALL=C.UTF-8 black --check setup.py meshzoo/ test/*.py
-      - run: flake8 setup.py meshzoo/ test/*.py
+      - run: pip3 install .[all] --user
       # extract code snippets from readme
       - run: excode README.md test/readme_test.py --filter python
       - run: echo -e "import meshzoo\n$(cat test/readme_test.py)" > test/readme_test.py
       # The actual test
-      - run: cd test/ && MPLBACKEND=Agg pytest --cov meshzoo
+      - run:
+          command: pytest --cov meshzoo
+          working_directory: test/
+          environment:
+            MPLBACKEND: Agg
       # submit to codecov
-      - run: apt-get install -y curl
       - run: bash <(curl -s https://codecov.io/bash) -R ~/work
+
+workflows:
+  version: 2
+  lint_and_build:
+    jobs:
+      - lint
+      - build
