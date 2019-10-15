@@ -23,9 +23,13 @@ clean:
 	@find . | grep -E "(__pycache__|\.pyc|\.pyo$\)" | xargs rm -rf
 	@rm -rf *.egg-info/ build/ dist/
 
+format:
+	isort -rc .
+	black .
+
 black:
-	black setup.py meshzoo/ test/*.py examples/
+	black .
 
 lint:
-	black --check setup.py meshzoo/ test/*.py examples/
-	flake8 setup.py meshzoo/ test/*.py examples/
+	black --check .
+	flake8 .

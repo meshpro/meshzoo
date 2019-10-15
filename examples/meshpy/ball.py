@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
 from meshpy.tet import MeshInfo, build
 from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, GeometryBuilder
 import numpy as np

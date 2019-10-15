@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Creates a mesh on a rectangle in the x-y-plane.
 """

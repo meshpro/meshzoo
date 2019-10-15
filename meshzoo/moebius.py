@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-#
 import numpy
 
 
-# pylint: disable=too-many-locals
 def moebius(
     num_twists=1,  # How many twists are there in the 'paper'?
     nl=60,  # Number of nodes along the length of the strip

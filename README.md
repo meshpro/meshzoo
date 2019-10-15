@@ -2,7 +2,7 @@
 
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg)](https://circleci.com/gh/nschloe/meshzoo)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg)](https://codecov.io/gh/nschloe/meshzoo)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg)](https://pypi.org/project/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
 
@@ -11,7 +11,7 @@ simple that you don't need a complex mesh generator (like
 [pygmsh](https://github.com/nschloe/pygmsh/),
 [MeshPy](https://github.com/inducer/meshpy),
 [mshr](https://bitbucket.org/fenics-project/mshr),
-[pygalmesh](https://github.com/nschloe/pygalmesh/)),
+[pygalmesh](https://github.com/nschloe/pygalmesh/),
 [dmsh](https://github.com/nschloe/dmsh/)),
 but something simple and fast
 that makes use of the symmetries of the domain. Enter meshzoo.
@@ -110,17 +110,6 @@ To run the meshzoo unit tests, check out this repository and run
 ```
 pytest
 ```
-
-### Distribution
-
-To create a new release
-
-1. bump the `__version__` number,
-
-2. create Git tag and upload to PyPi:
-    ```
-    make publish
-    ```
 
 ### License
 

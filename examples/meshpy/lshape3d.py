@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Creates meshes on a 3D L-shape.
 """
 import meshpy.tet

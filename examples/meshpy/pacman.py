@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Creates a mesh for a circle with a cut.
 """
