@@ -17,7 +17,6 @@ def test_cube():
     assert len(points) == 27
     assert all(numpy.sum(points, axis=0) == [13.5, 13.5, 13.5])
     assert len(cells) == 40
-    return
 
 
 def test_hexagon():
@@ -25,7 +24,6 @@ def test_hexagon():
     assert len(points) == 61
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 96
-    return
 
 
 @pytest.mark.parametrize(
@@ -42,7 +40,6 @@ def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
     sum_points2 = numpy.sum(points ** 2, axis=0)
     assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
-    return
 
 
 @pytest.mark.parametrize(
@@ -71,7 +68,6 @@ def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
     sum_points2 = numpy.sum(points ** 2, axis=0)
     assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
-    return
 
 
 @pytest.mark.parametrize(
@@ -88,7 +84,6 @@ def test_moebius3(num_twists, num_points, num_cells, ref1, ref2):
     assert _near_equal(numpy.sum(points, axis=0), ref1, tol=1.0e-10)
     sum_points2 = numpy.sum(points ** 2, axis=0)
     assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
-    return
 
 
 def test_pseudomoebius():
@@ -99,7 +94,6 @@ def test_pseudomoebius():
     sum_points2 = numpy.sum(points ** 2, axis=0)
     ref2 = [2753575 / 9.0, 2724125 / 9.0, 58900 / 3.0]
     assert numpy.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
-    return
 
 
 def test_rectangle():
@@ -132,15 +126,12 @@ def test_rectangle():
     assert set(cells[0]) == set([0, 1, 4])
     assert set(cells[2]) == set([0, 3, 4])
 
-    return
-
 
 def test_simple_arrow():
     points, cells = meshzoo.simple_arrow()
     assert len(points) == 5
     assert _near_equal(numpy.sum(points, axis=0), [7.0, 0.0, 0.0])
     assert len(cells) == 4
-    return
 
 
 def test_simple_shell():
@@ -148,7 +139,6 @@ def test_simple_shell():
     assert len(points) == 5
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 1.0])
     assert len(cells) == 4
-    return
 
 
 def test_uv_sphere():
@@ -156,7 +146,6 @@ def test_uv_sphere():
     assert len(points) == 162
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
-    return
 
 
 def test_iso_sphere():
@@ -164,7 +153,6 @@ def test_iso_sphere():
     assert len(points) == 2562
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 5120
-    return
 
 
 def test_triangle():
@@ -172,7 +160,6 @@ def test_triangle():
     assert len(points) == 15
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 16
-    return
 
 
 def test_tube():
@@ -180,83 +167,71 @@ def test_tube():
     assert len(points) == 20
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 20
-    return
 
 
 def test_plot2d():
     points, cells = meshzoo.triangle(4)
     meshzoo.show2d(points, cells)
-    return
 
 
 # def test_ball():
 #     points, cells = meshzoo.meshpy.ball.create_ball_mesh(10)
 #     assert len(points) == 1360
 #     assert len(cells) == 5005
-#     return
 #
 #
 # def test_cube():
 #     points, cells = meshzoo.meshpy.cube.create_mesh(10)
 #     assert len(points) == 50
 #     assert len(cells) == 68
-#     return
 #
 #
 # def test_ellipse():
 #     points, cells = meshzoo.meshpy.ellipse.create_mesh(0.5, 1, 100)
 #     assert len(points) == 1444
 #     assert len(cells) == 2774
-#     return
 #
 #
 # def test_lshape():
 #     points, cells = meshzoo.meshpy.lshape.create_mesh()
 #     assert len(points) == 38
 #     assert len(cells) == 58
-#     return
 #
 #
 # def test_lshape3d():
 #     points, cells = meshzoo.meshpy.lshape3d.create_mesh()
 #     assert len(points) == 943
 #     assert len(cells) == 3394
-#     return
 #
 #
 # def test_pacman():
 #     points, cells = meshzoo.meshpy.pacman.create_pacman_mesh()
 #     assert len(points) == 446
 #     assert len(cells) == 831
-#     return
 #
 #
 # def test_rectangle():
 #     points, cells = meshzoo.meshpy.rectangle.create_mesh()
 #     assert len(points) == 88
 #     assert len(cells) == 150
-#     return
 #
 #
 # def test_rectangle_with_hole():
 #     points, cells = meshzoo.meshpy.rectangle_with_hole.create_mesh()
 #     assert len(points) == 570
 #     assert len(cells) == 964
-#     return
 #
 #
 # def test_tetrahedron():
 #     points, cells = meshzoo.meshpy.tetrahedron.create_tetrahedron_mesh()
 #     assert len(points) == 604
 #     assert len(cells) == 1805
-#     return
 #
 #
 # def test_torus():
 #     points, cells = meshzoo.meshpy.torus.create_mesh()
 #     assert len(points) == 921
 #     assert len(cells) == 2681
-#     return
 
 
 # Disable for now since Gmsh doesn't pass for the version installed on travis
@@ -265,7 +240,6 @@ def test_plot2d():
 #     points, cells = meshzoo.pygmsh.screw.create_screw_mesh()
 #     assert len(points) == 2412
 #     assert len(cells) == 7934
-#     return
 
 
 # Disable for now since we need mshr in a dev version for mshr.Extrude2D
@@ -273,7 +247,6 @@ def test_plot2d():
 #     points, cells = meshzoo.mshr.toy.create_toy_mesh()
 #     assert len(points) == 2760
 #     assert len(cells) == 11779
-#     return
 
 
 # if __name__ == '__main__':
@@ -293,4 +266,3 @@ def test_edges():
         == [[0, 1], [0, 3], [1, 2], [1, 3], [1, 4], [2, 4], [3, 4], [3, 5], [4, 5]]
     )
     assert numpy.all(edges_cells == [[3, 1, 0], [5, 4, 2], [6, 3, 4], [8, 7, 6]])
-    return

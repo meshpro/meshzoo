@@ -160,7 +160,6 @@ def show2d(*args, **kwargs):
 
     plot2d(*args, **kwargs)
     plt.show()
-    return
 
 
 def plot2d(points, cells, mesh_color="k", show_axes=False):
