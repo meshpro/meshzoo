@@ -214,7 +214,6 @@ def iso_sphere(n):
         # translation table
         num_nodes_per_triangle = (n + 1) * (n + 2) // 2
         tt = numpy.empty(num_nodes_per_triangle, dtype=int)
-        tt[:] = -1
 
         # first the corners
         tt[0] = corner_nodes[corners[0]]
@@ -253,8 +252,6 @@ def iso_sphere(n):
                 j += 1
                 idx += 1
             idx += 2
-
-        assert all(tt >= 0)  # TODO remove assertion
 
         cells += [tt[triangle_cells]]
         vertex_count += num_new_vertices
