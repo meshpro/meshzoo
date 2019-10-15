@@ -2,10 +2,7 @@ import numpy
 import pytest
 
 import meshzoo
-
-
-def _near_equal(a, b, tol=1.0e-12):
-    return numpy.allclose(a, b, rtol=0.0, atol=tol)
+from helpers import _near_equal
 
 
 def test_cube():
