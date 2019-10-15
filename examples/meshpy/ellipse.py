@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-import meshpy.triangle
 import numpy as np
 from scipy import special
+
+import meshpy.triangle
 
 
 def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):

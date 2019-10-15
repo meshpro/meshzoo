@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-#
 import numpy
 
-from .helpers import create_edges, _refine
+from .helpers import _refine, create_edges
 
 
-# pylint: disable=too-many-locals
 def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     # Mesh parameters
     n_phi = num_points_per_circle

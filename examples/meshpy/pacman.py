@@ -1,10 +1,9 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Creates a mesh for a circle with a cut.
 """
-import meshpy.triangle
 import numpy as np
+
+import meshpy.triangle
 
 
 def create_pacman_mesh(num_boundary_points=50):

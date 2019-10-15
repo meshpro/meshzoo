@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-#
 import numpy
 
 
-# pylint: disable=too-many-locals, too-many-statements
 def _refine(node_coords, cells_nodes, edge_nodes, cells_edges):
     """Canonically refine a mesh by inserting nodes at all edge midpoints
     and make four triangular elements where there was one.
@@ -163,7 +160,6 @@ def show2d(*args, **kwargs):
 
     plot2d(*args, **kwargs)
     plt.show()
-    return
 
 
 def plot2d(points, cells, mesh_color="k", show_axes=False):

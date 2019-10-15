@@ -1,9 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Creates meshes on a 3D L-shape.
 """
-import meshpy.tet
 import numpy as np
+
+import meshpy.tet
 
 
 def create_mesh(maxvol):

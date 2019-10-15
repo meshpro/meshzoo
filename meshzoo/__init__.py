@@ -1,18 +1,15 @@
-# -*- coding: utf-8 -*-
-#
-from meshzoo.__about__ import __version__, __author__, __author_email__, __website__
+from meshzoo.__about__ import __author__, __author_email__, __version__, __website__
 
 from .cube import cube
+from .helpers import create_edges, plot2d, show2d
 from .hexagon import hexagon
 from .moebius import moebius
 from .rectangle import rectangle
 from .simple_arrow import simple_arrow
 from .simple_shell import simple_shell
-from .sphere import uv_sphere, iso_sphere
+from .sphere import iso_sphere, uv_sphere
 from .triangle import triangle
 from .tube import tube
-
-from .helpers import plot2d, show2d, create_edges
 
 __all__ = [
     "__version__",

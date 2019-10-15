@@ -1,10 +1,9 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Creates a mesh on a rectangle in the x-y-plane.
 """
-import meshpy.triangle
 import numpy as np
+
+import meshpy.triangle
 
 
 def create_mesh(edgelength=1.0, max_area=0.01):

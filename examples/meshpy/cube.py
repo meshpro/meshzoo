@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
 """
 Creates meshes on a cube.
 """
-import meshpy.tet
 import numpy as np
+
+import meshpy.tet
 
 
 def create_mesh(maxvol):

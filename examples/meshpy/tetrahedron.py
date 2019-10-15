@@ -2,8 +2,9 @@
 """
 Create irregular mesh on a regular tetrahedron centered at the origin.
 """
-import meshpy.tet
 import numpy as np
+
+import meshpy.tet
 
 
 def create_tetrahedron_mesh(maxvol=0.1):
