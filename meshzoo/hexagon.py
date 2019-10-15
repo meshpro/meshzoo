@@ -1,5 +1,5 @@
 import numpy
-from numpy import sin, cos, pi
+from numpy import cos, pi, sin
 
 from .helpers import _refine, create_edges
 

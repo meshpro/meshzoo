@@ -1,6 +1,7 @@
-from meshpy.tet import MeshInfo, build
-from meshpy.geometry import generate_surface_of_revolution, EXT_OPEN, GeometryBuilder
 import numpy as np
+
+from meshpy.geometry import EXT_OPEN, GeometryBuilder, generate_surface_of_revolution
+from meshpy.tet import MeshInfo, build
 
 
 def create_ball_mesh(num_longi_points=10):

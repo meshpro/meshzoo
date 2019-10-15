@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-from meshpy.tet import MeshInfo, build
+import numpy as np
+
 from meshpy.geometry import (
-    generate_surface_of_revolution,
     EXT_CLOSED_IN_RZ,
     GeometryBuilder,
+    generate_surface_of_revolution,
 )
-import numpy as np
+from meshpy.tet import MeshInfo, build
 
 
 def create_mesh(big_r=1.0, small_r=0.5, num_points=10):

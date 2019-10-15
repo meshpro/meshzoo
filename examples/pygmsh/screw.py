@@ -1,5 +1,6 @@
-import pygmsh as pg
 import numpy as np
+
+import pygmsh as pg
 
 
 def create_screw_mesh():

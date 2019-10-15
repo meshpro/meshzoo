@@ -1,6 +1,6 @@
 import numpy
 
-from .helpers import create_edges, _refine
+from .helpers import _refine, create_edges
 
 
 def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
