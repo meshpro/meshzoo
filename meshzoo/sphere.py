@@ -95,6 +95,7 @@ def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
 
 
 def iso_sphere(n):
+    assert n >= 1
     # Start off with an isosahedron and refine.
 
     # Construction from
@@ -193,18 +194,22 @@ def iso_sphere(n):
                 is_edge_reverted[k] = True
 
         # First create the interior points in barycentric coordinates
-        bary = (
-            numpy.hstack(
-                [
-                    [numpy.full(n - i - 1, i), numpy.arange(1, n - i)]
-                    for i in range(1, n)
-                ]
+        if n == 1:
+            num_new_vertices = 0
+        else:
+            bary = (
+                numpy.hstack(
+                    [
+                        [numpy.full(n - i - 1, i), numpy.arange(1, n - i)]
+                        for i in range(1, n)
+                    ]
+                )
+                / n
             )
-            / n
-        )
-        bary = numpy.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
-        corner_verts = numpy.array([vertices[0][i] for i in corners])
-        vertices.append(numpy.dot(corner_verts.T, bary).T)
+            bary = numpy.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
+            corner_verts = numpy.array([vertices[0][i] for i in corners])
+            vertices.append(numpy.dot(corner_verts.T, bary).T)
+            num_new_vertices = len(vertices[-1])
 
         # translation table
         num_nodes_per_triangle = (n + 1) * (n + 2) // 2
@@ -252,7 +257,7 @@ def iso_sphere(n):
         assert all(tt >= 0)  # TODO remove assertion
 
         cells += [tt[triangle_cells]]
-        vertex_count += len(vertices[-1])
+        vertex_count += num_new_vertices
 
     vertices = numpy.concatenate(vertices)
     cells = numpy.concatenate(cells)
