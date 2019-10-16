@@ -11,8 +11,8 @@ def test_uv_sphere():
     assert len(cells) == 320
 
 
-def test_isoca_sphere(n=16):
-    points, cells = meshzoo.isoca_sphere(n)
+def test_icosa_sphere(n=16):
+    points, cells = meshzoo.icosa_sphere(n)
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
     assert len(points) == 2562
