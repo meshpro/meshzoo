@@ -94,7 +94,44 @@ def uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0):
     return nodes, elems
 
 
-def iso_sphere(n):
+def tetra_sphere(n):
+    corners = numpy.array(
+        [
+            [2 * numpy.sqrt(2) / 3, 0.0, -1.0 / 3.0],
+            [-numpy.sqrt(2) / 3, numpy.sqrt(2.0 / 3.0), -1.0 / 3.0],
+            [-numpy.sqrt(2) / 3, -numpy.sqrt(2.0 / 3.0), -1.0 / 3.0],
+            [0.0, 0.0, 1.0],
+        ]
+    )
+    faces = [(0, 1, 2), (0, 1, 3), (0, 2, 3), (1, 2, 3)]
+    return _sphere_from_triangles(corners, faces, n)
+
+
+def octa_sphere(n):
+    corners = numpy.array(
+        [
+            [1.0, 0.0, 0.0],
+            [-1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, -1.0, 0.0],
+            [0.0, 0.0, 1.0],
+            [0.0, 0.0, -1.0],
+        ]
+    )
+    faces = [
+        (0, 2, 4),
+        (1, 2, 4),
+        (1, 3, 4),
+        (0, 3, 4),
+        (0, 2, 5),
+        (1, 2, 5),
+        (1, 3, 5),
+        (0, 3, 5),
+    ]
+    return _sphere_from_triangles(corners, faces, n)
+
+
+def isoca_sphere(n):
     assert n >= 1
     # Start off with an isosahedron and refine.
 
@@ -102,30 +139,24 @@ def iso_sphere(n):
     # <http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html>.
     # Create 12 vertices of a icosahedron.
     t = (1.0 + numpy.sqrt(5.0)) / 2.0
-    vertices = []
-    vertex_count = 0
-    vertices += [
-        numpy.array(
-            [
-                [-1, +t, +0],
-                [+1, +t, +0],
-                [-1, -t, +0],
-                [+1, -t, +0],
-                #
-                [+0, -1, +t],
-                [+0, +1, +t],
-                [+0, -1, -t],
-                [+0, +1, -t],
-                #
-                [+t, +0, -1],
-                [+t, +0, +1],
-                [-t, +0, -1],
-                [-t, +0, +1],
-            ]
-        )
-    ]
-    vertex_count += len(vertices[-1])
-    corner_nodes = numpy.arange(12)
+    corners = numpy.array(
+        [
+            [-1, +t, +0],
+            [+1, +t, +0],
+            [-1, -t, +0],
+            [+1, -t, +0],
+            #
+            [+0, -1, +t],
+            [+0, +1, +t],
+            [+0, -1, -t],
+            [+0, +1, -t],
+            #
+            [+t, +0, -1],
+            [+t, +0, +1],
+            [-t, +0, -1],
+            [-t, +0, +1],
+        ]
+    )
 
     faces = [
         (0, 11, 5),
@@ -149,6 +180,13 @@ def iso_sphere(n):
         (8, 6, 7),
         (9, 8, 1),
     ]
+    return _sphere_from_triangles(corners, faces, n)
+
+
+def _sphere_from_triangles(corners, faces, n):
+    vertices = [corners]
+    vertex_count = len(corners)
+    corner_nodes = numpy.arange(len(corners))
 
     # create edges
     edges = set()
