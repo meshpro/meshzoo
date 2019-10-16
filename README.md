@@ -71,7 +71,7 @@ isocahedron has the highest-quality (most equilateral) triangles.
 <img src="https://nschloe.github.io/meshzoo/octa-sphere.png" width="70%"> |
 <img src="https://nschloe.github.io/meshzoo/isoca-sphere.png" width="70%">
 :-------------------:|:------------------:|:----------:|
-`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.isoca_sphere(8)` |
+`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.isoca_sphere(10)` |
 
 
 #### Tube
