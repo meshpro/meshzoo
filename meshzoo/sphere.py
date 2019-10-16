@@ -131,7 +131,7 @@ def octa_sphere(n):
     return _sphere_from_triangles(corners, faces, n)
 
 
-def isoca_sphere(n):
+def icosa_sphere(n):
     assert n >= 1
     # Start off with an isosahedron and refine.
 
