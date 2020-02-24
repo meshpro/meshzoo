@@ -113,15 +113,15 @@ def test_rectangle():
     assert len(points) == 6
     assert _near_equal(numpy.sum(points, axis=0), [3.0, 3.0, 0.0])
     assert len(cells) == 4
-    assert set(cells[0]) == set([0, 1, 4])
-    assert set(cells[2]) == set([0, 3, 4])
+    assert set(cells[0]) == {0, 1, 4}
+    assert set(cells[2]) == {0, 3, 4}
 
     points, cells = meshzoo.rectangle(nx=3, ny=2, zigzag=True)
     assert len(points) == 6
     assert _near_equal(numpy.sum(points, axis=0), [3.0, 3.0, 0.0])
     assert len(cells) == 4
-    assert set(cells[0]) == set([0, 1, 4])
-    assert set(cells[2]) == set([0, 3, 4])
+    assert set(cells[0]) == {0, 1, 4}
+    assert set(cells[2]) == {0, 3, 4}
 
 
 def test_simple_arrow():
