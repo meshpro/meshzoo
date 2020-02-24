@@ -27,7 +27,7 @@ import meshzoo
 points, cells = meshzoo.triangle(8)
 
 # Process the mesh, e.g., write it to a file using meshio
-# meshio.write('rectangle.e', points, {'triangle': cells})
+# meshio.write_points_cells('rectangle.vtk', points, {'triangle': cells})
 ```
 
 #### Rectangle
@@ -105,11 +105,11 @@ contains a couple of instructive examples for other mesh generators.
 ### Installation
 
 meshzoo is [available from the Python Package
-Index](https://pypi.org/project/meshzoo/), so simply
+Index](https://pypi.org/project/meshzoo/), so simply do
 ```
-pip install meshzoo -U --user
+pip install meshzoo
 ```
-to install/upgrade.
+to install.
 
 ### Testing
 

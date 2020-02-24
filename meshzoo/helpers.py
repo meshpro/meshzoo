@@ -2,9 +2,9 @@ import numpy
 
 
 def _refine(node_coords, cells_nodes, edge_nodes, cells_edges):
-    """Canonically refine a mesh by inserting nodes at all edge midpoints
-    and make four triangular elements where there was one.
-    This is a very crude refinement; don't use for actual applications.
+    """Canonically refine a mesh by inserting nodes at all edge midpoints and make four
+    triangular elements where there was one.  This is a very crude refinement; don't use
+    for actual applications.
     """
     num_nodes = len(node_coords)
     num_new_nodes = len(edge_nodes)
