@@ -3,6 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg?style=flat-square)](https://circleci.com/gh/nschloe/meshzoo)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg?style=flat-square)](https://codecov.io/gh/nschloe/meshzoo)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/pypi/meshzoo/)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
 [![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)
@@ -27,7 +28,7 @@ import meshzoo
 points, cells = meshzoo.triangle(8)
 
 # Process the mesh, e.g., write it to a file using meshio
-# meshio.write('rectangle.e', points, {'triangle': cells})
+# meshio.write_points_cells('rectangle.vtk', points, {'triangle': cells})
 ```
 
 #### Rectangle
@@ -105,11 +106,11 @@ contains a couple of instructive examples for other mesh generators.
 ### Installation
 
 meshzoo is [available from the Python Package
-Index](https://pypi.org/project/meshzoo/), so simply
+Index](https://pypi.org/project/meshzoo/), so simply do
 ```
-pip install meshzoo -U --user
+pip install meshzoo
 ```
-to install/upgrade.
+to install.
 
 ### Testing
 
