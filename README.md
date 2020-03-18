@@ -69,11 +69,9 @@ solids](https://en.wikipedia.org/wiki/Platonic_solid) and then "inflating" them.
 implements a few of them. The sphere generated from the icosahedron has the
 highest-quality (most equilateral) triangles.
 
-<img src="https://nschloe.github.io/meshzoo/tetra-sphere.png" width="70%"> |
-<img src="https://nschloe.github.io/meshzoo/octa-sphere.png" width="70%"> |
-<img src="https://nschloe.github.io/meshzoo/icosa-sphere.png" width="70%">
-:-------------------:|:------------------:|:----------:|
-`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.icosa_sphere(10)` |
+| <img src="https://nschloe.github.io/meshzoo/tetra-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/octa-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/icosa-sphere.png" width="70%"> |
+| :----: | :---: | :---: |
+|`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.icosa_sphere(10)` |
 
 
 #### Tube
