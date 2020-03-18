@@ -21,7 +21,7 @@ meshzoo.
 ### Examples
 
 #### Triangle
-<img src="https://nschloe.github.io/meshzoo/triangle.png" width="20%">
+<img src="https://nschloe.github.io/meshzoo/triangle.svg" width="20%">
 
 ```python
 import meshzoo
@@ -32,7 +32,7 @@ points, cells = meshzoo.triangle(8)
 ```
 
 #### Rectangle
-<img src="https://nschloe.github.io/meshzoo/rectangle.png" width="20%">
+<img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="20%">
 
 ```python
 points, cells = meshzoo.rectangle(
@@ -44,7 +44,7 @@ points, cells = meshzoo.rectangle(
 ```
 
 #### Hexagon
-<img src="https://nschloe.github.io/meshzoo/hexagon.png" width="20%">
+<img src="https://nschloe.github.io/meshzoo/hexagon.svg" width="20%">
 
 ```python
 points, cells = meshzoo.hexagon(3)
