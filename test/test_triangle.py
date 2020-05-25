@@ -6,12 +6,8 @@ from helpers import _near_equal
 
 def _get_points(bary):
     corners = numpy.array(
-        [
-            [0.0, 1.0],
-            [-0.5 * numpy.sqrt(3.0), -0.5],
-            [+0.5 * numpy.sqrt(3.0), -0.5],
-        ]
-    ).T
+        [[0.0, -0.5 * numpy.sqrt(3.0), +0.5 * numpy.sqrt(3.0)], [1.0, -0.5, -0.5]]
+    )
     return numpy.dot(corners, bary).T
 
 
