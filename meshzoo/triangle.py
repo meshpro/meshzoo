@@ -4,9 +4,9 @@ import numpy
 def triangle(n, corners=None):
     if corners is None:
         corners = [
-            [0.0, 1.0, 0.0],
-            [-0.5 * numpy.sqrt(3.0), -0.5, 0.0],
-            [+0.5 * numpy.sqrt(3.0), -0.5, 0.0],
+            [0.0, 1.0],
+            [-0.5 * numpy.sqrt(3.0), -0.5],
+            [+0.5 * numpy.sqrt(3.0), -0.5],
         ]
     corners = numpy.array(corners)
 
