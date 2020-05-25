@@ -5,6 +5,6 @@ except ImportError:
     import importlib_metadata as metadata
 
 try:
-    __version__ = metadata.version("optimesh")
+    __version__ = metadata.version("meshzoo")
 except Exception:
     __version__ = "unknown"
