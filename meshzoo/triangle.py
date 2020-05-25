@@ -1,15 +1,25 @@
 import numpy
 
 
-def triangle(n, corners=None):
-    if corners is None:
-        corners = [
-            [0.0, 1.0],
-            [-0.5 * numpy.sqrt(3.0), -0.5],
-            [+0.5 * numpy.sqrt(3.0), -0.5],
-        ]
-    corners = numpy.array(corners)
+class Tri:
+    def __init__(self, bary, cells):
+        self.bary = bary
+        self.cells = cells
 
+    def points(self, corners=None):
+        if corners is None:
+            corners = numpy.array(
+                [
+                    [0.0, 1.0],
+                    [-0.5 * numpy.sqrt(3.0), -0.5],
+                    [+0.5 * numpy.sqrt(3.0), -0.5],
+                ]
+            ).T
+        corners = numpy.asarray(corners)
+        return numpy.dot(corners, self.bary).T
+
+
+def triangle(n):
     # First create the mesh in barycentric coordinates
     bary = (
         numpy.hstack(
@@ -18,7 +28,6 @@ def triangle(n, corners=None):
         / n
     )
     bary = numpy.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
-    points = numpy.dot(corners.T, bary).T
 
     cells = []
     k = 0
@@ -34,4 +43,4 @@ def triangle(n, corners=None):
 
     cells = numpy.vstack(cells)
 
-    return points, cells
+    return bary, cells
