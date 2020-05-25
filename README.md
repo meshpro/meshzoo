@@ -1,6 +1,6 @@
 # meshzoo
 
-[![CircleCI](https://img.shields.io/circleci/project/github/nschloe/meshzoo/master.svg?style=flat-square)](https://circleci.com/gh/nschloe/meshzoo)
+[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/meshzoo/ci?style=flat-square)](https://github.com/nschloe/meshzoo/actions?query=workflow%3Aci)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg?style=flat-square)](https://codecov.io/gh/nschloe/meshzoo)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/pypi/meshzoo/)
@@ -28,7 +28,7 @@ import meshzoo
 points, cells = meshzoo.triangle(8)
 
 # Process the mesh, e.g., write it to a file using meshio
-# meshio.write_points_cells('rectangle.vtk', points, {'triangle': cells})
+# meshio.write_points_cells("triangle.vtk", points, {"triangle": cells})
 ```
 
 #### Rectangle
@@ -36,11 +36,11 @@ points, cells = meshzoo.triangle(8)
 
 ```python
 points, cells = meshzoo.rectangle(
-        xmin=0.0, xmax=1.0,
-        ymin=0.0, ymax=1.0,
-        nx=11, ny=11,
-        zigzag=True
-        )
+    xmin=0.0, xmax=1.0,
+    ymin=0.0, ymax=1.0,
+    nx=11, ny=11,
+    zigzag=True
+)
 ```
 
 #### Hexagon
@@ -86,11 +86,11 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 
 ```python
 points, cells = meshzoo.cube(
-        xmin=0.0, xmax=1.0,
-        ymin=0.0, ymax=1.0,
-        zmin=0.0, zmax=1.0,
-        nx=11, ny=11, nz=11
-        )
+    xmin=0.0, xmax=1.0,
+    ymin=0.0, ymax=1.0,
+    zmin=0.0, zmax=1.0,
+    nx=11, ny=11, nz=11
+)
 ```
 
 
