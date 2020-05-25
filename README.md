@@ -29,11 +29,10 @@ bary, cells = meshzoo.triangle(8)
 
 # corners = numpy.array(
 #     [
-#         [0.0, 1.0],
-#         [-0.5 * numpy.sqrt(3.0), -0.5],
-#         [+0.5 * numpy.sqrt(3.0), -0.5],
+#         [0.0, -0.5 * numpy.sqrt(3.0), +0.5 * numpy.sqrt(3.0)],
+#         [1.0, -0.5, -0.5],
 #     ]
-# ).T
+# )
 # points = numpy.dot(corners, bary).T
 
 # Process the mesh, e.g., write it to a file using meshio
