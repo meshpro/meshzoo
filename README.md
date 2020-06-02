@@ -47,7 +47,7 @@ points, cells = meshzoo.rectangle(
     xmin=0.0, xmax=1.0,
     ymin=0.0, ymax=1.0,
     nx=11, ny=11,
-    zigzag=True
+    variant="zigzag"   # "up", "down", "center"
 )
 ```
 
