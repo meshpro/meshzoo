@@ -3,7 +3,6 @@ from meshzoo.__about__ import __version__
 from .cube import cube
 from .disk import tri_disk, quad_disk
 from .helpers import create_edges, plot2d, show2d
-from .hexagon import hexagon
 from .moebius import moebius
 from .ngon import ngon
 from .rectangle import rectangle
@@ -19,8 +18,8 @@ __all__ = [
     "cube",
     "tri_disk",
     "quad_disk",
-    "hexagon",
     "moebius",
+    "ngon",
     "rectangle",
     "simple_arrow",
     "simple_shell",
