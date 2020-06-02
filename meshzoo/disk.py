@@ -45,7 +45,7 @@ def tri_disk(n, delaunay=True):
     return points, cells
 
 
-def quad_disk(n, delaunay=True):
+def quad_disk(n):
     sqrt12 = math.sqrt(0.5)
     points, cells = rectangle(
         xmin=-sqrt12,
@@ -88,11 +88,5 @@ def quad_disk(n, delaunay=True):
     edge_points = (-sqrt12 / pt[1]) * pt
     lengths = numpy.sqrt(numpy.einsum("ij,ij->j", edge_points, edge_points))
     points[:, idx] = pt / lengths
-
-    if delaunay:
-        mesh = meshplex.MeshTri(points.T, cells)
-        mesh.flip_until_delaunay()
-        points = mesh.node_coords.T
-        cells = mesh.cells["nodes"]
 
     return points.T, cells
