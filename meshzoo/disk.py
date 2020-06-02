@@ -1,6 +1,9 @@
+import math
+
 import meshplex
 import numpy
 
+from .rectangle import rectangle
 from .triangle import triangle
 
 
@@ -40,3 +43,50 @@ def tri_disk(n, delaunay=True):
         cells = mesh.cells["nodes"]
 
     return points, cells
+
+
+def quad_disk(n, delaunay=True):
+    sqrt12 = math.sqrt(0.5)
+    points, cells = rectangle(
+        xmin=-sqrt12, xmax=+sqrt12, ymin=-sqrt12, ymax=+sqrt12, nx=n, ny=n, zigzag=True
+    )
+
+    points = points.T
+
+    # right
+    idx = (points[0] + points[1] > 0) & (points[0] - points[1] > 0)
+    # extrapolate the line [0, 0]-->point further till point[0] == sqrt2, i.e., it sits
+    # on the edge.
+    pt = points[:, idx]
+    edge_points = (sqrt12 / pt[0]) * pt
+    lengths = numpy.sqrt(numpy.einsum("ij,ij->j", edge_points, edge_points))
+    points[:, idx] = pt / lengths
+
+    # top
+    idx = (points[0] + points[1] > 0) & (points[0] - points[1] < 0)
+    pt = points[:, idx]
+    edge_points = (sqrt12 / pt[1]) * pt
+    lengths = numpy.sqrt(numpy.einsum("ij,ij->j", edge_points, edge_points))
+    points[:, idx] = pt / lengths
+
+    # left
+    idx = (points[0] + points[1] < 0) & (points[0] - points[1] < 0)
+    pt = points[:, idx]
+    edge_points = (-sqrt12 / pt[0]) * pt
+    lengths = numpy.sqrt(numpy.einsum("ij,ij->j", edge_points, edge_points))
+    points[:, idx] = pt / lengths
+
+    # bottom
+    idx = (points[0] + points[1] < 0) & (points[0] - points[1] > 0)
+    pt = points[:, idx]
+    edge_points = (-sqrt12 / pt[1]) * pt
+    lengths = numpy.sqrt(numpy.einsum("ij,ij->j", edge_points, edge_points))
+    points[:, idx] = pt / lengths
+
+    if delaunay:
+        mesh = meshplex.MeshTri(points.T, cells)
+        mesh.flip_until_delaunay()
+        points = mesh.node_coords.T
+        cells = mesh.cells["nodes"]
+
+    return points.T, cells
