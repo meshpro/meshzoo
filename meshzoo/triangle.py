@@ -1,24 +1,6 @@
 import numpy
 
 
-class Tri:
-    def __init__(self, bary, cells):
-        self.bary = bary
-        self.cells = cells
-
-    def points(self, corners=None):
-        if corners is None:
-            corners = numpy.array(
-                [
-                    [0.0, 1.0],
-                    [-0.5 * numpy.sqrt(3.0), -0.5],
-                    [+0.5 * numpy.sqrt(3.0), -0.5],
-                ]
-            ).T
-        corners = numpy.asarray(corners)
-        return numpy.dot(corners, self.bary).T
-
-
 def triangle(n):
     # First create the mesh in barycentric coordinates
     bary = (

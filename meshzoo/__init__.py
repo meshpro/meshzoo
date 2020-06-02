@@ -1,6 +1,7 @@
 from meshzoo.__about__ import __version__
 
 from .cube import cube
+from .disk import tri_disk
 from .helpers import create_edges, plot2d, show2d
 from .hexagon import hexagon
 from .moebius import moebius
