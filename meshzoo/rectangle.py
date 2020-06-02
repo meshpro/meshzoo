@@ -12,9 +12,7 @@ def _canonical(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.dstack(numpy.meshgrid(x_range, y_range, numpy.array([0.0]))).reshape(
-        -1, 3
-    )
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
 
     # Create the elements (cells).
     # a = [i + j*nx]
@@ -30,9 +28,7 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.dstack(numpy.meshgrid(x_range, y_range, numpy.array([0.0]))).reshape(
-        -1, 3
-    )
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
 
     # Create the elements (cells).
     # a = [i + j*nx]
