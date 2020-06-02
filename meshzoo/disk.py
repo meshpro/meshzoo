@@ -48,7 +48,13 @@ def tri_disk(n, delaunay=True):
 def quad_disk(n, delaunay=True):
     sqrt12 = math.sqrt(0.5)
     points, cells = rectangle(
-        xmin=-sqrt12, xmax=+sqrt12, ymin=-sqrt12, ymax=+sqrt12, nx=n, ny=n, zigzag=True
+        xmin=-sqrt12,
+        xmax=+sqrt12,
+        ymin=-sqrt12,
+        ymax=+sqrt12,
+        nx=n,
+        ny=n,
+        variant="center",
     )
 
     points = points.T
