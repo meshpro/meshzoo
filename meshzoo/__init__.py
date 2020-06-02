@@ -5,6 +5,7 @@ from .disk import tri_disk, quad_disk
 from .helpers import create_edges, plot2d, show2d
 from .hexagon import hexagon
 from .moebius import moebius
+from .ngon import ngon
 from .rectangle import rectangle
 from .simple_arrow import simple_arrow
 from .simple_shell import simple_shell

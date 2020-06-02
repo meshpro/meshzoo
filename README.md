@@ -15,7 +15,7 @@ that you don't need a complex mesh generator (like
 [mshr](https://bitbucket.org/fenics-project/mshr),
 [pygalmesh](https://github.com/nschloe/pygalmesh/),
 [dmsh](https://github.com/nschloe/dmsh/)),
-but something simple and fast that makes use of the symmetries of the domain. Enter
+but something simple and fast that makes use of the structure of the domain. Enter
 meshzoo.
 
 ### Examples
