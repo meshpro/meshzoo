@@ -42,11 +42,17 @@ def show2d(*args, **kwargs):
     plt.show()
 
 
-def plot2d(points, cells, mesh_color="k", show_axes=False):
+def save2d(filename, *args, **kwargs):
+    import matplotlib.pyplot as plt
+
+    plot2d(*args, **kwargs)
+    plt.savefig(filename, transparent=True, bbox_inches="tight")
+
+
+def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
     """Plot a 2D mesh using matplotlib.
     """
     import matplotlib.pyplot as plt
-    from matplotlib.collections import LineCollection
 
     fig = plt.figure()
     ax = fig.gca()
@@ -70,12 +76,14 @@ def plot2d(points, cells, mesh_color="k", show_axes=False):
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
 
-    edge_nodes, _ = create_edges(cells)
+    for cell in cells:
+        import matplotlib.patches
+        poly = matplotlib.patches.Polygon(points[cell], ec=edge_color, fc=face_color)
+        ax.add_patch(poly)
 
-    # Get edges, cut off z-component.
-    e = points[edge_nodes][:, :, :2]
-    line_segments = LineCollection(e, color=mesh_color)
-    ax.add_collection(line_segments)
+    # import matplotlib.tri
+    # tri = matplotlib.tri.Triangulation(points[:,0], points[:,1], triangles=cells)
+    # ax.triplot(tri, '-', lw=1, color="k")
     return fig
 
 

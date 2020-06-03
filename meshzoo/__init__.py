@@ -2,7 +2,7 @@ from meshzoo.__about__ import __version__
 
 from .cube import cube
 from .disk import ngon_disk, quad_disk, tri_disk
-from .helpers import create_edges, plot2d, show2d
+from .helpers import create_edges, plot2d, save2d, show2d
 from .moebius import moebius
 from .ngon import ngon
 from .rectangle import rectangle
@@ -31,6 +31,7 @@ __all__ = [
     "triangle",
     "tube",
     #
+    "save2d",
     "show2d",
     "plot2d",
     "create_edges",
