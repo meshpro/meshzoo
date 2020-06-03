@@ -52,7 +52,7 @@ points, cells = meshzoo.rectangle(
 ```
 
 #### Regular polygon
-| <img src="https://nschloe.github.io/meshzoo/4gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/9gon.svg" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/4gon.svg" width="100%"> | <img src="https://nschloe.github.io/meshzoo/6gon.svg" width="100%"> | <img src="https://nschloe.github.io/meshzoo/9gon.svg" width="100%"> |
 | :----: | :---: | :---: |
 |`meshzoo.ngon(4, 8)` | `meshzoo.ngon(6, 8)` | `meshzoo.ngon(9, 8)` |
 
@@ -61,7 +61,7 @@ points, cells = meshzoo.ngon(5, 11)
 ```
 
 #### Disk
-| <img src="https://nschloe.github.io/meshzoo/tri_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/quad_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon_disk.svg" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/tri_disk.svg" width="100%"> | <img src="https://nschloe.github.io/meshzoo/quad_disk.svg" width="100%"> | <img src="https://nschloe.github.io/meshzoo/6gon_disk.svg" width="100%"> |
 | :----: | :---: | :---: |
 |`meshzoo.tri_disk(15)` | `meshzoo.quad_disk(21)` | `meshzoo.ngon_disk(6, 8)` |
 
