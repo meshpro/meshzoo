@@ -79,7 +79,8 @@ def plot2d(points, cells, mesh_color="k", show_axes=False):
     return fig
 
 
-def _compose_from_faces(corners, faces, n):
+def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
+    # create corner nodes
     vertices = [corners]
     vertex_count = len(corners)
     corner_nodes = numpy.arange(len(corners))
@@ -100,7 +101,10 @@ def _compose_from_faces(corners, faces, n):
     k = corners.shape[0]
     for edge in edges:
         i0, i1 = edge
-        vertices += [numpy.outer(1 - t, corners[i0]) + numpy.outer(t, corners[i1])]
+        new_vertices = numpy.outer(1 - t, corners[i0]) + numpy.outer(t, corners[i1])
+        if edge_adjust:
+            new_vertices = edge_adjust(edge, new_vertices)
+        vertices.append(new_vertices)
         vertex_count += len(vertices[-1])
         edge_nodes[edge] = numpy.arange(k, k + len(t))
         k += len(t)
@@ -110,12 +114,14 @@ def _compose_from_faces(corners, faces, n):
     triangle_cells = []
     k = 0
     for i in range(n):
-        for j in range(n - i):
-            triangle_cells.append([k + j, k + j + 1, k + n - i + j + 1])
-        for j in range(n - i - 1):
-            triangle_cells.append([k + j + 1, k + n - i + j + 2, k + n - i + j + 1])
+        j = numpy.arange(n - i)
+        triangle_cells.append(numpy.column_stack([k + j, k + j + 1, k + n - i + j + 1]))
+        j = j[:-1]
+        triangle_cells.append(
+            numpy.column_stack([k + j + 1, k + n - i + j + 2, k + n - i + j + 1])
+        )
         k += n - i + 1
-    triangle_cells = numpy.array(triangle_cells)
+    triangle_cells = numpy.vstack(triangle_cells)
 
     cells = []
     for face in faces:
@@ -142,7 +148,12 @@ def _compose_from_faces(corners, faces, n):
             )
             bary = numpy.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
             corner_verts = numpy.array([vertices[0][i] for i in corners])
-            vertices.append(numpy.dot(corner_verts.T, bary).T)
+            vertices_cart = numpy.dot(corner_verts.T, bary).T
+
+            if face_adjust:
+                vertices_cart = face_adjust(face, bary, vertices_cart, corner_verts)
+
+            vertices.append(vertices_cart)
             num_new_vertices = len(vertices[-1])
 
         # translation table

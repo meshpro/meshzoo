@@ -1,7 +1,6 @@
 import numpy
 
 import meshzoo
-
 from helpers import _near_equal
 
 
