@@ -7,3 +7,5 @@ meshzoo.egg-info/
 build/
 .pytest_cache/
 .coverage
+*.vtu
+*.vtk

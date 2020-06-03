@@ -15,7 +15,7 @@ that you don't need a complex mesh generator (like
 [mshr](https://bitbucket.org/fenics-project/mshr),
 [pygalmesh](https://github.com/nschloe/pygalmesh/),
 [dmsh](https://github.com/nschloe/dmsh/)),
-but something simple and fast that makes use of the symmetries of the domain. Enter
+but something simple and fast that makes use of the structure of the domain. Enter
 meshzoo.
 
 ### Examples
@@ -47,15 +47,28 @@ points, cells = meshzoo.rectangle(
     xmin=0.0, xmax=1.0,
     ymin=0.0, ymax=1.0,
     nx=11, ny=11,
-    zigzag=True
+    variant="zigzag"   # "up", "down", "center"
 )
 ```
 
-#### Hexagon
-<img src="https://nschloe.github.io/meshzoo/hexagon.svg" width="20%">
+#### Regular polygon
+| <img src="https://nschloe.github.io/meshzoo/4gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/9gon.svg" width="70%"> |
+| :----: | :---: | :---: |
+|`meshzoo.ngon(4, 8)` | `meshzoo.ngon(6, 8)` | `meshzoo.ngon(9, 8)` |
 
 ```python
-points, cells = meshzoo.hexagon(3)
+points, cells = meshzoo.ngon(5, 11)
+```
+
+#### Disk
+| <img src="https://nschloe.github.io/meshzoo/4gon_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/9gon_disk.svg" width="70%"> |
+| :----: | :---: | :---: |
+|`meshzoo.disk(4, 8)` | `meshzoo.disk(6, 8)` | `meshzoo.disk(9, 8)` |
+
+The disk meshes are inflations of regular polygons.
+
+```python
+points, cells = meshzoo.ngon_disk(6, 11)
 ```
 
 #### Möbius strip
