@@ -1,7 +1,7 @@
 from meshzoo.__about__ import __version__
 
 from .cube import cube
-from .disk import ngon_disk, quad_disk, tri_disk
+from .disk import ngon_disk, quad_disk
 from .helpers import create_edges, plot2d, save2d, show2d
 from .moebius import moebius
 from .ngon import ngon
@@ -16,7 +16,6 @@ __all__ = [
     "__version__",
     #
     "cube",
-    "tri_disk",
     "quad_disk",
     "ngon_disk",
     "moebius",
