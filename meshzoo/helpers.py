@@ -78,6 +78,7 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
 
     for cell in cells:
         import matplotlib.patches
+
         poly = matplotlib.patches.Polygon(points[cell], ec=edge_color, fc=face_color)
         ax.add_patch(poly)
 

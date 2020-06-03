@@ -124,4 +124,6 @@ def ngon_disk(p, n, offset=numpy.pi / 2):
         dist = numpy.sqrt(numpy.einsum("ij,ij->i", edge_proj_cart, edge_proj_cart))
         return verts / dist[:, None]
 
-    return _compose_from_faces(corners, faces, n, edge_adjust=edge_adjust)
+    return _compose_from_faces(
+        corners, faces, n, edge_adjust=edge_adjust, face_adjust=face_adjust
+    )
