@@ -29,13 +29,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - uses: actions/checkout@v2
-    - name: Install package
+    - name: Test with tox
       run: |
-        pip install .[all]
-    - name: Test with pytest
-      run: |
-        pip install pytest pytest-cov
-        pytest --cov meshzoo
+        pip install tox
+        tox
     - name: Submit to codecov
       if: ${{ matrix.python-version == '3.8' }}
       run: bash <(curl -s https://codecov.io/bash)
