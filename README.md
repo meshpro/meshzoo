@@ -1,12 +1,14 @@
 # meshzoo
 
-[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/meshzoo/ci?style=flat-square)](https://github.com/nschloe/meshzoo/actions?query=workflow%3Aci)
-[![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg?style=flat-square)](https://codecov.io/gh/nschloe/meshzoo)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/pypi/meshzoo/)
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/pypi/meshzoo/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
 [![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)
+
+[![gh-actions](https://img.shields.io/github/workflow/status/nschloe/meshzoo/ci?style=flat-square)](https://github.com/nschloe/meshzoo/actions?query=workflow%3Aci)
+[![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg?style=flat-square)](https://codecov.io/gh/nschloe/meshzoo)
+[![LGTM](https://img.shields.io/lgtm/grade/python/github/nschloe/meshzoo.svg?style=flat-square)](https://lgtm.com/projects/g/nschloe/meshzoo)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
 When generating meshes for FEM/FVM computations, sometimes your geometry is so simple
 that you don't need a complex mesh generator (like
