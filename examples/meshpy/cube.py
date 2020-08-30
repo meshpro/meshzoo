@@ -1,9 +1,8 @@
 """
 Creates meshes on a cube.
 """
-import numpy as np
-
 import meshpy.tet
+import numpy as np
 
 
 def create_mesh(maxvol):

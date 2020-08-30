@@ -2,8 +2,7 @@ import numpy
 
 
 def create_edges(cells_nodes):
-    """Setup edge-node and edge-cell relations. Adapted from voropy.
-    """
+    """Setup edge-node and edge-cell relations. Adapted from voropy."""
     # Create the idx_hierarchy (nodes->edges->cells), i.e., the value of
     # `self.idx_hierarchy[0, 2, 27]` is the index of the node of cell 27, edge
     # 2, node 0. The shape of `self.idx_hierarchy` is `(2, 3, n)`, where `n` is
@@ -50,8 +49,7 @@ def save2d(filename, *args, **kwargs):
 
 
 def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
-    """Plot a 2D mesh using matplotlib.
-    """
+    """Plot a 2D mesh using matplotlib."""
     import matplotlib.pyplot as plt
 
     fig = plt.figure()

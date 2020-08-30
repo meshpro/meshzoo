@@ -1,8 +1,8 @@
 import numpy
 import pytest
+from helpers import _near_equal
 
 import meshzoo
-from helpers import _near_equal
 
 
 @pytest.mark.parametrize(

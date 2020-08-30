@@ -1,6 +1,5 @@
-import numpy as np
-
 import meshpy.triangle
+import numpy as np
 
 
 def create_mesh(maxarea=1.0):

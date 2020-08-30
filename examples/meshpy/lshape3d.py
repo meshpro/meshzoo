@@ -1,8 +1,7 @@
 """Creates meshes on a 3D L-shape.
 """
-import numpy as np
-
 import meshpy.tet
+import numpy as np
 
 
 def create_mesh(maxvol):

@@ -1,9 +1,8 @@
 """
 Creates a mesh for a circle with a cut.
 """
-import numpy as np
-
 import meshpy.triangle
+import numpy as np
 
 
 def create_pacman_mesh(num_boundary_points=50):

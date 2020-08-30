@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import numpy as np
-
 from meshpy.geometry import (
     EXT_CLOSED_IN_RZ,
     GeometryBuilder,

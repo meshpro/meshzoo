@@ -25,6 +25,7 @@ meshzoo.
 
 ```python
 import meshzoo
+
 bary, cells = meshzoo.triangle(8)
 
 # corners = numpy.array(
@@ -44,10 +45,13 @@ bary, cells = meshzoo.triangle(8)
 
 ```python
 points, cells = meshzoo.rectangle(
-    xmin=0.0, xmax=1.0,
-    ymin=0.0, ymax=1.0,
-    nx=11, ny=11,
-    variant="zigzag"   # "up", "down", "center"
+    xmin=0.0,
+    xmax=1.0,
+    ymin=0.0,
+    ymax=1.0,
+    nx=11,
+    ny=11,
+    variant="zigzag",  # "up", "down", "center"
 )
 ```
 
@@ -107,10 +111,7 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 
 ```python
 points, cells = meshzoo.cube(
-    xmin=0.0, xmax=1.0,
-    ymin=0.0, ymax=1.0,
-    zmin=0.0, zmax=1.0,
-    nx=11, ny=11, nz=11
+    xmin=0.0, xmax=1.0, ymin=0.0, ymax=1.0, zmin=0.0, zmax=1.0, nx=11, ny=11, nz=11
 )
 ```
 
