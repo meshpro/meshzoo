@@ -46,5 +46,5 @@ def create_mesh(maxvol):
 if __name__ == "__main__":
     import meshio
 
-    points, cells = create_mesh()
+    points, cells = create_mesh(0.1)
     meshio.write("cube.e", points, {"tetra": cells})
