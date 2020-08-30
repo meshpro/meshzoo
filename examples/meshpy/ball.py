@@ -1,5 +1,4 @@
 import numpy as np
-
 from meshpy.geometry import EXT_OPEN, GeometryBuilder, generate_surface_of_revolution
 from meshpy.tet import MeshInfo, build
 

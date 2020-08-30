@@ -1,7 +1,7 @@
 import numpy
+from helpers import _near_equal
 
 import meshzoo
-from helpers import _near_equal
 
 
 def _get_points(bary):

@@ -1,8 +1,7 @@
 """Creates meshes on a 3D L-shape.
 """
-import numpy as np
-
 import meshpy.tet
+import numpy as np
 
 
 def create_mesh(maxvol):
@@ -54,5 +53,5 @@ def create_mesh(maxvol):
 if __name__ == "__main__":
     import meshio
 
-    points, cells = create_mesh()
+    points, cells = create_mesh(0.1)
     meshio.write("lshape3d.e", points, {"tetra": cells})

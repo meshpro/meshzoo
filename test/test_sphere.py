@@ -1,7 +1,7 @@
 import numpy
+from helpers import _near_equal
 
 import meshzoo
-from helpers import _near_equal
 
 
 def test_uv_sphere():
