@@ -1,5 +1,5 @@
 import numpy
-from helpers import _near_equal, _get_signed_areas
+from helpers import _get_signed_areas, _near_equal
 
 import meshzoo
 

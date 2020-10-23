@@ -58,10 +58,12 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
     if not show_axes:
         ax.set_axis_off()
 
-    xmin = numpy.amin(points[:, 0])
-    xmax = numpy.amax(points[:, 0])
-    ymin = numpy.amin(points[:, 1])
-    ymax = numpy.amax(points[:, 1])
+    assert points.shape[0] == 2
+
+    xmin = numpy.amin(points[0])
+    xmax = numpy.amax(points[0])
+    ymin = numpy.amin(points[1])
+    ymax = numpy.amax(points[1])
 
     width = xmax - xmin
     xmin -= 0.1 * width
@@ -77,7 +79,7 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
     for cell in cells:
         import matplotlib.patches
 
-        poly = matplotlib.patches.Polygon(points[cell], ec=edge_color, fc=face_color)
+        poly = matplotlib.patches.Polygon(points.T[cell], ec=edge_color, fc=face_color)
         ax.add_patch(poly)
 
     # import matplotlib.tri

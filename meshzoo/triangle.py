@@ -28,5 +28,4 @@ def triangle(n):
         k += n - i + 1
 
     cells = numpy.vstack(cells)
-
     return bary, cells

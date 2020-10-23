@@ -17,7 +17,7 @@ def _up(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1)
 
     # Create the elements (cells).
     # a = [i + j*nx]
@@ -33,7 +33,7 @@ def _down(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1)
 
     # Create the elements (cells).
     # a = [i + j*nx]
@@ -52,7 +52,7 @@ def _center(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1)
 
     # Create the elements (cells).
     # a = [i + j*nx]
@@ -91,7 +91,7 @@ def _zigzag(xmin, xmax, ymin, ymax, nx, ny):
     # Create the vertices.
     x_range = numpy.linspace(xmin, xmax, nx)
     y_range = numpy.linspace(ymin, ymax, ny)
-    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1).T
+    nodes = numpy.array(numpy.meshgrid(x_range, y_range)).reshape(2, -1)
 
     # Create the elements (cells).
     # a = [i + j*nx]
