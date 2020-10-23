@@ -58,6 +58,8 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
     if not show_axes:
         ax.set_axis_off()
 
+    assert points.shape[1] == 2
+
     xmin = numpy.amin(points[:, 0])
     xmax = numpy.amax(points[:, 0])
     ymin = numpy.amin(points[:, 1])
