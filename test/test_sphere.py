@@ -4,8 +4,8 @@ from helpers import _near_equal
 import meshzoo
 
 
-def test_uv_sphere():
-    points, cells = meshzoo.uv_sphere()
+def test_uv_sphere(num_points_per_circle=20, num_circles=10):
+    points, cells = meshzoo.uv_sphere(num_points_per_circle, num_circles)
     assert len(points) == 162
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
@@ -18,7 +18,19 @@ def test_uv_sphere():
         pc[:, 1, :] - pc[:, 0, :],
         pc[:, 2, :] - pc[:, 0, :],
     )
-    assert (numpy.einsum("ij,ij->i", normals, cross) > 0.0).all()
+    normals_dir = numpy.einsum("ij,ij->i", normals, cross)
+
+    import meshio
+
+    meshio.write_points_cells(
+        "out.vtk",
+        points,
+        {"triangle": cells},
+        point_data={"idx": numpy.arange(len(points))},
+        cell_data={"normals": [normals_dir]},
+    )
+
+    assert (normals_dir > 0.0).all()
 
 
 def test_icosa_sphere(n=16):
@@ -49,4 +61,4 @@ def test_tetra_sphere(n=16):
 
 
 if __name__ == "__main__":
-    test_octa_sphere(10)
+    test_uv_sphere(20, 10)

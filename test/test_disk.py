@@ -1,5 +1,6 @@
-import meshzoo
 from helpers import _get_signed_areas
+
+import meshzoo
 
 
 def test_disk():
