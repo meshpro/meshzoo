@@ -28,28 +28,28 @@ def test_tetra_sphere(n=16):
     points, cells = meshzoo.tetra_sphere(n)
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
-    assert points.shape[1] == 514
-    assert _near_equal(numpy.sum(points, axis=1), [0.0, 0.0, 0.0])
+    assert len(points) == 514
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1024
-    assert (_compute_cells_normals_dir(points.T, cells) > 0.0).all()
+    assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
 
 
 def test_octa_sphere(n=16):
     points, cells = meshzoo.octa_sphere(n)
-    assert points.shape[1] == 1026
-    assert _near_equal(numpy.sum(points, axis=1), [0.0, 0.0, 0.0])
+    assert len(points) == 1026
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 2048
-    assert (_compute_cells_normals_dir(points.T, cells) > 0.0).all()
+    assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
 
 
 def test_icosa_sphere(n=16):
     points, cells = meshzoo.icosa_sphere(n)
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
-    assert points.shape[1] == 2562
-    assert _near_equal(numpy.sum(points, axis=1), [0.0, 0.0, 0.0])
+    assert len(points) == 2562
+    assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 5120
-    assert (_compute_cells_normals_dir(points.T, cells) > 0.0).all()
+    assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
 
 
 if __name__ == "__main__":
