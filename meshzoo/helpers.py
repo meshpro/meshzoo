@@ -210,7 +210,7 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
         cells += [tt[triangle_cells]]
         vertex_count += num_new_vertices
 
-    vertices = numpy.concatenate(vertices)
+    vertices = numpy.concatenate(vertices).T
     cells = numpy.concatenate(cells)
 
     return vertices, cells
