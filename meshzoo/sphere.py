@@ -91,13 +91,14 @@ def tetra_sphere(n):
             [0.0, 0.0, 1.0],
         ]
     )
-    faces = [(0, 1, 2), (0, 1, 3), (0, 2, 3), (1, 2, 3)]
+    # make sure the normals are pointing outwards
+    faces = [(0, 2, 1), (0, 1, 3), (0, 3, 2), (1, 2, 3)]
 
     vertices, cells = _compose_from_faces(corners, faces, n)
 
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
-    vertices = (vertices.T / norms.T).T
+    norms = numpy.sqrt(numpy.einsum("ij,ij->j", vertices, vertices))
+    vertices /= norms
 
     return vertices, cells
 
@@ -115,18 +116,19 @@ def octa_sphere(n):
     )
     faces = [
         (0, 2, 4),
-        (1, 2, 4),
+        (1, 4, 2),
         (1, 3, 4),
-        (0, 3, 4),
-        (0, 2, 5),
+        (0, 4, 3),
+        (0, 5, 2),
         (1, 2, 5),
-        (1, 3, 5),
+        (1, 5, 3),
         (0, 3, 5),
     ]
     vertices, cells = _compose_from_faces(corners, faces, n)
+
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
-    vertices = (vertices.T / norms.T).T
+    norms = numpy.sqrt(numpy.einsum("ij,ij->j", vertices, vertices))
+    vertices /= norms
 
     return vertices, cells
 
@@ -183,7 +185,7 @@ def icosa_sphere(n):
 
     vertices, cells = _compose_from_faces(corners, faces, n)
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
-    vertices = (vertices.T / norms.T).T
+    norms = numpy.sqrt(numpy.einsum("ij,ij->j", vertices, vertices))
+    vertices /= norms
 
     return vertices, cells
