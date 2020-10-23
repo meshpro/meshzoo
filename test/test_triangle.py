@@ -1,5 +1,5 @@
 import numpy
-from helpers import _near_equal
+from helpers import _near_equal, _get_signed_areas
 
 import meshzoo
 
@@ -16,6 +16,11 @@ def test_triangle():
     assert len(bary.T) == 15
     assert _near_equal(numpy.sum(_get_points(bary), axis=0), [0.0, 0.0])
     assert len(cells) == 16
+
+    # make sure the order of the nodes in each cell is counterclockwise
+    corner_coords = numpy.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+    coords = numpy.dot(corner_coords, bary)
+    assert numpy.all(_get_signed_areas(coords, cells) > 0.0)
 
 
 def test_plot2d():
