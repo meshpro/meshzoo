@@ -9,6 +9,16 @@ def test_uv_sphere():
     assert len(points) == 162
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
+    # make sure that the cell normals points outwards
+    pc = points[cells]
+    midpoints = numpy.sum(pc, axis=1) / 3.0
+    nrm = numpy.sqrt(numpy.einsum("ij,ij->i", midpoints, midpoints))
+    normals = (midpoints.T / nrm).T
+    cross = numpy.cross(
+        pc[:, 1, :] - pc[:, 0, :],
+        pc[:, 2, :] - pc[:, 0, :],
+    )
+    assert (numpy.einsum("ij,ij->i", normals, cross) > 0.0).all()
 
 
 def test_icosa_sphere(n=16):
