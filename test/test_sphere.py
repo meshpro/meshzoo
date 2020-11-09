@@ -22,6 +22,9 @@ def test_uv_sphere(num_points_per_circle=20, num_circles=10):
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
+    assert numpy.all(
+        numpy.abs(numpy.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10
+    )
 
 
 def test_tetra_sphere(n=16):
@@ -32,6 +35,9 @@ def test_tetra_sphere(n=16):
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1024
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
+    assert numpy.all(
+        numpy.abs(numpy.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10
+    )
 
 
 def test_octa_sphere(n=16):
@@ -40,6 +46,9 @@ def test_octa_sphere(n=16):
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 2048
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
+    assert numpy.all(
+        numpy.abs(numpy.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10
+    )
 
 
 def test_icosa_sphere(n=16):
@@ -50,6 +59,9 @@ def test_icosa_sphere(n=16):
     assert _near_equal(numpy.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 5120
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
+    assert numpy.all(
+        numpy.abs(numpy.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10
+    )
 
 
 if __name__ == "__main__":
