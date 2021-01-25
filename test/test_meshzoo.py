@@ -4,17 +4,6 @@ from helpers import _near_equal
 import meshzoo
 
 
-def test_cube():
-    points, cells = meshzoo.cube()
-    assert len(points) == 1331
-    assert len(cells) == 5000
-
-    points, cells = meshzoo.cube(nx=3, ny=3, nz=3)
-    assert len(points) == 27
-    assert all(np.sum(points, axis=0) == [13.5, 13.5, 13.5])
-    assert len(cells) == 40
-
-
 def test_simple_arrow():
     points, cells = meshzoo.simple_arrow()
     assert len(points) == 5

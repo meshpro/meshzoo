@@ -1,6 +1,6 @@
 from meshzoo.__about__ import __version__
 
-from .cube import cube
+from .cube import cube_hexa, cube_tet
 from .disk import disk
 from .helpers import create_edges, plot2d, save2d, show2d
 from .moebius import moebius
@@ -15,7 +15,8 @@ from .tube import tube
 __all__ = [
     "__version__",
     #
-    "cube",
+    "cube_tet",
+    "cube_hexa",
     "disk",
     "moebius",
     "ngon",

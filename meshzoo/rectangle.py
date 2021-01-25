@@ -12,12 +12,17 @@ def rectangle_quad(
         n = (n, n)
     assert isinstance(n, tuple) and len(n) == 2
 
-    x_range = np.linspace(a0[0], a1[0], n[0])
-    y_range = np.linspace(a0[1], a1[1], n[1])
+    nx, ny = n
+
+    xmin, ymin = a0
+    xmax, ymax = a1
+
+    x_range = np.linspace(xmin, xmax, nx)
+    y_range = np.linspace(ymin, ymax, ny)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
-    a = np.add.outer(np.arange(n[0] - 1), n[0] * np.arange(n[1] - 1))
-    elems = np.array([a, a + 1, a + n[0] + 1, a + n[0]]).reshape(4, -1).T
+    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
+    elems = np.array([a, a + 1, a + nx + 1, a + nx]).reshape(4, -1).T
     return nodes, elems
 
 
