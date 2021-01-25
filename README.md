@@ -43,7 +43,7 @@ bary, cells = meshzoo.triangle(8)
 ```
 
 #### Rectangle
-| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg" width="50%"> |
 | :----: | :---: |
 
 ```python
@@ -95,7 +95,7 @@ points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
 #### Sphere (surface)
-| <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/geo-sphere.png" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/geo-sphere.png" width="50%"> |
 | :----: | :---: |
 
 ```python
