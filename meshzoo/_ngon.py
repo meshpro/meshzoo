@@ -1,6 +1,6 @@
 import numpy as np
 
-from .helpers import _compose_from_faces
+from ._helpers import _compose_from_faces
 
 
 def ngon(p, n, offset=np.pi / 2):

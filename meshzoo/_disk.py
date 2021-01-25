@@ -1,6 +1,7 @@
 import numpy as np
 
-from .helpers import _compose_from_faces
+from ._helpers import _compose_from_faces
+from ._rectangle import rectangle_quad
 
 
 def disk(p, n, offset=np.pi / 2):
@@ -36,3 +37,18 @@ def disk(p, n, offset=np.pi / 2):
     return _compose_from_faces(
         corners, faces, n, edge_adjust=edge_adjust, face_adjust=face_adjust
     )
+
+
+def disk_quad(n):
+    a = 1 / np.sqrt(2)
+    nodes, elems = rectangle_quad((-a, -a), (a, a), n)
+
+    # Inflate the nodes towards the circle boundary.
+    # Inflate each point such that the 2-norm of the new point is the max-norm of the
+    # old.
+    alpha = np.max(np.abs(nodes), axis=1)
+    beta = np.linalg.norm(nodes, axis=1)
+    idx = beta > 1.0e-13
+    nodes[idx] = (nodes[idx].T * (alpha[idx] / beta[idx])).T
+
+    return nodes, elems

@@ -1,14 +1,73 @@
+from typing import Tuple, Union
+
 import numpy as np
 
 
-def cube(
-    xmin=0.0, xmax=1.0, ymin=0.0, ymax=1.0, zmin=0.0, zmax=1.0, nx=11, ny=11, nz=11
+def cube_hexa(
+    a0: Tuple[float, float, float],
+    a1: Tuple[float, float, float],
+    n: Union[int, Tuple[int, int, int]],
+):
+    if isinstance(n, int):
+        n = (n, n, n)
+    assert isinstance(n, tuple) and len(n) == 3
+
+    xmin, ymin, zmin = a0
+    xmax, ymax, zmax = a1
+    nx, ny, nz = n
+
+    # Generate suitable ranges for parametrization
+    x_range = np.linspace(xmin, xmax, nx)
+    y_range = np.linspace(ymin, ymax, ny)
+    z_range = np.linspace(zmin, zmax, nz)
+
+    # Create the vertices.
+    x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
+    # Alternative with slightly different order:
+    # ```
+    # nodes = np.stack([x, y, z]).T.reshape(-1, 3)
+    # ```
+    nodes = np.array([x, y, z]).T.reshape(-1, 3)
+
+    # Create the elements (cells).
+    a0 = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
+    a = np.add.outer(a0, nx * ny * np.array(range(nz - 1)))
+    elems = np.concatenate(
+        [
+            a[..., None],
+            a[..., None] + 1,
+            a[..., None] + nx + 1,
+            a[..., None] + nx,
+            #
+            a[..., None] + nx * ny,
+            a[..., None] + nx * ny + 1,
+            a[..., None] + nx * ny + nx + 1,
+            a[..., None] + nx * ny + nx,
+        ],
+        axis=3,
+    ).reshape(-1, 8)
+
+    return nodes, elems
+
+
+def cube_tetra(
+    a0: Tuple[float, float, float],
+    a1: Tuple[float, float, float],
+    n: Union[int, Tuple[int, int, int]],
 ):
     """Canonical tetrahedrization of the cube.
     Input:
     Edge lenghts of the cube
     Number of nodes along the edges.
     """
+    if isinstance(n, int):
+        n = (n, n, n)
+    assert isinstance(n, tuple) and len(n) == 3
+
+    xmin, ymin, zmin = a0
+    xmax, ymax, zmax = a1
+    nx, ny, nz = n
+
     # Generate suitable ranges for parametrization
     x_range = np.linspace(xmin, xmax, nx)
     y_range = np.linspace(ymin, ymax, ny)

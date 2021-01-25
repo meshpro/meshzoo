@@ -1,13 +1,47 @@
+from typing import Tuple, Union
+
 import numpy as np
 
 
-def rectangle(xmin=0.0, xmax=1.0, ymin=0.0, ymax=1.0, nx=11, ny=11, variant="zigzag"):
-    # Create the vertices.
+def rectangle_quad(
+    a0: Tuple[float, float],
+    a1: Tuple[float, float],
+    n: Union[int, Tuple[int, int]],
+):
+    if isinstance(n, int):
+        n = (n, n)
+    assert isinstance(n, tuple) and len(n) == 2
+
+    nx, ny = n
+
+    xmin, ymin = a0
+    xmax, ymax = a1
+
     x_range = np.linspace(xmin, xmax, nx)
     y_range = np.linspace(ymin, ymax, ny)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+
+    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
+    elems = np.array([a, a + 1, a + nx + 1, a + nx]).reshape(4, -1).T
+    return nodes, elems
+
+
+def rectangle_tri(
+    a0: Tuple[float, float],
+    a1: Tuple[float, float],
+    n: Union[int, Tuple[int, int]],
+    variant: str = "zigzag",
+):
+    if isinstance(n, int):
+        n = (n, n)
+    assert isinstance(n, tuple) and len(n) == 2
+
+    # Create the vertices.
+    x_range = np.linspace(a0[0], a1[0], n[0])
+    y_range = np.linspace(a0[1], a1[1], n[1])
+    nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
     elem_fun = {"zigzag": _zigzag, "center": _center, "down": _down, "up": _up}
-    return nodes, elem_fun[variant](nx, ny)
+    return nodes, elem_fun[variant](*n)
 
 
 def _up(nx, ny):

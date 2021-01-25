@@ -1,31 +1,33 @@
-from meshzoo.__about__ import __version__
-
-from .cube import cube
-from .disk import disk
-from .helpers import create_edges, plot2d, save2d, show2d
-from .moebius import moebius
-from .ngon import ngon
-from .rectangle import rectangle
-from .simple_arrow import simple_arrow
-from .simple_shell import simple_shell
-from .sphere import icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
-from .triangle import triangle
-from .tube import tube
+from .__about__ import __version__
+from ._ball import ball_hexa, ball_tetra
+from ._cube import cube_hexa, cube_tetra
+from ._disk import disk, disk_quad
+from ._helpers import create_edges, plot2d, save2d, show2d
+from ._moebius import moebius
+from ._ngon import ngon
+from ._rectangle import rectangle_quad, rectangle_tri
+from ._sphere import geo_sphere, icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
+from ._triangle import triangle
+from ._tube import tube
 
 __all__ = [
     "__version__",
     #
-    "cube",
+    "ball_hexa",
+    "ball_tetra",
+    "cube_tetra",
+    "cube_hexa",
     "disk",
+    "disk_quad",
     "moebius",
     "ngon",
-    "rectangle",
-    "simple_arrow",
-    "simple_shell",
+    "rectangle_tri",
+    "rectangle_quad",
     "uv_sphere",
     "icosa_sphere",
     "octa_sphere",
     "tetra_sphere",
+    "geo_sphere",
     "triangle",
     "tube",
     #
