@@ -141,7 +141,7 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 
 #### Cube
 
-| <img src="https://nschloe.github.io/meshzoo/cube.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/cube-hexa.png" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/cube.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/cube-hexa.png" width="50%"> |
 | :----: | :---: |
 
 ```python
