@@ -62,6 +62,8 @@ points, cells = meshzoo.rectangle_tri(
 |`meshzoo.ngon(4, 8)` | `meshzoo.ngon(6, 8)` | `meshzoo.ngon(9, 8)` |
 
 ```python
+import meshzoo
+
 points, cells = meshzoo.ngon(5, 11)
 ```
 
@@ -73,13 +75,17 @@ points, cells = meshzoo.ngon(5, 11)
 The disk meshes are inflations of regular polygons.
 
 ```python
-points, cells = meshzoo.ngon_disk(6, 11)
+import meshzoo
+
+points, cells = meshzoo.disk(6, 11)
 ```
 
 #### Möbius strip
 <img src="https://nschloe.github.io/meshzoo/moebius.png" width="20%">
 
 ```python
+import meshzoo
+
 points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
@@ -87,6 +93,8 @@ points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="20%">
 
 ```python
+import meshzoo
+
 points, cells = meshzoo.uv_sphere(num_points_per_circle=20, num_circles=10, radius=1.0)
 ```
 
@@ -106,6 +114,8 @@ All cells are oriented such that its normal points outwards.
 <img src="https://nschloe.github.io/meshzoo/tube.png" width="20%">
 
 ```python
+import meshzoo
+
 points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 ```
 
@@ -113,8 +123,12 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 <img src="https://nschloe.github.io/meshzoo/cube.png" width="20%">
 
 ```python
-points, cells = meshzoo.cube(
-    xmin=0.0, xmax=1.0, ymin=0.0, ymax=1.0, zmin=0.0, zmax=1.0, nx=11, ny=11, nz=11
+import meshzoo
+
+points, cells = meshzoo.cube_tetra(
+    (0.0, 0.0, 0.0),
+    (1.0, 1.0, 1.0),
+    n=11,
 )
 ```
 
