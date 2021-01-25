@@ -1,17 +1,17 @@
-import numpy
+import numpy as np
 
 from .helpers import _compose_from_faces
 
 
-def ngon(p, n, offset=numpy.pi / 2):
-    k = numpy.arange(p)
-    corners = numpy.vstack(
+def ngon(p, n, offset=np.pi / 2):
+    k = np.arange(p)
+    corners = np.vstack(
         [
             [[0.0, 0.0]],
-            numpy.array(
+            np.array(
                 [
-                    numpy.cos(2 * numpy.pi * k / p + offset),
-                    numpy.sin(2 * numpy.pi * k / p + offset),
+                    np.cos(2 * np.pi * k / p + offset),
+                    np.sin(2 * np.pi * k / p + offset),
                 ]
             ).T,
         ]

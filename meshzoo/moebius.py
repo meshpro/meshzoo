@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 
 def moebius(
@@ -33,17 +33,17 @@ def moebius(
     flatness = 1.0
 
     # Generate suitable ranges for parametrization
-    u_range = numpy.linspace(0.0, 2 * numpy.pi, num=nl, endpoint=False)
-    v_range = numpy.linspace(-0.5 * width, 0.5 * width, num=nw)
+    u_range = np.linspace(0.0, 2 * np.pi, num=nl, endpoint=False)
+    v_range = np.linspace(-0.5 * width, 0.5 * width, num=nw)
 
     # Create the vertices. This is based on the parameterization
     # of the Möbius strip as given in
     # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
-    sin_u = numpy.sin(u_range)
-    cos_u = numpy.cos(u_range)
+    sin_u = np.sin(u_range)
+    cos_u = np.cos(u_range)
     alpha = num_twists * 0.5 * u_range + alpha0
-    sin_alpha = numpy.sin(alpha)
-    cos_alpha = numpy.cos(alpha)
+    sin_alpha = np.sin(alpha)
+    cos_alpha = np.cos(alpha)
 
     if mode == "classical":
         a = cos_alpha
@@ -54,8 +54,8 @@ def moebius(
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
         # this results in a non-smooth manifold.
-        a = numpy.copysign(cos_alpha ** 2, cos_alpha)
-        b = numpy.copysign(sin_alpha ** 2, sin_alpha)
+        a = np.copysign(cos_alpha ** 2, cos_alpha)
+        b = np.copysign(sin_alpha ** 2, sin_alpha)
         reverse_seam = num_twists % 2 == 1
     else:
         assert mode == "pseudo"
@@ -65,11 +65,11 @@ def moebius(
 
     nodes = (
         scale
-        * numpy.array(
+        * np.array(
             [
-                numpy.outer(a * cos_u, v_range) + r * cos_u[:, numpy.newaxis],
-                numpy.outer(a * sin_u, v_range) + r * sin_u[:, numpy.newaxis],
-                numpy.outer(b, v_range) * flatness,
+                np.outer(a * cos_u, v_range) + r * cos_u[:, np.newaxis],
+                np.outer(a * sin_u, v_range) + r * sin_u[:, np.newaxis],
+                np.outer(b, v_range) * flatness,
             ]
         )
         .reshape(3, -1)
@@ -112,4 +112,4 @@ def _create_elements(nl, nw, reverse_seam):
                 elems.append([i * nw + j, i * nw + j + 1, j])
                 elems.append([i * nw + j + 1, j, j + 1])
 
-    return numpy.array(elems)
+    return np.array(elems)

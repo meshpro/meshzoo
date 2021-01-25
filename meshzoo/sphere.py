@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 from .helpers import _compose_from_faces
 
@@ -9,21 +9,21 @@ def uv_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):
     n_theta = num_circles
 
     # Generate suitable ranges for parametrization
-    phi_range = numpy.linspace(0.0, 2 * numpy.pi, num=n_phi, endpoint=False)
-    theta_range = numpy.linspace(
-        -numpy.pi / 2 + numpy.pi / (n_theta - 1),
-        numpy.pi / 2 - numpy.pi / (n_theta - 1),
+    phi_range = np.linspace(0.0, 2 * np.pi, num=n_phi, endpoint=False)
+    theta_range = np.linspace(
+        -np.pi / 2 + np.pi / (n_theta - 1),
+        np.pi / 2 - np.pi / (n_theta - 1),
         num=n_theta - 2,
     )
 
     # nodes in the circles of latitude (except poles)
-    nodes = radius * numpy.array(
+    nodes = radius * np.array(
         [[0.0, 0.0, -1.0]]  # south pole
         + [
             [
-                numpy.cos(theta) * numpy.sin(phi),
-                numpy.cos(theta) * numpy.cos(phi),
-                numpy.sin(theta),
+                np.cos(theta) * np.sin(phi),
+                np.cos(theta) * np.cos(phi),
+                np.sin(theta),
             ]
             for theta in theta_range
             for phi in phi_range
@@ -76,18 +76,18 @@ def uv_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):
             north_pole_index,
         ]
     )
-    elems = numpy.array(elems)
+    elems = np.array(elems)
     assert len(elems) == num_elems, "Wrong element count."
 
     return nodes, elems
 
 
 def tetra_sphere(n):
-    corners = numpy.array(
+    corners = np.array(
         [
-            [2 * numpy.sqrt(2) / 3, 0.0, -1.0 / 3.0],
-            [-numpy.sqrt(2) / 3, numpy.sqrt(2.0 / 3.0), -1.0 / 3.0],
-            [-numpy.sqrt(2) / 3, -numpy.sqrt(2.0 / 3.0), -1.0 / 3.0],
+            [2 * np.sqrt(2) / 3, 0.0, -1.0 / 3.0],
+            [-np.sqrt(2) / 3, np.sqrt(2.0 / 3.0), -1.0 / 3.0],
+            [-np.sqrt(2) / 3, -np.sqrt(2.0 / 3.0), -1.0 / 3.0],
             [0.0, 0.0, 1.0],
         ]
     )
@@ -97,14 +97,14 @@ def tetra_sphere(n):
     vertices, cells = _compose_from_faces(corners, faces, n)
 
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
+    norms = np.sqrt(np.einsum("ij,ij->i", vertices, vertices))
     vertices = (vertices.T / norms).T
 
     return vertices, cells
 
 
 def octa_sphere(n):
-    corners = numpy.array(
+    corners = np.array(
         [
             [1.0, 0.0, 0.0],
             [-1.0, 0.0, 0.0],
@@ -127,7 +127,7 @@ def octa_sphere(n):
     vertices, cells = _compose_from_faces(corners, faces, n)
 
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
+    norms = np.sqrt(np.einsum("ij,ij->i", vertices, vertices))
     vertices = (vertices.T / norms).T
 
     return vertices, cells
@@ -140,8 +140,8 @@ def icosa_sphere(n):
     # Construction from
     # <http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html>.
     # Create 12 vertices of a icosahedron.
-    t = (1.0 + numpy.sqrt(5.0)) / 2.0
-    corners = numpy.array(
+    t = (1.0 + np.sqrt(5.0)) / 2.0
+    corners = np.array(
         [
             [-1, +t, +0],
             [+1, +t, +0],
@@ -185,7 +185,7 @@ def icosa_sphere(n):
 
     vertices, cells = _compose_from_faces(corners, faces, n)
     # push all nodes to the sphere
-    norms = numpy.sqrt(numpy.einsum("ij,ij->i", vertices, vertices))
+    norms = np.sqrt(np.einsum("ij,ij->i", vertices, vertices))
     vertices = (vertices.T / norms).T
 
     return vertices, cells

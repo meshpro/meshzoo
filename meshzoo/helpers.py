@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 
 def create_edges(cells_nodes):
@@ -8,19 +8,17 @@ def create_edges(cells_nodes):
     # 2, node 0. The shape of `self.idx_hierarchy` is `(2, 3, n)`, where `n` is
     # the number of cells. Make sure that the k-th edge is opposite of the k-th
     # point in the triangle.
-    local_idx = numpy.array([[1, 2], [2, 0], [0, 1]]).T
+    local_idx = np.array([[1, 2], [2, 0], [0, 1]]).T
     # Map idx back to the nodes. This is useful if quantities which are in
     # idx shape need to be added up into nodes (e.g., equation system rhs).
     nds = cells_nodes.T
     idx_hierarchy = nds[local_idx]
 
     s = idx_hierarchy.shape
-    a = numpy.sort(idx_hierarchy.reshape(s[0], s[1] * s[2]).T)
+    a = np.sort(idx_hierarchy.reshape(s[0], s[1] * s[2]).T)
 
-    b = numpy.ascontiguousarray(a).view(
-        numpy.dtype((numpy.void, a.dtype.itemsize * a.shape[1]))
-    )
-    _, idx, inv, cts = numpy.unique(
+    b = np.ascontiguousarray(a).view(np.dtype((np.void, a.dtype.itemsize * a.shape[1])))
+    _, idx, inv, cts = np.unique(
         b, return_index=True, return_inverse=True, return_counts=True
     )
 
@@ -60,10 +58,10 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
 
     assert points.shape[1] == 2
 
-    xmin = numpy.amin(points[:, 0])
-    xmax = numpy.amax(points[:, 0])
-    ymin = numpy.amin(points[:, 1])
-    ymax = numpy.amax(points[:, 1])
+    xmin = np.amin(points[:, 0])
+    xmax = np.amax(points[:, 0])
+    ymin = np.amin(points[:, 1])
+    ymax = np.amax(points[:, 1])
 
     width = xmax - xmin
     xmin -= 0.1 * width
@@ -92,7 +90,7 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
     # create corner nodes
     vertices = [corners]
     vertex_count = len(corners)
-    corner_nodes = numpy.arange(len(corners))
+    corner_nodes = np.arange(len(corners))
 
     # create edges
     edges = set()
@@ -105,17 +103,17 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
 
     # create edge nodes:
     edge_nodes = {}
-    t = numpy.linspace(1 / n, 1.0, n - 1, endpoint=False)
+    t = np.linspace(1 / n, 1.0, n - 1, endpoint=False)
     corners = vertices[0]
     k = corners.shape[0]
     for edge in edges:
         i0, i1 = edge
-        new_vertices = numpy.outer(1 - t, corners[i0]) + numpy.outer(t, corners[i1])
+        new_vertices = np.outer(1 - t, corners[i0]) + np.outer(t, corners[i1])
         if edge_adjust:
             new_vertices = edge_adjust(edge, new_vertices)
         vertices.append(new_vertices)
         vertex_count += len(vertices[-1])
-        edge_nodes[edge] = numpy.arange(k, k + len(t))
+        edge_nodes[edge] = np.arange(k, k + len(t))
         k += len(t)
 
     # This is the same code as appearing for cell in a single triangle. On each face,
@@ -123,14 +121,14 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
     triangle_cells = []
     k = 0
     for i in range(n):
-        j = numpy.arange(n - i)
-        triangle_cells.append(numpy.column_stack([k + j, k + j + 1, k + n - i + j + 1]))
+        j = np.arange(n - i)
+        triangle_cells.append(np.column_stack([k + j, k + j + 1, k + n - i + j + 1]))
         j = j[:-1]
         triangle_cells.append(
-            numpy.column_stack([k + j + 1, k + n - i + j + 2, k + n - i + j + 1])
+            np.column_stack([k + j + 1, k + n - i + j + 2, k + n - i + j + 1])
         )
         k += n - i + 1
-    triangle_cells = numpy.vstack(triangle_cells)
+    triangle_cells = np.vstack(triangle_cells)
 
     cells = []
     for face in faces:
@@ -147,17 +145,14 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
             num_new_vertices = 0
         else:
             bary = (
-                numpy.hstack(
-                    [
-                        [numpy.full(n - i - 1, i), numpy.arange(1, n - i)]
-                        for i in range(1, n)
-                    ]
+                np.hstack(
+                    [[np.full(n - i - 1, i), np.arange(1, n - i)] for i in range(1, n)]
                 )
                 / n
             )
-            bary = numpy.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
-            corner_verts = numpy.array([vertices[0][i] for i in corners])
-            vertices_cart = numpy.dot(corner_verts.T, bary).T
+            bary = np.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
+            corner_verts = np.array([vertices[0][i] for i in corners])
+            vertices_cart = np.dot(corner_verts.T, bary).T
 
             if face_adjust:
                 vertices_cart = face_adjust(face, bary, vertices_cart, corner_verts)
@@ -167,7 +162,7 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
 
         # translation table
         num_nodes_per_triangle = (n + 1) * (n + 2) // 2
-        tt = numpy.empty(num_nodes_per_triangle, dtype=int)
+        tt = np.empty(num_nodes_per_triangle, dtype=int)
 
         # first the corners
         tt[0] = corner_nodes[corners[0]]
@@ -210,7 +205,7 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
         cells += [tt[triangle_cells]]
         vertex_count += num_new_vertices
 
-    vertices = numpy.concatenate(vertices)
-    cells = numpy.concatenate(cells)
+    vertices = np.concatenate(vertices)
+    cells = np.concatenate(cells)
 
     return vertices, cells
