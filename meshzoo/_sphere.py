@@ -114,7 +114,6 @@ def geo_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):
     north_pole_index = len(nodes) - 1
 
     # create the elements (cells)
-    num_elems = 2 * (n_theta - 2) * n_phi
     tri = []
     quad = []
 

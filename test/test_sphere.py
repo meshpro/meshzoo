@@ -27,6 +27,8 @@ def test_uv_sphere(num_points_per_circle=20, num_circles=10):
 
 def test_geo_sphere(num_points_per_circle=20, num_circles=10):
     points, tri, quad = meshzoo.geo_sphere(num_points_per_circle, num_circles)
+    # import meshio
+    # meshio.write_points_cells("geo-sphere.vtk", points, {"triangle": tri, "quad": quad})
     assert len(points) == 162
     assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(tri) == 40

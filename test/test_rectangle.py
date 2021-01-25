@@ -64,7 +64,7 @@ def test_quad():
     assert _near_equal(np.sum(points, axis=0), [60.5, 60.5])
     assert len(cells) == 100
     assert np.all(_get_signed_areas(points.T, cells) > 0.0)
-
+    # meshzoo.save2d("rectangle-quad.svg", points, cells)
     points, cells = meshzoo.rectangle_quad((0, 0), (1, 1), (3, 2))
     assert len(points) == 6
     assert _near_equal(np.sum(points, axis=0), [3.0, 3.0])

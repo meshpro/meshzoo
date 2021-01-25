@@ -13,6 +13,7 @@ def test_disk():
 
 def test_disk_quad():
     points, cells = meshzoo.disk_quad(11)
+    # meshzoo.save2d("disk-quad.svg", points, cells)
     assert len(points) == 121
     assert len(cells) == 100
 
