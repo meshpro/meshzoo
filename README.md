@@ -43,7 +43,7 @@ bary, cells = meshzoo.triangle(8)
 ```
 
 #### Rectangle
-| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg" width="50%"> |
+| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg" width="40%"> |
 | :----: | :---: |
 
 ```python
@@ -95,7 +95,7 @@ points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
 #### Sphere (surface)
-| <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/geo-sphere.png" width="50%"> |
+| <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/geo-sphere.png" width="60%"> |
 | :----: | :---: |
 
 ```python
@@ -141,7 +141,7 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 
 #### Cube
 
-| <img src="https://nschloe.github.io/meshzoo/cube.png" width="20%"> | <img src="https://nschloe.github.io/meshzoo/cube_hexa.png" width="70%"> |
+| <img src="https://nschloe.github.io/meshzoo/cube.png" width="20%"> | <img src="https://nschloe.github.io/meshzoo/cube-hexa.png" width="70%"> |
 | :----: | :---: |
 
 ```python
