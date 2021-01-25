@@ -1,6 +1,6 @@
 import numpy as np
 
-from .cube import cube_hexa, cube_tetra
+from ._cube import cube_hexa, cube_tetra
 
 
 def ball_hexa(n):

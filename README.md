@@ -46,13 +46,12 @@ bary, cells = meshzoo.triangle(8)
 <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="20%">
 
 ```python
-points, cells = meshzoo.rectangle(
-    xmin=0.0,
-    xmax=1.0,
-    ymin=0.0,
-    ymax=1.0,
-    nx=11,
-    ny=11,
+import meshzoo
+
+points, cells = meshzoo.rectangle_tri(
+    (0.0, 0.0),
+    (1.0, 1.0),
+    n=11,
     variant="zigzag",  # "up", "down", "center"
 )
 ```

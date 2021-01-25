@@ -1,6 +1,6 @@
 import numpy as np
 
-from .helpers import _compose_from_faces
+from ._helpers import _compose_from_faces
 
 
 def uv_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):

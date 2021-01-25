@@ -1,7 +1,7 @@
 import numpy as np
 
-from .helpers import _compose_from_faces
-from .rectangle import rectangle_quad
+from ._helpers import _compose_from_faces
+from ._rectangle import rectangle_quad
 
 
 def disk(p, n, offset=np.pi / 2):

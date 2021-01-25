@@ -4,20 +4,6 @@ from helpers import _near_equal
 import meshzoo
 
 
-def test_simple_arrow():
-    points, cells = meshzoo.simple_arrow()
-    assert len(points) == 5
-    assert _near_equal(np.sum(points, axis=0), [7.0, 0.0, 0.0])
-    assert len(cells) == 4
-
-
-def test_simple_shell():
-    points, cells = meshzoo.simple_shell()
-    assert len(points) == 5
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 1.0])
-    assert len(cells) == 4
-
-
 def test_tube():
     points, cells = meshzoo.tube(n=10)
     assert len(points) == 20
