@@ -5,7 +5,7 @@ from .disk import disk
 from .helpers import create_edges, plot2d, save2d, show2d
 from .moebius import moebius
 from .ngon import ngon
-from .rectangle import rectangle
+from .rectangle import rectangle_quad, rectangle_tri
 from .simple_arrow import simple_arrow
 from .simple_shell import simple_shell
 from .sphere import icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
@@ -19,7 +19,8 @@ __all__ = [
     "disk",
     "moebius",
     "ngon",
-    "rectangle",
+    "rectangle_tri",
+    "rectangle_quad",
     "simple_arrow",
     "simple_shell",
     "uv_sphere",

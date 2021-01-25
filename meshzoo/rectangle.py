@@ -3,7 +3,25 @@ from typing import Tuple, Union
 import numpy as np
 
 
-def rectangle(
+def rectangle_quad(
+    a0: Tuple[float, float],
+    a1: Tuple[float, float],
+    n: Union[int, Tuple[int, int]],
+):
+    if isinstance(n, int):
+        n = (n, n)
+    assert isinstance(n, tuple) and len(n) == 2
+
+    x_range = np.linspace(a0[0], a1[0], n[0])
+    y_range = np.linspace(a0[1], a1[1], n[1])
+    nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+
+    a = np.add.outer(np.arange(n[0] - 1), n[0] * np.arange(n[1] - 1))
+    elems = np.array([a, a + 1, a + n[0] + 1, a + n[0]]).reshape(4, -1).T
+    return nodes, elems
+
+
+def rectangle_tri(
     a0: Tuple[float, float],
     a1: Tuple[float, float],
     n: Union[int, Tuple[int, int]],
@@ -11,7 +29,6 @@ def rectangle(
 ):
     if isinstance(n, int):
         n = (n, n)
-
     assert isinstance(n, tuple) and len(n) == 2
 
     # Create the vertices.
