@@ -11,5 +11,11 @@ def test_disk():
     assert (_get_signed_areas(points.T, cells) > 0.0).all()
 
 
+def test_disk_quad():
+    points, cells = meshzoo.disk_quad(11)
+    assert len(points) == 121
+    assert len(cells) == 100
+
+
 if __name__ == "__main__":
-    test_disk()
+    test_disk_quad()
