@@ -1,7 +1,7 @@
 from meshzoo.__about__ import __version__
 
-from .ball import ball_hexa
-from .cube import cube_hexa, cube_tet
+from .ball import ball_hexa, ball_tetra
+from .cube import cube_hexa, cube_tetra
 from .disk import disk, disk_quad
 from .helpers import create_edges, plot2d, save2d, show2d
 from .moebius import moebius
@@ -17,7 +17,8 @@ __all__ = [
     "__version__",
     #
     "ball_hexa",
-    "cube_tet",
+    "ball_tetra",
+    "cube_tetra",
     "cube_hexa",
     "disk",
     "disk_quad",

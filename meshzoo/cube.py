@@ -50,7 +50,7 @@ def cube_hexa(
     return nodes, elems
 
 
-def cube_tet(
+def cube_tetra(
     a0: Tuple[float, float, float],
     a1: Tuple[float, float, float],
     n: Union[int, Tuple[int, int, int]],
