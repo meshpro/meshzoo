@@ -9,7 +9,7 @@ from .ngon import ngon
 from .rectangle import rectangle_quad, rectangle_tri
 from .simple_arrow import simple_arrow
 from .simple_shell import simple_shell
-from .sphere import icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
+from .sphere import geo_sphere, icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
 from .triangle import triangle
 from .tube import tube
 
@@ -31,6 +31,7 @@ __all__ = [
     "icosa_sphere",
     "octa_sphere",
     "tetra_sphere",
+    "geo_sphere",
     "triangle",
     "tube",
     #

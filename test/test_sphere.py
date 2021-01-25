@@ -25,6 +25,16 @@ def test_uv_sphere(num_points_per_circle=20, num_circles=10):
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
 
 
+def test_geo_sphere(num_points_per_circle=20, num_circles=10):
+    points, tri, quad = meshzoo.geo_sphere(num_points_per_circle, num_circles)
+    assert len(points) == 162
+    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert len(tri) == 40
+    assert len(quad) == 140
+    # assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
+    assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
+
+
 def test_tetra_sphere(n=16):
     points, cells = meshzoo.tetra_sphere(n)
     # import meshio
@@ -57,4 +67,4 @@ def test_icosa_sphere(n=16):
 
 
 if __name__ == "__main__":
-    test_icosa_sphere()
+    test_geo_sphere()
