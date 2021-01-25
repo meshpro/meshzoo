@@ -1,23 +1,21 @@
-import numpy
+import numpy as np
 
 
 def tube(length=1.0, radius=1.0, n=30):
     # Number of nodes along the width of the strip (>= 2)
     # Choose it such that we have approximately square boxes.
-    nw = int(round(length * n / (2 * numpy.pi * radius)))
+    nw = int(round(length * n / (2 * np.pi * radius)))
 
     # Generate suitable ranges for parametrization
-    u_range = numpy.linspace(0.0, 2 * numpy.pi, num=n, endpoint=False)
-    v_range = numpy.linspace(-0.5 * length, 0.5 * length, num=nw)
+    u_range = np.linspace(0.0, 2 * np.pi, num=n, endpoint=False)
+    v_range = np.linspace(-0.5 * length, 0.5 * length, num=nw)
 
     # Create the vertices.
-    proto_nodes = numpy.dstack(numpy.meshgrid(u_range, v_range, indexing="ij")).reshape(
-        -1, 2
-    )
-    nodes = numpy.column_stack(
+    proto_nodes = np.dstack(np.meshgrid(u_range, v_range, indexing="ij")).reshape(-1, 2)
+    nodes = np.column_stack(
         [
-            radius * numpy.cos(proto_nodes[:, 0]),
-            radius * numpy.sin(proto_nodes[:, 0]),
+            radius * np.cos(proto_nodes[:, 0]),
+            radius * np.sin(proto_nodes[:, 0]),
             proto_nodes[:, 1],
         ]
     )
@@ -34,4 +32,4 @@ def tube(length=1.0, radius=1.0, n=30):
         elems.append([(n - 1) * nw + j, j + 1, (n - 1) * nw + j + 1])
         elems.append([(n - 1) * nw + j, j, j + 1])
 
-    return nodes, numpy.array(elems)
+    return nodes, np.array(elems)

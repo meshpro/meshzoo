@@ -123,7 +123,7 @@ points, cells = meshzoo.cube(
 ### Extra, extra
 
 In addition to this, the
-[`examples/`](https://github.com/nschloe/meshzoo/blob/master/examples/) directory
+[`examples/`](https://github.com/nschloe/meshzoo/blob/main/examples/) directory
 contains a couple of instructive examples for other mesh generators.
 
 
