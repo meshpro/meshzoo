@@ -43,7 +43,8 @@ bary, cells = meshzoo.triangle(8)
 ```
 
 #### Rectangle
-<img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="20%">
+| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/retangle-quad.svg" width="70%"> |
+| :----: | :---: |
 
 ```python
 import meshzoo
@@ -51,9 +52,11 @@ import meshzoo
 points, cells = meshzoo.rectangle_tri(
     (0.0, 0.0),
     (1.0, 1.0),
-    n=11,
-    variant="zigzag",  # "up", "down", "center"
+    n=11,              # or (11, 11)
+    variant="zigzag",  # or "up", "down", "center"
 )
+
+points, cells = meshzoo.rectangle_quad((0.0, 0.0), (1.0, 1.0), n=11)
 ```
 
 #### Regular polygon
@@ -78,6 +81,8 @@ The disk meshes are inflations of regular polygons.
 import meshzoo
 
 points, cells = meshzoo.disk(6, 11)
+
+points, cells = meshzoo.disk_quad(10)
 ```
 
 #### Möbius strip
@@ -109,6 +114,17 @@ All cells are oriented such that its normal points outwards.
 | :----: | :---: | :---: |
 |`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.icosa_sphere(10)` |
 
+#### Ball (solid)
+
+| <img src="https://nschloe.github.io/meshzoo/ball-tetra.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/ball-hexa.png" width="70%"> |
+| :----: | :---: |
+
+```python
+import meshzoo
+
+points, cells = meshzoo.ball_tetra(10)
+points, cells = meshzoo.ball_hexa(10)
+```
 
 #### Tube
 <img src="https://nschloe.github.io/meshzoo/tube.png" width="20%">
@@ -120,16 +136,16 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 ```
 
 #### Cube
-<img src="https://nschloe.github.io/meshzoo/cube.png" width="20%">
+
+| <img src="https://nschloe.github.io/meshzoo/cube.png" width="20%"> | <img src="https://nschloe.github.io/meshzoo/cube-hexa.png" width="70%"> |
+| :----: | :---: |
 
 ```python
 import meshzoo
 
-points, cells = meshzoo.cube_tetra(
-    (0.0, 0.0, 0.0),
-    (1.0, 1.0, 1.0),
-    n=11,
-)
+points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
+
+points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
 ```
 
 
