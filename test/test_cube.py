@@ -18,6 +18,8 @@ def test_cube_hexa():
     points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 11)
     assert len(points) == 1331
     assert len(cells) == 1000
+    # import meshio
+    # meshio.Mesh(points, {"hexahedron": cells}).write("cube-hexa.vtk")
 
     points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 3)
     assert len(points) == 27
