@@ -3,6 +3,18 @@ from typing import Tuple, Union
 import numpy as np
 
 
+# backwards compatibility
+def rectangle(
+    x0: float,
+    x1: float,
+    y0: float,
+    y1: float,
+    nx: int,
+    ny: int,
+):
+    return rectangle_tri((x0, y0), (x1, y1), (nx, ny))
+
+
 def rectangle_quad(
     a0: Tuple[float, float],
     a1: Tuple[float, float],

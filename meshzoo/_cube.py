@@ -3,6 +3,21 @@ from typing import Tuple, Union
 import numpy as np
 
 
+# backwards compatibility
+def cube(
+    x0: float,
+    x1: float,
+    y0: float,
+    y1: float,
+    z0: float,
+    z1: float,
+    nx: int,
+    ny: int,
+    nz: int,
+):
+    return cube_tetra((x0, y0, z0), (x1, y1, z1), (nx, ny, nz))
+
+
 def cube_hexa(
     a0: Tuple[float, float, float],
     a1: Tuple[float, float, float],
