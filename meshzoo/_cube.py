@@ -23,9 +23,10 @@ def cube_hexa(
     a1: Tuple[float, float, float],
     n: Union[int, Tuple[int, int, int]],
 ):
-    if isinstance(n, int):
+    if isinstance(n, tuple):
+        assert len(n) == 3
+    else:
         n = (n, n, n)
-    assert isinstance(n, tuple) and len(n) == 3
 
     xmin, ymin, zmin = a0
     xmax, ymax, zmax = a1
@@ -75,9 +76,10 @@ def cube_tetra(
     Edge lenghts of the cube
     Number of nodes along the edges.
     """
-    if isinstance(n, int):
+    if isinstance(n, tuple):
+        assert len(n) == 3
+    else:
         n = (n, n, n)
-    assert isinstance(n, tuple) and len(n) == 3
 
     xmin, ymin, zmin = a0
     xmax, ymax, zmax = a1

@@ -20,9 +20,10 @@ def rectangle_quad(
     a1: Tuple[float, float],
     n: Union[int, Tuple[int, int]],
 ):
-    if isinstance(n, int):
+    if isinstance(n, tuple):
+        assert len(n) == 2
+    else:
         n = (n, n)
-    assert isinstance(n, tuple) and len(n) == 2
 
     nx, ny = n
 
@@ -44,9 +45,10 @@ def rectangle_tri(
     n: Union[int, Tuple[int, int]],
     variant: str = "zigzag",
 ):
-    if isinstance(n, int):
+    if isinstance(n, tuple):
+        assert len(n) == 2
+    else:
         n = (n, n)
-    assert isinstance(n, tuple) and len(n) == 2
 
     # Create the vertices.
     x_range = np.linspace(a0[0], a1[0], n[0])
