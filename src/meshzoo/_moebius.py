@@ -2,17 +2,17 @@ import numpy as np
 
 
 def moebius(
-    num_twists=1,  # How many twists are there in the 'paper'?
-    nl=60,  # Number of nodes along the length of the strip
-    nw=11,  # Number of nodes along the width of the strip (>= 2)
-    mode="classical",
+    num_twists: int = 1,  # How many twists are there in the 'paper'?
+    nl: int = 60,  # Number of nodes along the length of the strip
+    nw: int = 11,  # Number of nodes along the width of the strip (>= 2)
+    variant: str = "classical",
 ):
     """Creates a simplistic triangular mesh on a slightly Möbius strip. The
     Möbius strip here deviates slightly from the ordinary geometry in that it
     is constructed in such a way that the two halves can be exchanged as to
     allow better comparison with the pseudo-Möbius geometry.
 
-    The mode is either `'classical'` or `'smooth'`. The first is the classical
+    The variant is either `'classical'` or `'smooth'`. The first is the classical
     Möbius band parametrization, the latter a smoothed variant matching
     `'pseudo'`.
     """
@@ -45,11 +45,11 @@ def moebius(
     sin_alpha = np.sin(alpha)
     cos_alpha = np.cos(alpha)
 
-    if mode == "classical":
+    if variant == "classical":
         a = cos_alpha
         b = sin_alpha
         reverse_seam = num_twists % 2 == 1
-    elif mode == "smooth":
+    elif variant == "smooth":
         # The fundamental difference with the ordinary Möbius band here are the
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
@@ -58,7 +58,7 @@ def moebius(
         b = np.copysign(sin_alpha ** 2, sin_alpha)
         reverse_seam = num_twists % 2 == 1
     else:
-        assert mode == "pseudo"
+        assert variant == "pseudo"
         a = cos_alpha ** 2
         b = sin_alpha ** 2
         reverse_seam = False

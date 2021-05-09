@@ -3,7 +3,7 @@ import numpy as np
 from ._cube import cube_hexa, cube_tetra
 
 
-def ball_hexa(n):
+def ball_hexa(n: int):
     a = 1 / np.sqrt(3)
     nodes, elems = cube_hexa((-a, -a, -a), (a, a, a), n)
 
@@ -18,7 +18,7 @@ def ball_hexa(n):
     return nodes, elems
 
 
-def ball_tetra(n):
+def ball_tetra(n: int):
     a = 1 / np.sqrt(3)
     nodes, elems = cube_tetra((-a, -a, -a), (a, a, a), n)
 

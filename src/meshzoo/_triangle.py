@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def triangle(n):
+def triangle(n: int):
     # Create the mesh in barycentric coordinates
     bary = (
         np.hstack([[np.full(n - i + 1, i), np.arange(n - i + 1)] for i in range(n + 1)])
