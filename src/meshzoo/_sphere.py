@@ -3,7 +3,7 @@ import numpy as np
 from ._helpers import _compose_from_faces
 
 
-def uv_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):
+def uv_sphere(num_points_per_circle: int, num_circles: int, radius: float = 1.0):
     # Mesh parameters
     n_phi = num_points_per_circle
     n_theta = num_circles
@@ -185,7 +185,7 @@ def tetra_sphere(n):
     return vertices, cells
 
 
-def octa_sphere(n):
+def octa_sphere(n: int):
     corners = np.array(
         [
             [1.0, 0.0, 0.0],
@@ -215,7 +215,7 @@ def octa_sphere(n):
     return vertices, cells
 
 
-def icosa_sphere(n):
+def icosa_sphere(n: int):
     assert n >= 1
     # Start off with an isosahedron and refine.
 

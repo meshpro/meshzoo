@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def tube(length=1.0, radius=1.0, n=30):
+def tube(length: float = 1.0, radius: float = 1.0, n: int = 30):
     # Number of nodes along the width of the strip (>= 2)
     # Choose it such that we have approximately square boxes.
     nw = int(round(length * n / (2 * np.pi * radius)))
