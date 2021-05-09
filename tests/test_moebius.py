@@ -13,7 +13,7 @@ import meshzoo
     ],
 )
 def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(num_twists, 190, 31, mode="smooth")
+    points, cells = meshzoo.moebius(num_twists, 190, 31, variant="smooth")
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -41,7 +41,9 @@ def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
     ],
 )
 def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(nl=190, nw=30, num_twists=num_twists, mode="smooth")
+    points, cells = meshzoo.moebius(
+        nl=190, nw=30, num_twists=num_twists, variant="smooth"
+    )
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -57,7 +59,7 @@ def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
     ],
 )
 def test_moebius3(num_twists, num_points, num_cells, ref1, ref2):
-    points, cells = meshzoo.moebius(num_twists, 100, 10, mode="classical")
+    points, cells = meshzoo.moebius(num_twists, 100, 10, variant="classical")
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert _near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
@@ -66,7 +68,7 @@ def test_moebius3(num_twists, num_points, num_cells, ref1, ref2):
 
 
 def test_pseudomoebius():
-    points, cells = meshzoo.moebius(nl=190, nw=31, mode="pseudo")
+    points, cells = meshzoo.moebius(nl=190, nw=31, variant="pseudo")
     assert len(points) == 5890
     assert len(cells) == 11400
     assert _near_equal(np.sum(points, axis=0), [0, 0, 0], tol=1.0e-10)
