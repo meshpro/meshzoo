@@ -4,7 +4,7 @@ from ._helpers import _compose_from_faces
 from ._rectangle import rectangle_quad
 
 
-def disk(p, n, offset=np.pi / 2):
+def disk(p: int, n: int, offset: float=np.pi / 2):
     k = np.arange(p)
     corners = np.vstack(
         [
@@ -39,7 +39,7 @@ def disk(p, n, offset=np.pi / 2):
     )
 
 
-def disk_quad(n):
+def disk_quad(n: int):
     a = 1 / np.sqrt(2)
     nodes, elems = rectangle_quad((-a, -a), (a, a), n)
 
