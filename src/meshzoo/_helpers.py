@@ -215,28 +215,33 @@ def insert_midpoints_edges(points, cells, cell_type):
     """Collect all unique edges, calculate and return points including
     midpoints on edges as well as the extended cells array."""
 
-    # list of supported cell types
-    supported_cell_types = ["triangle", "tetra", "quad", "hexahedron"]
-
-    if cell_type not in supported_cell_types:
-        raise TypeError("Cell type not implemented.")
-
     number_of_points = {"triangle": 3, "tetra": 4, "quad": 4, "hexahedron": 8}
 
     if cells.shape[1] != number_of_points[cell_type]:
         raise ValueError("Mismatch of cell type and shape of cells array.")
 
-    number_of_edges = {"triangle": 3, "tetra": 6, "quad": 4, "hexahedron": 12}
-
-    if cell_type in ["triangle", "tetra"]:
+    if cell_type == "triangle":
         # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2, 3, 3, 3][: number_of_edges[cell_type]]
-        j = [1, 2, 0, 0, 1, 2][: number_of_edges[cell_type]]
+        i = [0, 1, 2]
+        j = [1, 2, 0]
 
-    elif cell_type in ["quad", "hexahedron"]:
+    elif cell_type == "tetra":
         # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3][: number_of_edges[cell_type]]
-        j = [1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7][: number_of_edges[cell_type]]
+        i = [0, 1, 2, 3, 3, 3]
+        j = [1, 2, 0, 0, 1, 2]
+
+    elif cell_type == "quad":
+        # k-th edge between cell points no. (i[k], j[k])
+        i = [0, 1, 2, 3]
+        j = [1, 2, 3, 0]
+
+    elif cell_type == "hexahedron":
+        # k-th edge between cell points no. (i[k], j[k])
+        i = [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3]
+        j = [1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7]
+
+    else:
+        raise TypeError("Cell type not implemented.")
 
     # element-wise stacking of two arrays, one for the first and another
     # one for the second edge-point, results in edge-based pairs of points
