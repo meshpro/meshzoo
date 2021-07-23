@@ -209,3 +209,60 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
     cells = np.concatenate(cells)
 
     return vertices, cells
+
+
+def insert_midpoints_edges(points, cells, cell_type):
+    """Collect all unique edges, calculate and return points including
+    midpoints on edges as well as the extended cells array."""
+
+    # list of supported cell types
+    supported_cell_types = ["triangle", "tetra", "quad", "hexahedron"]
+
+    if cell_type not in supported_cell_types:
+        raise TypeError("Cell type not implemented.")
+
+    number_of_points = {"triangle": 3, "tetra": 4, "quad": 4, "hexahedron": 8}
+
+    if cells.shape[1] != number_of_points[cell_type]:
+        raise ValueError("Mismatch of cell type and shape of cells array.")
+
+    number_of_edges = {"triangle": 3, "tetra": 6, "quad": 4, "hexahedron": 12}
+
+    if cell_type in ["triangle", "tetra"]:
+        # k-th edge between cell points no. (i[k], j[k])
+        i = [0, 1, 2, 3, 3, 3][: number_of_edges[cell_type]]
+        j = [1, 2, 0, 0, 1, 2][: number_of_edges[cell_type]]
+
+    elif cell_type in ["quad", "hexahedron"]:
+        # k-th edge between cell points no. (i[k], j[k])
+        i = [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3][: number_of_edges[cell_type]]
+        j = [1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7][: number_of_edges[cell_type]]
+
+    # element-wise stacking of two arrays, one for the first and another
+    # one for the second edge-point, results in edge-based pairs of points
+    edges = np.dstack((cells[:, i], cells[:, j]))
+
+    # sort points of edges
+    edges_sorted = np.sort(edges.reshape(-1, 2), axis=1)
+
+    # obtain unique edges and inverse mapping
+    edges_unique, inverse = np.unique(
+        edges_sorted,
+        return_index=False,
+        return_inverse=True,
+        return_counts=False,
+        axis=0,
+    )
+
+    # calculate midpoints on edges as mean of edge-based pairs of points
+    midpoints_on_edges = np.mean(points[edges_unique.T], axis=0)
+
+    # create the additional cells array
+    # add offset to point index for midpoints on edges
+    cells_edges = inverse.reshape(len(cells), -1) + len(points)
+
+    # vertical stack of points and horizontal stack of edges
+    points_new = np.vstack((points, midpoints_on_edges))
+    cells_new = np.hstack((cells, cells_edges))
+
+    return points_new, cells_new
