@@ -292,7 +292,7 @@ def insert_midpoints_faces(points, cells, cell_type):
         # k-th face between cell points no. (ij[k])
         ij = [[0, 1, 2, 3]]
 
-    elif cell_type == "hexahedron":
+    elif "hexahedron" in cell_type:
         # k-th edge between cell points no. (ij[k])
         ij = [
             [0, 3, 7, 4],
