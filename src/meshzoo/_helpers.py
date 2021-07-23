@@ -209,3 +209,73 @@ def _compose_from_faces(corners, faces, n, edge_adjust=None, face_adjust=None):
     cells = np.concatenate(cells)
 
     return vertices, cells
+
+
+def insert_midpoints_edges(points, cells, cell_type):
+    """Collect all unique edges, calculate and return points including
+    midpoints on edges as well as the extended cells array."""
+
+    number_of_points = {"triangle": 3, "tetra": 4, "quad": 4, "hexahedron": 8}
+
+    if cells.shape[1] != number_of_points[cell_type]:
+        raise ValueError("Mismatch of cell type and shape of cells array.")
+
+    if cell_type == "triangle":
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 0]]
+
+    elif cell_type == "tetra":
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 0], [3, 0], [3, 1], [3, 2]]
+
+    elif cell_type == "quad":
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 3], [3, 0]]
+
+    elif cell_type == "hexahedron":
+        # k-th edge between cell points no. (ij[k])
+        ij = [
+            [0, 1],
+            [1, 2],
+            [2, 3],
+            [3, 0],
+            [4, 5],
+            [5, 6],
+            [6, 7],
+            [7, 4],
+            [0, 4],
+            [1, 5],
+            [2, 6],
+            [3, 7],
+        ]
+
+    else:
+        raise TypeError("Cell type not implemented.")
+
+    # obtain edges from cells (contains duplicates)
+    edges = cells[:, ij]
+
+    # sort points of edges
+    edges_sorted = np.sort(edges.reshape(-1, 2), axis=1)
+
+    # obtain unique edges and inverse mapping
+    edges_unique, inverse = np.unique(
+        edges_sorted,
+        return_index=False,
+        return_inverse=True,
+        return_counts=False,
+        axis=0,
+    )
+
+    # calculate midpoints on edges as mean of edge-based pairs of points
+    midpoints_on_edges = np.mean(points[edges_unique.T], axis=0)
+
+    # create the additional cells array
+    # add offset to point index for midpoints on edges
+    cells_edges = inverse.reshape(len(cells), -1) + len(points)
+
+    # vertical stack of points and horizontal stack of edges
+    points_new = np.vstack((points, midpoints_on_edges))
+    cells_new = np.hstack((cells, cells_edges))
+
+    return points_new, cells_new
