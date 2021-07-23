@@ -340,15 +340,13 @@ def insert_midpoints_volumes(points, cells, cell_type):
     midpoints of volumes as well as the extended cells array."""
 
     if "tetra" in cell_type:
-        number_of_vertices = 3
+        midpoints_of_volumes = np.mean(points[cells][:, :3, :], axis=1)
 
     elif "hexahedron" in cell_type:
-        number_of_vertices = 8
+        midpoints_of_volumes = np.mean(points[cells][:, :8, :], axis=1)
 
     else:
         raise TypeError("Cell type not implemented.")
-
-    midpoints_of_volumes = np.mean(points[cells][:, :number_of_vertices, :], axis=1)
 
     # create the additional cells array
     # add offset to point index for midpoints of volumes
