@@ -12,7 +12,7 @@ def test_midpoints_edges_tri():
     )
 
     assert len(points_new) == 9
-    assert cells_new.shape == (6, 6)
+    assert cells_new.shape == (2, 6)
 
 
 def test_midpoints_edges_tetra():
@@ -40,7 +40,7 @@ def test_midpoints_edges_quad():
     )
 
     assert len(points_new) == 21
-    assert cells_new.shape == (8, 8)
+    assert cells_new.shape == (4, 8)
 
 
 def test_midpoints_edges_hexa():
@@ -58,4 +58,7 @@ def test_midpoints_edges_hexa():
 
 
 if __name__ == "__main__":
+    test_midpoints_edges_tri()
     test_midpoints_edges_tetra()
+    test_midpoints_edges_quad()
+    test_midpoints_edges_hexa()
