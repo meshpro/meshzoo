@@ -37,4 +37,5 @@ __all__ = [
     "show2d",
     "plot2d",
     "create_edges",
+    "insert_midpoints_edges",
 ]
