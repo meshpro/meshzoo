@@ -215,11 +215,6 @@ def insert_midpoints_edges(points, cells, cell_type):
     """Collect all unique edges, calculate and return points including
     midpoints on edges as well as the extended cells array."""
 
-    number_of_points = {"triangle": 3, "tetra": 4, "quad": 4, "hexahedron": 8}
-
-    if cells.shape[1] != number_of_points[cell_type]:
-        raise ValueError("Mismatch of cell type and shape of cells array.")
-
     if cell_type == "triangle":
         # k-th edge between cell points no. (ij[k])
         ij = [[0, 1], [1, 2], [2, 0]]
@@ -274,8 +269,93 @@ def insert_midpoints_edges(points, cells, cell_type):
     # add offset to point index for midpoints on edges
     cells_edges = inverse.reshape(len(cells), -1) + len(points)
 
-    # vertical stack of points and horizontal stack of edges
+    # vertical stack of points and horizontal stack of cells
     points_new = np.vstack((points, midpoints_on_edges))
     cells_new = np.hstack((cells, cells_edges))
+
+    return points_new, cells_new
+
+
+def insert_midpoints_faces(points, cells, cell_type):
+    """Collect all unique faces, calculate and return points including
+    midpoints on faces as well as the extended cells array."""
+
+    if "triangle" in cell_type:
+        # k-th face between cell points no. (ij[k])
+        ij = [[0, 1, 2]]
+
+    elif "tetra" in cell_type:
+        # k-th face between cell points no. (ij[k])
+        ij = [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]]
+
+    elif "quad" in cell_type:
+        # k-th face between cell points no. (ij[k])
+        ij = [[0, 1, 2, 3]]
+
+    elif cell_type == "hexahedron":
+        # k-th edge between cell points no. (ij[k])
+        ij = [
+            [0, 3, 7, 4],
+            [1, 2, 6, 5],
+            [1, 0, 4, 5],
+            [2, 3, 7, 6],
+            [0, 1, 2, 3],
+            [4, 5, 6, 7],
+        ]
+
+    else:
+        raise TypeError("Cell type not implemented.")
+
+    # obtain faces from cells (contains duplicates)
+    faces = cells[:, ij]
+
+    # sort points of faces
+    faces_sorted = np.sort(faces.reshape(-1, len(ij[0])), axis=1)
+
+    # obtain unique faces and inverse mapping
+    faces_unique, inverse = np.unique(
+        faces_sorted,
+        return_index=False,
+        return_inverse=True,
+        return_counts=False,
+        axis=0,
+    )
+
+    # calculate midpoints on faces as mean of face-based pairs of points
+    midpoints_on_faces = np.mean(points[faces_unique.T], axis=0)
+
+    # create the additional cells array
+    # add offset to point index for midpoints on faces
+    cells_faces = inverse.reshape(len(cells), -1) + len(points)
+
+    # vertical stack of points and horizontal stack of cells
+    points_new = np.vstack((points, midpoints_on_faces))
+    cells_new = np.hstack((cells, cells_faces))
+
+    return points_new, cells_new
+
+
+def insert_midpoints_volumes(points, cells, cell_type):
+    """Collect all volumes, calculate and return points including
+    midpoints of volumes as well as the extended cells array."""
+
+    if "tetra" in cell_type:
+        number_of_vertices = 3
+
+    elif "hexahedron" in cell_type:
+        number_of_vertices = 8
+
+    else:
+        raise TypeError("Cell type not implemented.")
+
+    midpoints_of_volumes = np.mean(points[cells][:, :number_of_vertices, :], axis=1)
+
+    # create the additional cells array
+    # add offset to point index for midpoints of volumes
+    cells_volumes = np.arange(cells.shape[0]).reshape(-1, 1) + len(points)
+
+    # vertical stack of points and horizontal stack of cells
+    points_new = np.vstack((points, midpoints_of_volumes))
+    cells_new = np.hstack((cells, cells_volumes))
 
     return points_new, cells_new
