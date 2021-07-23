@@ -221,31 +221,39 @@ def insert_midpoints_edges(points, cells, cell_type):
         raise ValueError("Mismatch of cell type and shape of cells array.")
 
     if cell_type == "triangle":
-        # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2]
-        j = [1, 2, 0]
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 0]]
 
     elif cell_type == "tetra":
-        # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2, 3, 3, 3]
-        j = [1, 2, 0, 0, 1, 2]
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 0], [3, 0], [3, 1], [3, 2]]
 
     elif cell_type == "quad":
-        # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2, 3]
-        j = [1, 2, 3, 0]
+        # k-th edge between cell points no. (ij[k])
+        ij = [[0, 1], [1, 2], [2, 3], [3, 0]]
 
     elif cell_type == "hexahedron":
-        # k-th edge between cell points no. (i[k], j[k])
-        i = [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3]
-        j = [1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7]
+        # k-th edge between cell points no. (ij[k])
+        ij = [
+            [0, 1],
+            [1, 2],
+            [2, 3],
+            [3, 0],
+            [4, 5],
+            [5, 6],
+            [6, 7],
+            [7, 4],
+            [0, 4],
+            [1, 5],
+            [2, 6],
+            [3, 7],
+        ]
 
     else:
         raise TypeError("Cell type not implemented.")
 
-    # element-wise stacking of two arrays, one for the first and another
-    # one for the second edge-point, results in edge-based pairs of points
-    edges = np.dstack((cells[:, i], cells[:, j]))
+    # obtain edges from cells (contains duplicates)
+    edges = cells[:, ij]
 
     # sort points of edges
     edges_sorted = np.sort(edges.reshape(-1, 2), axis=1)
