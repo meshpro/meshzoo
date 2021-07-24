@@ -321,7 +321,7 @@ def insert_midpoints_faces(points, cells, cell_type):
         axis=0,
     )
 
-    # calculate midpoints on faces as mean of face-based pairs of points
+    # calculate midpoints on faces as mean of face-associated points
     midpoints_on_faces = np.mean(points[faces_unique.T], axis=0)
 
     # create the additional cells array
@@ -340,17 +340,37 @@ def insert_midpoints_volumes(points, cells, cell_type):
     midpoints of volumes as well as the extended cells array."""
 
     if "tetra" in cell_type:
-        midpoints_of_volumes = np.mean(points[cells][:, :4, :], axis=1)
+        # volume in between cell points no. (ij[k])
+        ij = [[0, 1, 2, 3]]
 
     elif "hexahedron" in cell_type:
-        midpoints_of_volumes = np.mean(points[cells][:, :8, :], axis=1)
+        # volume in between cell points no. (ij[k])
+        ij = [[0, 1, 2, 3, 4, 5, 6, 7]]
 
     else:
         raise TypeError("Cell type not implemented.")
 
+    # obtain volumes of cells (could contain duplicates)
+    volumes = cells[:, ij]
+
+    # sort points of volumes
+    volumes_sorted = np.sort(volumes.reshape(-1, len(ij[0])), axis=1)
+
+    # obtain unique volumes and inverse mapping
+    volumes_unique, inverse = np.unique(
+        volumes_sorted,
+        return_index=False,
+        return_inverse=True,
+        return_counts=False,
+        axis=0,
+    )
+
+    # calculate midpoints of volumes as mean of volume-associated points
+    midpoints_of_volumes = np.mean(points[volumes_unique.T], axis=0)
+
     # create the additional cells array
     # add offset to point index for midpoints of volumes
-    cells_volumes = np.arange(cells.shape[0]).reshape(-1, 1) + len(points)
+    cells_volumes = inverse.reshape(len(cells), -1) + len(points)
 
     # vertical stack of points and horizontal stack of cells
     points_new = np.vstack((points, midpoints_of_volumes))
