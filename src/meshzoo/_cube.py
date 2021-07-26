@@ -2,6 +2,8 @@ from typing import Tuple, Union
 
 import numpy as np
 
+from ._helpers import _cell_volumes_tetra
+
 
 # backwards compatibility
 def cube(
@@ -364,5 +366,9 @@ def cube_tetra(
             elems4.reshape(-1, 4),
         ]
     )
+
+    # fix elems with negative volumes
+    volumes = _cell_volumes_tetra(nodes, elems)
+    elems[volumes < 0] = elems[volumes < 0][:, [0, 2, 1, 3]]
 
     return nodes, elems
