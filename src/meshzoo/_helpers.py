@@ -279,3 +279,21 @@ def insert_midpoints_edges(points, cells, cell_type):
     cells_new = np.hstack((cells, cells_edges))
 
     return points_new, cells_new
+
+
+def _cell_volumes_tetra(points, cells):
+    "Calculate cell volumes of tetrahedrons."
+
+    # extract point no. 0 of all cells and reshape
+    p0 = points[cells][:, 0].reshape(len(cells), 1, 3)
+
+    # calculate edge vectors "i" as v[:, i] for all cells
+    edges = (points[cells] - np.repeat(p0, 4, axis=1))[:, 1:]
+
+    # evaluate cell volumes by the triple product
+    # cyclic permutations lead to identical results (0,1,2), (1,2,0), (2,0,1)
+    cell_volumes = (
+        np.einsum("...i,...i->...", edges[:, 0], np.cross(edges[:, 1], edges[:, 2])) / 6
+    )
+
+    return cell_volumes
