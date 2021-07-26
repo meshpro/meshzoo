@@ -1,3 +1,6 @@
+import numpy as np
+from helpers import _get_signed_volumes_tetra
+
 import meshzoo
 
 
@@ -15,3 +18,12 @@ def test_ball_tetra():
     # meshio.Mesh(points, {"tetra": cells}).write("ball-tetra.vtk")
     assert len(points) == 1331
     assert len(cells) == 5000
+
+    volumes = _get_signed_volumes_tetra(points, cells)
+
+    assert len(volumes) == len(cells)
+    assert np.all(np.sign(volumes) == 1)
+
+
+if __name__ == "__main__":
+    test_ball_tetra()
