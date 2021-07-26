@@ -1,6 +1,7 @@
 import numpy as np
 
 from ._cube import cube_hexa, cube_tetra
+from ._helpers import _cell_volumes_tetra
 
 
 def ball_hexa(n: int):
@@ -29,5 +30,9 @@ def ball_tetra(n: int):
     beta = np.linalg.norm(nodes, axis=1)
     idx = beta > 1.0e-13
     nodes[idx] = (nodes[idx].T * (alpha[idx] / beta[idx])).T
+
+    # fix elems with negative volumes
+    volumes = _cell_volumes_tetra(nodes, elems)
+    elems[volumes < 0] = elems[volumes < 0][:, [0, 2, 1, 3]]
 
     return nodes, elems
