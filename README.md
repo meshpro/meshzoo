@@ -47,7 +47,7 @@ bary, cells = meshzoo.triangle(8)
 #### Rectangle
 
 <table width="100%">
-  <tr>
+  <tr width="100%">
   <td width="50%"><img src="https://nschloe.github.io/meshzoo/rectangle.svg"/></td>
   <td width="50%"><img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg"/></td>
   </tr>
