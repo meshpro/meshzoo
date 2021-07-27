@@ -1,5 +1,7 @@
 import meshzoo
 
+from .helpers import signed_simplex_volumes
+
 
 def test_ball_hexa():
     points, cells = meshzoo.ball_hexa(10)
@@ -17,7 +19,6 @@ def test_ball_tetra():
     assert len(cells) == 5000
 
 
-# def test_positive_volumes():
-#     points, cells = meshzoo.ball_tetra(2)
-#     print(meshplex.Mesh(points, cells).signed_cell_volumes)
-#     assert np.all(meshplex.Mesh(points, cells).signed_cell_volumes > 0.0)
+def test_positive_volumes():
+    points, cells = meshzoo.ball_tetra(2)
+    assert (signed_simplex_volumes(points, cells) > 0.0).all()
