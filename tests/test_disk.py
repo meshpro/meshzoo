@@ -1,6 +1,6 @@
 import meshzoo
 
-from .helpers import get_signed_areas
+from .helpers import signed_simplex_volumes
 
 
 def test_disk():
@@ -8,7 +8,7 @@ def test_disk():
     meshzoo.save2d("4gon_disk.svg", points, cells)
     assert len(points) == 325
     assert len(cells) == 576
-    assert (get_signed_areas(points, cells) > 0.0).all()
+    assert (signed_simplex_volumes(points, cells) > 0.0).all()
 
 
 def test_disk_quad():

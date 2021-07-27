@@ -7,7 +7,7 @@ def is_near_equal(a, b, tol=1.0e-12):
     return np.allclose(a, b, rtol=0.0, atol=tol)
 
 
-def get_signed_areas(coords, cells):
+def signed_simplex_volumes(coords, cells):
     assert len(coords.shape) == 2
     assert len(cells.shape) == 2
     assert (

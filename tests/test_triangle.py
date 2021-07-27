@@ -2,7 +2,7 @@ import numpy as np
 
 import meshzoo
 
-from .helpers import get_signed_areas, is_near_equal
+from .helpers import is_near_equal, signed_simplex_volumes
 
 
 def _get_points(bary):
@@ -21,7 +21,7 @@ def test_triangle():
     # make sure the order of the nodes in each cell is counterclockwise
     corner_coords = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     coords = np.dot(corner_coords, bary)
-    assert np.all(get_signed_areas(coords.T, cells) > 0.0)
+    assert np.all(signed_simplex_volumes(coords.T, cells) > 0.0)
 
 
 def test_plot2d():
