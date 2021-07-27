@@ -23,12 +23,7 @@ def cube_hexa(
     a1: Tuple[float, float, float],
     n: Union[int, Tuple[int, int, int]],
 ):
-    if isinstance(n, tuple):
-        nx, ny, nz = n
-    else:
-        nx = n
-        ny = n
-        nz = n
+    nx, ny, nz = (n, n, n) if isinstance(n, int) else n
 
     nx1 = nx + 1
     ny1 = ny + 1
@@ -93,12 +88,7 @@ def cube_tetra(
     a1: Tuple[float, float, float],
     n: Union[int, Tuple[int, int, int]],
 ):
-    if isinstance(n, tuple):
-        nx, ny, nz = n
-    else:
-        nx = n
-        ny = n
-        nz = n
+    nx, ny, nz = (n, n, n) if isinstance(n, int) else n
 
     nx1 = nx + 1
     ny1 = ny + 1
