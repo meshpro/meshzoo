@@ -1,3 +1,4 @@
+import meshplex
 import numpy as np
 
 import meshzoo
@@ -25,3 +26,15 @@ def test_cube_hexa():
     assert len(points) == 27
     assert all(np.sum(points, axis=0) == [13.5, 13.5, 13.5])
     assert len(cells) == 8
+
+
+def test_positive_volumes():
+    points = [
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+    ]
+    cells = [[0, 1, 2, 3]]
+    print(meshplex.Mesh(points, cells).signed_cell_volumes)
+    exit(1)
