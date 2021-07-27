@@ -1,7 +1,8 @@
 import numpy as np
-from helpers import _get_signed_areas, _near_equal
 
 import meshzoo
+
+from .helpers import is_near_equal, signed_simplex_volumes
 
 
 def _get_points(bary):
@@ -14,13 +15,13 @@ def _get_points(bary):
 def test_triangle():
     bary, cells = meshzoo.triangle(4)
     assert len(bary.T) == 15
-    assert _near_equal(np.sum(_get_points(bary), axis=0), [0.0, 0.0])
+    assert is_near_equal(np.sum(_get_points(bary), axis=0), [0.0, 0.0])
     assert len(cells) == 16
 
     # make sure the order of the nodes in each cell is counterclockwise
     corner_coords = np.array([[0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     coords = np.dot(corner_coords, bary)
-    assert np.all(_get_signed_areas(coords, cells) > 0.0)
+    assert np.all(signed_simplex_volumes(coords.T, cells) > 0.0)
 
 
 def test_plot2d():

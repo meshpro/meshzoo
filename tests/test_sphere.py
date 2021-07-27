@@ -1,7 +1,8 @@
 import numpy as np
-from helpers import _near_equal
 
 import meshzoo
+
+from .helpers import is_near_equal
 
 
 def _compute_cells_normals_dir(points, cells):
@@ -19,7 +20,7 @@ def _compute_cells_normals_dir(points, cells):
 def test_uv_sphere(num_points_per_circle=20, num_circles=10):
     points, cells = meshzoo.uv_sphere(num_points_per_circle, num_circles)
     assert len(points) == 162
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert is_near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 320
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
@@ -30,7 +31,7 @@ def test_geo_sphere(num_points_per_circle=20, num_circles=10):
     # import meshio
     # meshio.write_points_cells("geo-sphere.vtk", points, {"triangle": tri, "quad": quad})
     assert len(points) == 162
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert is_near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(tri) == 40
     assert len(quad) == 140
     # assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
@@ -42,7 +43,7 @@ def test_tetra_sphere(n=16):
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
     assert len(points) == 514
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert is_near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 1024
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
@@ -51,7 +52,7 @@ def test_tetra_sphere(n=16):
 def test_octa_sphere(n=16):
     points, cells = meshzoo.octa_sphere(n)
     assert len(points) == 1026
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert is_near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 2048
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
@@ -62,7 +63,7 @@ def test_icosa_sphere(n=16):
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
     assert len(points) == 2562
-    assert _near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
+    assert is_near_equal(np.sum(points, axis=0), [0.0, 0.0, 0.0])
     assert len(cells) == 5120
     assert (_compute_cells_normals_dir(points, cells) > 0.0).all()
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)

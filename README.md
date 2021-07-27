@@ -45,8 +45,13 @@ bary, cells = meshzoo.triangle(8)
 ```
 
 #### Rectangle
-| <img src="https://nschloe.github.io/meshzoo/rectangle.svg" width="80%"> | <img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg" width="40%"> |
-| :----: | :---: |
+
+<table width="100%">
+  <tr width="100%">
+  <td width="50%"><img src="https://nschloe.github.io/meshzoo/rectangle.svg"/></td>
+  <td width="50%"><img src="https://nschloe.github.io/meshzoo/rectangle-quad.svg"/></td>
+  </tr>
+</table>
 
 ```python
 import meshzoo
