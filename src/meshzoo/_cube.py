@@ -24,18 +24,23 @@ def cube_hexa(
     n: Union[int, Tuple[int, int, int]],
 ):
     if isinstance(n, tuple):
-        assert len(n) == 3
+        nx, ny, nz = n
     else:
-        n = (n, n, n)
+        nx = n
+        ny = n
+        nz = n
+
+    nx1 = nx + 1
+    ny1 = ny + 1
+    nz1 = nz + 1
 
     xmin, ymin, zmin = a0
     xmax, ymax, zmax = a1
-    nx, ny, nz = n
 
     # Generate suitable ranges for parametrization
-    x_range = np.linspace(xmin, xmax, nx)
-    y_range = np.linspace(ymin, ymax, ny)
-    z_range = np.linspace(zmin, zmax, nz)
+    x_range = np.linspace(xmin, xmax, nx1)
+    y_range = np.linspace(ymin, ymax, ny1)
+    z_range = np.linspace(zmin, zmax, nz1)
 
     # Create the vertices.
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
@@ -46,19 +51,19 @@ def cube_hexa(
     nodes = np.array([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
-    a0 = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
-    a = np.add.outer(a0, nx * ny * np.array(range(nz - 1)))
+    a0 = np.add.outer(np.arange(nx), nx1 * np.arange(ny))
+    a = np.add.outer(a0, nx1 * ny1 * np.arange(nz))
     elems = np.concatenate(
         [
             a[..., None],
             a[..., None] + 1,
-            a[..., None] + nx + 1,
-            a[..., None] + nx,
+            a[..., None] + nx1 + 1,
+            a[..., None] + nx1,
             #
-            a[..., None] + nx * ny,
-            a[..., None] + nx * ny + 1,
-            a[..., None] + nx * ny + nx + 1,
-            a[..., None] + nx * ny + nx,
+            a[..., None] + nx1 * ny1,
+            a[..., None] + nx1 * ny1 + 1,
+            a[..., None] + nx1 * ny1 + nx1 + 1,
+            a[..., None] + nx1 * ny1 + nx1,
         ],
         axis=3,
     ).reshape(-1, 8)
@@ -77,18 +82,23 @@ def cube_tetra(
     Number of nodes along the edges.
     """
     if isinstance(n, tuple):
-        assert len(n) == 3
+        nx, ny, nz = n
     else:
-        n = (n, n, n)
+        nx = n
+        ny = n
+        nz = n
+
+    nx1 = nx + 1
+    ny1 = ny + 1
+    nz1 = nz + 1
 
     xmin, ymin, zmin = a0
     xmax, ymax, zmax = a1
-    nx, ny, nz = n
 
     # Generate suitable ranges for parametrization
-    x_range = np.linspace(xmin, xmax, nx)
-    y_range = np.linspace(ymin, ymax, ny)
-    z_range = np.linspace(zmin, zmax, nz)
+    x_range = np.linspace(xmin, xmax, nx1)
+    y_range = np.linspace(ymin, ymax, ny1)
+    z_range = np.linspace(zmin, zmax, nz1)
 
     # Create the vertices.
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
@@ -105,8 +115,8 @@ def cube_tetra(
     # <http://www.baumanneduard.ch/Splitting%20a%20cube%20in%20tetrahedras2.htm>
     # Also interesting: <http://en.wikipedia.org/wiki/Marching_tetrahedrons>.
 
-    a0 = np.add.outer(np.array(range(nx - 1)), nx * np.array(range(ny - 1)))
-    a = np.add.outer(a0, nx * ny * np.array(range(nz - 1)))
+    a0 = np.add.outer(np.arange(nx), nx1 * np.arange(ny))
+    a = np.add.outer(a0, nx1 * ny1 * np.arange(nz))
 
     # The general scheme here is:
     #  * Initialize everything with `a`, equivalent to
@@ -134,7 +144,7 @@ def cube_tetra(
     # ```
     # back.
     elems0 = np.concatenate(
-        [a[..., None], a[..., None] + nx, a[..., None] + 1, a[..., None] + nx * ny],
+        [a[..., None], a[..., None] + nx1, a[..., None] + 1, a[..., None] + nx1 * ny1],
         axis=3,
     )
 
@@ -175,10 +185,10 @@ def cube_tetra(
     # elems1 = np.stack([a + nx, a + 1 + nx, a + 1, a + 1 + nx + nx*ny]).T
     elems1 = np.concatenate(
         [
-            a[..., None] + nx,
-            a[..., None] + 1 + nx,
+            a[..., None] + nx1,
+            a[..., None] + 1 + nx1,
             a[..., None] + 1,
-            a[..., None] + 1 + nx + nx * ny,
+            a[..., None] + 1 + nx1 + nx1 * ny1,
         ],
         axis=3,
     )
@@ -220,10 +230,10 @@ def cube_tetra(
     # elems2 = np.stack([a + nx, a + 1, a + nx*ny, a + 1 + nx + nx*ny]).T
     elems2 = np.concatenate(
         [
-            a[..., None] + nx,
+            a[..., None] + nx1,
             a[..., None] + 1,
-            a[..., None] + nx * ny,
-            a[..., None] + 1 + nx + nx * ny,
+            a[..., None] + nx1 * ny1,
+            a[..., None] + 1 + nx1 + nx1 * ny1,
         ],
         axis=3,
     )
@@ -270,10 +280,10 @@ def cube_tetra(
     #     ]).T
     elems3 = np.concatenate(
         [
-            a[..., None] + nx,
-            a[..., None] + nx * ny,
-            a[..., None] + nx + nx * ny,
-            a[..., None] + 1 + nx + nx * ny,
+            a[..., None] + nx1,
+            a[..., None] + nx1 * ny1,
+            a[..., None] + nx1 + nx1 * ny1,
+            a[..., None] + 1 + nx1 + nx1 * ny1,
         ],
         axis=3,
     )
@@ -321,9 +331,9 @@ def cube_tetra(
     elems4 = np.concatenate(
         [
             a[..., None] + 1,
-            a[..., None] + nx * ny,
-            a[..., None] + 1 + nx + nx * ny,
-            a[..., None] + 1 + nx * ny,
+            a[..., None] + nx1 * ny1,
+            a[..., None] + 1 + nx1 + nx1 * ny1,
+            a[..., None] + 1 + nx1 * ny1,
         ],
         axis=3,
     )

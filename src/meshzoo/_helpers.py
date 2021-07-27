@@ -46,7 +46,14 @@ def save2d(filename, *args, **kwargs):
     plt.savefig(filename, transparent=True, bbox_inches="tight")
 
 
-def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
+def plot2d(
+    points,
+    cells,
+    show_axes=False,
+    # ParaView's default colors
+    fill: str = "#c8c5bd",
+    stroke: str = "#000080",
+):
     """Plot a 2D mesh using matplotlib."""
     import matplotlib.pyplot as plt
 
@@ -77,7 +84,7 @@ def plot2d(points, cells, edge_color="k", face_color="#ddd", show_axes=False):
     for cell in cells:
         import matplotlib.patches
 
-        poly = matplotlib.patches.Polygon(points[cell], ec=edge_color, fc=face_color)
+        poly = matplotlib.patches.Polygon(points[cell], ec=stroke, fc=fill)
         ax.add_patch(poly)
 
     # import matplotlib.tri

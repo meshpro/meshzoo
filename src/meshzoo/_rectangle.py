@@ -23,6 +23,7 @@ def rectangle_quad(
     if isinstance(n, tuple):
         assert len(n) == 2
     else:
+        assert isinstance(n, int)
         n = (n, n)
 
     nx, ny = n
@@ -30,12 +31,12 @@ def rectangle_quad(
     xmin, ymin = a0
     xmax, ymax = a1
 
-    x_range = np.linspace(xmin, xmax, nx)
-    y_range = np.linspace(ymin, ymax, ny)
+    x_range = np.linspace(xmin, xmax, nx + 1)
+    y_range = np.linspace(ymin, ymax, ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
-    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
-    elems = np.array([a, a + 1, a + nx + 1, a + nx]).reshape(4, -1).T
+    a = np.add.outer(np.arange(nx), nx * np.arange(ny))
+    elems = np.array([a, a + 1, a + nx + 2, a + nx + 1]).reshape(4, -1).T
     return nodes, elems
 
 
@@ -50,12 +51,14 @@ def rectangle_tri(
     else:
         n = (n, n)
 
+    nx, ny = n
+
     # Create the vertices.
-    x_range = np.linspace(a0[0], a1[0], n[0])
-    y_range = np.linspace(a0[1], a1[1], n[1])
+    x_range = np.linspace(a0[0], a1[0], nx + 1)
+    y_range = np.linspace(a0[1], a1[1], ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
     elem_fun = {"zigzag": _zigzag, "center": _center, "down": _down, "up": _up}
-    return nodes, elem_fun[variant](*n)
+    return nodes, elem_fun[variant](nx + 1, ny + 1)
 
 
 def _up(nx, ny):

@@ -9,7 +9,7 @@ def triangle(n: int):
     )
     bary = np.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
 
-    # Some applications rely on the fact that not values like -1.4125e-16 appear.
+    # Some applications don't accept values like -1.4125e-16.
     bary[bary < 0.0] = 0.0
     bary[bary > 1.0] = 1.0
 

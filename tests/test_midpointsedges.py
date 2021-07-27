@@ -2,7 +2,7 @@ import meshzoo
 
 
 def test_midpoints_edges_tri():
-    points, cells = meshzoo.rectangle_tri(a0=(0, 0), a1=(1, 1), n=2)
+    points, cells = meshzoo.rectangle_tri(a0=(0, 0), a1=(1, 1), n=1)
 
     assert len(points) == 4
     assert cells.shape == (2, 3)
@@ -16,7 +16,7 @@ def test_midpoints_edges_tri():
 
 
 def test_midpoints_edges_tetra():
-    points, cells = meshzoo.cube_tetra(a0=(0, 0, 0), a1=(1, 1, 1), n=2)
+    points, cells = meshzoo.cube_tetra(a0=(0, 0, 0), a1=(1, 1, 1), n=1)
 
     assert len(points) == 8
     assert cells.shape == (5, 4)
@@ -30,7 +30,7 @@ def test_midpoints_edges_tetra():
 
 
 def test_midpoints_edges_quad():
-    points, cells = meshzoo.rectangle_quad(a0=(0, 0), a1=(1, 1), n=3)
+    points, cells = meshzoo.rectangle_quad(a0=(0, 0), a1=(1, 1), n=2)
 
     assert len(points) == 9
     assert cells.shape == (4, 4)
@@ -44,7 +44,7 @@ def test_midpoints_edges_quad():
 
 
 def test_midpoints_edges_hexa():
-    points, cells = meshzoo.cube_hexa(a0=(0, 0, 0), a1=(1, 1, 1), n=3)
+    points, cells = meshzoo.cube_hexa(a0=(0, 0, 0), a1=(1, 1, 1), n=2)
 
     assert len(points) == 27
     assert cells.shape == (8, 8)
