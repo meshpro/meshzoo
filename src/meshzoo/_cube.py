@@ -46,9 +46,9 @@ def cube_hexa(
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
     # Alternative with slightly different order:
     # ```
-    # nodes = np.stack([x, y, z]).T.reshape(-1, 3)
+    # points = np.stack([x, y, z]).T.reshape(-1, 3)
     # ```
-    nodes = np.array([x, y, z]).T.reshape(-1, 3)
+    points = np.array([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
     a0 = np.add.outer(np.arange(nx), nx1 * np.arange(ny))
@@ -68,7 +68,7 @@ def cube_hexa(
         axis=3,
     ).reshape(-1, 8)
 
-    return nodes, elems
+    return points, elems
 
 
 def cube_tetra(
@@ -76,11 +76,6 @@ def cube_tetra(
     a1: Tuple[float, float, float],
     n: Union[int, Tuple[int, int, int]],
 ):
-    """Canonical tetrahedrization of the cube.
-    Input:
-    Edge lenghts of the cube
-    Number of nodes along the edges.
-    """
     if isinstance(n, tuple):
         nx, ny, nz = n
     else:
@@ -104,275 +99,68 @@ def cube_tetra(
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
     # Alternative with slightly different order:
     # ```
-    # nodes = np.stack([x, y, z]).T.reshape(-1, 3)
+    # points = np.stack([x, y, z]).T.reshape(-1, 3)
     # ```
-    nodes = np.array([x, y, z]).T.reshape(-1, 3)
+    points = np.array([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
+    a = np.arange(len(points)).reshape(nx1, ny1, nz1)
+    a = np.transpose(a, [2, 1, 0])
+    #
+    # `c` contains the indices of each "cube" like
+    #
+    #
+    #          c[7]     c[6]
+    #            ________
+    #           /       /|
+    #     c[4] /_______/ | c[5]
+    #         |        | |
+    #         |        | |
+    #         |        | / c[2]
+    #         |________|/
+    #
+    #       c[0]      c[1]
+    #
+    c = [
+        a[:-1, :-1, :-1],
+        a[1:, :-1, :-1],
+        a[1:, 1:, :-1],
+        a[:-1, 1:, :-1],
+        a[:-1, :-1, 1:],
+        a[1:, :-1, 1:],
+        a[1:, 1:, 1:],
+        a[:-1, 1:, 1:],
+    ]
+
+    # 3D checkers
+    idx = np.ones((nx, ny, nz), dtype=bool)
+    idx[::2, 1::2, ::2] = False
+    idx[::2, ::2, 1::2] = False
+    idx[1::2, ::2, ::2] = False
+    idx[1::2, 1::2, 1::2] = False
+
     # There is 1 way to split a cube into 5 tetrahedra,
     # and 12 ways to split it into 6 tetrahedra.
     # See
     # <http://www.baumanneduard.ch/Splitting%20a%20cube%20in%20tetrahedras2.htm>
     # Also interesting: <http://en.wikipedia.org/wiki/Marching_tetrahedrons>.
+    cells = [
+        # regular; make sure the order of the points is such that the signed volume is
+        # positive
+        [c[0][idx], c[1][idx], c[4][idx], c[3][idx]],
+        [c[1][idx], c[2][idx], c[6][idx], c[3][idx]],
+        [c[1][idx], c[3][idx], c[6][idx], c[4][idx]],
+        [c[1][idx], c[4][idx], c[6][idx], c[5][idx]],
+        [c[3][idx], c[4][idx], c[7][idx], c[6][idx]],
+        # the rest rotated such that it fits with the others; basically we change
+        # "bottom" and "top" of the dice
+        [c[4][~idx], c[5][~idx], c[7][~idx], c[0][~idx]],
+        [c[5][~idx], c[6][~idx], c[7][~idx], c[2][~idx]],
+        [c[5][~idx], c[7][~idx], c[0][~idx], c[2][~idx]],
+        [c[5][~idx], c[0][~idx], c[1][~idx], c[2][~idx]],
+        [c[7][~idx], c[0][~idx], c[2][~idx], c[3][~idx]],
+    ]
 
-    a0 = np.add.outer(np.arange(nx), nx1 * np.arange(ny))
-    a = np.add.outer(a0, nx1 * ny1 * np.arange(nz))
+    cells = np.column_stack([np.array(c).reshape(4, -1) for c in cells]).T
 
-    # The general scheme here is:
-    #  * Initialize everything with `a`, equivalent to
-    #    [i + nx * j + nx*ny * k].
-    #  * Add the "even" elements.
-    #  * Switch the element styles for every other element to make sure the
-    #    edges match at the faces of the cubes.
-    # The last step requires adapting the original pattern at
-    #     [1::2, 0::2, 0::2, :]
-    #     [0::2, 1::2, 0::2, :]
-    #     [0::2, 0::2, 1::2, :]
-    #     [1::2, 1::2, 1::2, :]
-    #
-
-    # Tetrahedron 0:
-    # [
-    # i   + nx*j     + nx*ny * k,
-    # i   + nx*(j+1) + nx*ny * k,
-    # i+1 + nx*j     + nx*ny * k,
-    # i   + nx*j     + nx*ny * (k+1)
-    # ]
-    # TODO get
-    # ```
-    # elems0 = np.stack([a, a + nx, a + 1, a + nx*ny]).T
-    # ```
-    # back.
-    elems0 = np.concatenate(
-        [a[..., None], a[..., None] + nx1, a[..., None] + 1, a[..., None] + nx1 * ny1],
-        axis=3,
-    )
-
-    # Every other element cube:
-    # [
-    # i+1 + nx * j     + nx*ny * k,
-    # i+1 + nx * (j+1) + nx*ny * k,
-    # i   + nx * j     + nx*ny * k,
-    # i+1 + nx * j     + nx*ny * (k+1)
-    # ]
-    elems0[1::2, 0::2, 0::2, 0] += 1
-    elems0[0::2, 1::2, 0::2, 0] += 1
-    elems0[0::2, 0::2, 1::2, 0] += 1
-    elems0[1::2, 1::2, 1::2, 0] += 1
-
-    elems0[1::2, 0::2, 0::2, 1] += 1
-    elems0[0::2, 1::2, 0::2, 1] += 1
-    elems0[0::2, 0::2, 1::2, 1] += 1
-    elems0[1::2, 1::2, 1::2, 1] += 1
-
-    elems0[1::2, 0::2, 0::2, 2] -= 1
-    elems0[0::2, 1::2, 0::2, 2] -= 1
-    elems0[0::2, 0::2, 1::2, 2] -= 1
-    elems0[1::2, 1::2, 1::2, 2] -= 1
-
-    elems0[1::2, 0::2, 0::2, 3] += 1
-    elems0[0::2, 1::2, 0::2, 3] += 1
-    elems0[0::2, 0::2, 1::2, 3] += 1
-    elems0[1::2, 1::2, 1::2, 3] += 1
-
-    # Tetrahedron 1:
-    # [
-    # i   + nx*(j+1) + nx*ny * k,
-    # i+1 + nx*(j+1) + nx*ny * k,
-    # i+1 + nx*j     + nx*ny * k,
-    # i+1 + nx*(j+1) + nx*ny * (k+1)
-    # ]
-    # elems1 = np.stack([a + nx, a + 1 + nx, a + 1, a + 1 + nx + nx*ny]).T
-    elems1 = np.concatenate(
-        [
-            a[..., None] + nx1,
-            a[..., None] + 1 + nx1,
-            a[..., None] + 1,
-            a[..., None] + 1 + nx1 + nx1 * ny1,
-        ],
-        axis=3,
-    )
-
-    # Every other element cube:
-    # [
-    # i+1 + nx * (j+1) + nx*ny * k,
-    # i   + nx * (j+1) + nx*ny * k,
-    # i   + nx * j     + nx*ny * k,
-    # i   + nx * (j+1) + nx*ny * (k+1)
-    # ]
-    elems1[1::2, 0::2, 0::2, 0] += 1
-    elems1[0::2, 1::2, 0::2, 0] += 1
-    elems1[0::2, 0::2, 1::2, 0] += 1
-    elems1[1::2, 1::2, 1::2, 0] += 1
-
-    elems1[1::2, 0::2, 0::2, 1] -= 1
-    elems1[0::2, 1::2, 0::2, 1] -= 1
-    elems1[0::2, 0::2, 1::2, 1] -= 1
-    elems1[1::2, 1::2, 1::2, 1] -= 1
-
-    elems1[1::2, 0::2, 0::2, 2] -= 1
-    elems1[0::2, 1::2, 0::2, 2] -= 1
-    elems1[0::2, 0::2, 1::2, 2] -= 1
-    elems1[1::2, 1::2, 1::2, 2] -= 1
-
-    elems1[1::2, 0::2, 0::2, 3] -= 1
-    elems1[0::2, 1::2, 0::2, 3] -= 1
-    elems1[0::2, 0::2, 1::2, 3] -= 1
-    elems1[1::2, 1::2, 1::2, 3] -= 1
-
-    # Tetrahedron 2:
-    # [
-    # i   + nx*(j+1) + nx*ny * k,
-    # i+1 + nx*j     + nx*ny * k,
-    # i   + nx*j     + nx*ny * (k+1),
-    # i+1 + nx*(j+1) + nx*ny * (k+1)
-    # ]
-    # elems2 = np.stack([a + nx, a + 1, a + nx*ny, a + 1 + nx + nx*ny]).T
-    elems2 = np.concatenate(
-        [
-            a[..., None] + nx1,
-            a[..., None] + 1,
-            a[..., None] + nx1 * ny1,
-            a[..., None] + 1 + nx1 + nx1 * ny1,
-        ],
-        axis=3,
-    )
-
-    # Every other element cube:
-    # [
-    # i+1 + nx * (j+1) + nx*ny * k,
-    # i   + nx * j     + nx*ny * k,
-    # i+1 + nx * j     + nx*ny * (k+1),
-    # i   + nx * (j+1) + nx*ny * (k+1)
-    # ]
-    elems2[1::2, 0::2, 0::2, 0] += 1
-    elems2[0::2, 1::2, 0::2, 0] += 1
-    elems2[0::2, 0::2, 1::2, 0] += 1
-    elems2[1::2, 1::2, 1::2, 0] += 1
-
-    elems2[1::2, 0::2, 0::2, 1] -= 1
-    elems2[0::2, 1::2, 0::2, 1] -= 1
-    elems2[0::2, 0::2, 1::2, 1] -= 1
-    elems2[1::2, 1::2, 1::2, 1] -= 1
-
-    elems2[1::2, 0::2, 0::2, 2] += 1
-    elems2[0::2, 1::2, 0::2, 2] += 1
-    elems2[0::2, 0::2, 1::2, 2] += 1
-    elems2[1::2, 1::2, 1::2, 2] += 1
-
-    elems2[1::2, 0::2, 0::2, 3] -= 1
-    elems2[0::2, 1::2, 0::2, 3] -= 1
-    elems2[0::2, 0::2, 1::2, 3] -= 1
-    elems2[1::2, 1::2, 1::2, 3] -= 1
-
-    # Tetrahedron 3:
-    # [
-    # i   + nx * (j+1) + nx*ny * k,
-    # i   + nx * j     + nx*ny * (k+1),
-    # i   + nx * (j+1) + nx*ny * (k+1),
-    # i+1 + nx * (j+1) + nx*ny * (k+1)
-    # ]
-    # elems3 = np.stack([
-    #     a + nx,
-    #     a + nx*ny,
-    #     a + nx + nx*ny,
-    #     a + 1 + nx + nx*ny
-    #     ]).T
-    elems3 = np.concatenate(
-        [
-            a[..., None] + nx1,
-            a[..., None] + nx1 * ny1,
-            a[..., None] + nx1 + nx1 * ny1,
-            a[..., None] + 1 + nx1 + nx1 * ny1,
-        ],
-        axis=3,
-    )
-
-    # Every other element cube:
-    # [
-    # i+1 + nx * (j+1) + nx*ny * k,
-    # i+1 + nx * j     + nx*ny * (k+1),
-    # i+1 + nx * (j+1) + nx*ny * (k+1),
-    # i   + nx * (j+1) + nx*ny * (k+1)
-    # ]
-    elems3[1::2, 0::2, 0::2, 0] += 1
-    elems3[0::2, 1::2, 0::2, 0] += 1
-    elems3[0::2, 0::2, 1::2, 0] += 1
-    elems3[1::2, 1::2, 1::2, 0] += 1
-
-    elems3[1::2, 0::2, 0::2, 1] += 1
-    elems3[0::2, 1::2, 0::2, 1] += 1
-    elems3[0::2, 0::2, 1::2, 1] += 1
-    elems3[1::2, 1::2, 1::2, 1] += 1
-
-    elems3[1::2, 0::2, 0::2, 2] += 1
-    elems3[0::2, 1::2, 0::2, 2] += 1
-    elems3[0::2, 0::2, 1::2, 2] += 1
-    elems3[1::2, 1::2, 1::2, 2] += 1
-
-    elems3[1::2, 0::2, 0::2, 3] -= 1
-    elems3[0::2, 1::2, 0::2, 3] -= 1
-    elems3[0::2, 0::2, 1::2, 3] -= 1
-    elems3[1::2, 1::2, 1::2, 3] -= 1
-
-    # Tetrahedron 4:
-    # [
-    # i+1 + nx * j     + nx*ny * k,
-    # i   + nx * j     + nx*ny * (k+1),
-    # i+1 + nx * (j+1) + nx*ny * (k+1),
-    # i+1 + nx * j     + nx*ny * (k+1)
-    # ]
-    # elems4 = np.stack([
-    #     a + 1,
-    #     a + nx*ny,
-    #     a + 1 + nx + nx*ny,
-    #     a + 1 + nx*ny
-    #     ]).T
-    elems4 = np.concatenate(
-        [
-            a[..., None] + 1,
-            a[..., None] + nx1 * ny1,
-            a[..., None] + 1 + nx1 + nx1 * ny1,
-            a[..., None] + 1 + nx1 * ny1,
-        ],
-        axis=3,
-    )
-
-    # Every other element cube:
-    # [
-    # i   + nx * j     + nx*ny * k,
-    # i+1 + nx * j     + nx*ny * (k+1),
-    # i   + nx * (j+1) + nx*ny * (k+1),
-    # i   + nx * j     + nx*ny * (k+1)
-    # ]
-    elems4[1::2, 0::2, 0::2, 0] -= 1
-    elems4[0::2, 1::2, 0::2, 0] -= 1
-    elems4[0::2, 0::2, 1::2, 0] -= 1
-    elems4[1::2, 1::2, 1::2, 0] -= 1
-
-    elems4[1::2, 0::2, 0::2, 1] += 1
-    elems4[0::2, 1::2, 0::2, 1] += 1
-    elems4[0::2, 0::2, 1::2, 1] += 1
-    elems4[1::2, 1::2, 1::2, 1] += 1
-
-    elems4[1::2, 0::2, 0::2, 2] -= 1
-    elems4[0::2, 1::2, 0::2, 2] -= 1
-    elems4[0::2, 0::2, 1::2, 2] -= 1
-    elems4[1::2, 1::2, 1::2, 2] -= 1
-
-    elems4[1::2, 0::2, 0::2, 3] -= 1
-    elems4[0::2, 1::2, 0::2, 3] -= 1
-    elems4[0::2, 0::2, 1::2, 3] -= 1
-    elems4[1::2, 1::2, 1::2, 3] -= 1
-
-    elems = np.vstack(
-        [
-            elems0.reshape(-1, 4),
-            elems1.reshape(-1, 4),
-            elems2.reshape(-1, 4),
-            elems3.reshape(-1, 4),
-            elems4.reshape(-1, 4),
-        ]
-    )
-
-    return nodes, elems
+    return points, cells

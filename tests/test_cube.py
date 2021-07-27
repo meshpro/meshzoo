@@ -2,6 +2,13 @@ import numpy as np
 
 import meshzoo
 
+from .helpers import signed_simplex_volumes
+
+
+def test_positive_volumes():
+    points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 4)
+    assert np.all(signed_simplex_volumes(points, cells) > 0.0)
+
 
 def test_cube_tetra():
     points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 10)
@@ -12,12 +19,6 @@ def test_cube_tetra():
     assert len(points) == 27
     assert all(np.sum(points, axis=0) == [13.5, 13.5, 13.5])
     assert len(cells) == 40
-
-
-# def test_positive_volumes():
-#     points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), 4)
-#     print(meshplex.Mesh(points, cells).signed_cell_volumes)
-#     assert np.all(meshplex.Mesh(points, cells).signed_cell_volumes > 0.0)
 
 
 def test_cube_hexa():
