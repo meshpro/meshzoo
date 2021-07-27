@@ -57,86 +57,66 @@ def rectangle_tri(
     x_range = np.linspace(a0[0], a1[0], nx + 1)
     y_range = np.linspace(a0[1], a1[1], ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
-    elem_fun = {"zigzag": _zigzag, "center": _center, "down": _down, "up": _up}
-    return nodes, elem_fun[variant](nx + 1, ny + 1)
 
+    a = np.add.outer(np.arange(nx + 1), (nx + 1) * np.arange(ny + 1))
 
-def _up(nx, ny):
-    # a = [i + j*nx]
-    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
-    elems0 = np.array([a, a + 1, a + nx + 1]).reshape(3, -1).T
-    elems1 = np.array([a, a + 1 + nx, a + nx]).reshape(3, -1).T
-    elems = np.concatenate([elems0, elems1])
-    return elems
+    # indices of corners
+    #
+    # c[3]   c[2]
+    #    _____
+    #    |   |
+    #    |___|
+    #
+    # c[0]   c[1]
+    #
+    c = [
+        a[:-1, :-1],
+        a[1:, :-1],
+        a[1:, 1:],
+        a[:-1, 1:],
+    ]
 
+    if variant == "up":
+        cells = [
+            [c[0], c[1], c[2]],
+            [c[0], c[2], c[3]],
+        ]
+    elif variant == "down":
+        cells = [
+            [c[0], c[1], c[3]],
+            [c[1], c[2], c[3]],
+        ]
+    elif variant == "zigzag":
+        # https://stackoverflow.com/a/68550456/353337
+        idx = np.ones(n, dtype=bool)
+        idx[1::2, ::2] = False
+        idx[::2, 1::2] = False
+        cells = [
+            # up
+            [c[0][idx], c[1][idx], c[2][idx]],
+            [c[0][idx], c[2][idx], c[3][idx]],
+            # down
+            [c[0][~idx], c[1][~idx], c[3][~idx]],
+            [c[1][~idx], c[2][~idx], c[3][~idx]],
+        ]
+    else:
+        assert variant == "center"
+        i = np.arange(n[0])
+        j = np.arange(n[1])
+        i, j = np.meshgrid(i, j, indexing="ij")
 
-def _down(nx, ny):
-    # a = [i + j*nx]
-    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
-    elems0 = np.array([a, a + 1, a + nx]).reshape(3, -1).T
-    elems1 = np.array([a + 1, a + 1 + nx, a + nx]).reshape(3, -1).T
-    elems = np.concatenate([elems0, elems1])
-    return elems
+        idx = np.ones(n, dtype=bool)
+        idx[(i < n[0] // 2) & (j < n[1] // 2)] = False
+        idx[(i >= n[0] // 2) & (j >= n[1] // 2)] = False
+        cells = [
+            # up
+            [c[0][idx], c[1][idx], c[2][idx]],
+            [c[0][idx], c[2][idx], c[3][idx]],
+            # down
+            [c[0][~idx], c[1][~idx], c[3][~idx]],
+            [c[1][~idx], c[2][~idx], c[3][~idx]],
+        ]
 
+    cells = np.column_stack([np.array(c).reshape(3, -1) for c in cells]).T
 
-def _center(nx, ny):
-    assert (
-        nx % 2 == 1 and ny % 2 == 1
-    ), "center mode only works with an odd number of cells"
-
-    # Create the elements (cells).
-    # a = [i + j*nx]
-    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
-
-    elems = []
-    nx2 = (nx - 1) // 2
-    ny2 = (ny - 1) // 2
-
-    # bottom left
-    ax0 = a[:nx2, :ny2]
-    elems.append(np.array([ax0, ax0 + 1, ax0 + nx + 1]).reshape(3, -1).T)
-    elems.append(np.array([ax0, ax0 + 1 + nx, ax0 + nx]).reshape(3, -1).T)
-
-    # bottom right
-    ax0 = a[nx2:, :ny2]
-    elems.append(np.array([ax0, ax0 + 1, ax0 + nx]).reshape(3, -1).T)
-    elems.append(np.array([ax0 + 1, ax0 + 1 + nx, ax0 + nx]).reshape(3, -1).T)
-
-    # top left
-    ax0 = a[:nx2, ny2:]
-    elems.append(np.array([ax0, ax0 + 1, ax0 + nx]).reshape(3, -1).T)
-    elems.append(np.array([ax0 + 1, ax0 + 1 + nx, ax0 + nx]).reshape(3, -1).T)
-
-    # top right
-    ax0 = a[nx2:, ny2:]
-    elems.append(np.array([ax0, ax0 + 1, ax0 + nx + 1]).reshape(3, -1).T)
-    elems.append(np.array([ax0, ax0 + 1 + nx, ax0 + nx]).reshape(3, -1).T)
-
-    elems = np.concatenate(elems)
-
-    return elems
-
-
-def _zigzag(nx, ny):
-    # Create the elements (cells).
-    # a = [i + j*nx]
-    a = np.add.outer(np.arange(nx - 1), nx * np.arange(ny - 1))
-
-    # [i + j*nx, i+1 + j*nx, i+1 + (j+1)*nx]
-    elems0 = np.dstack([a, a + 1, a + nx + 1])
-    # [i+1 + j*nx, i+1 + (j+1)*nx, i + (j+1)*nx] for "every other" element
-    elems0[0::2, 1::2, 0] += 1
-    elems0[1::2, 0::2, 0] += 1
-    elems0[0::2, 1::2, 1] += nx
-    elems0[1::2, 0::2, 1] += nx
-    elems0[0::2, 1::2, 2] -= 1
-    elems0[1::2, 0::2, 2] -= 1
-
-    # [i + j*nx, i+1 + (j+1)*nx,  i + (j+1)*nx]
-    elems1 = np.dstack([a, a + 1 + nx, a + nx])
-    # [i + j*nx, i+1 + j*nx, i + (j+1)*nx] for "every other" element
-    elems1[0::2, 1::2, 1] -= nx
-    elems1[1::2, 0::2, 1] -= nx
-
-    elems = np.concatenate([elems0.reshape(-1, 3), elems1.reshape(-1, 3)])
-    return elems
+    return nodes, cells

@@ -16,8 +16,8 @@ def test_up():
     assert len(points) == 6
     assert is_near_equal(np.sum(points, axis=0), [3.0, 3.0])
     assert len(cells) == 4
-    assert set(cells[0]) == {0, 1, 4}
-    assert set(cells[2]) == {0, 3, 4}
+    assert list(cells[0]) == [0, 1, 4]
+    assert list(cells[2]) == [0, 4, 3]
     assert np.all(signed_simplex_volumes(points, cells) > 0.0)
 
 
@@ -38,8 +38,8 @@ def test_zigzag():
     assert len(points) == 6
     assert is_near_equal(np.sum(points, axis=0), [3.0, 3.0])
     assert len(cells) == 4
-    assert set(cells[0]) == {0, 1, 4}
-    assert set(cells[2]) == {0, 3, 4}
+    assert list(cells[0]) == [0, 1, 4]
+    assert list(cells[2]) == [1, 2, 4]
     assert np.all(signed_simplex_volumes(points, cells) > 0.0)
 
 
@@ -69,5 +69,5 @@ def test_quad():
     assert len(points) == 6
     assert is_near_equal(np.sum(points, axis=0), [3.0, 3.0])
     assert len(cells) == 2
-    assert set(cells[0]) == {0, 1, 3, 4}
-    assert set(cells[1]) == {1, 2, 4, 5}
+    assert list(cells[0]) == [0, 1, 4, 3]
+    assert list(cells[1]) == [1, 2, 5, 4]
