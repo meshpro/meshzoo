@@ -50,25 +50,42 @@ def cube_hexa(
     # ```
     points = np.array([x, y, z]).T.reshape(-1, 3)
 
-    # Create the elements (cells).
-    a0 = np.add.outer(np.arange(nx), nx1 * np.arange(ny))
-    a = np.add.outer(a0, nx1 * ny1 * np.arange(nz))
-    elems = np.concatenate(
-        [
-            a[..., None],
-            a[..., None] + 1,
-            a[..., None] + nx1 + 1,
-            a[..., None] + nx1,
-            #
-            a[..., None] + nx1 * ny1,
-            a[..., None] + nx1 * ny1 + 1,
-            a[..., None] + nx1 * ny1 + nx1 + 1,
-            a[..., None] + nx1 * ny1 + nx1,
-        ],
-        axis=3,
-    ).reshape(-1, 8)
+    # Create the cells.
+    a = np.arange(len(points)).reshape(nx1, ny1, nz1)
+    a = np.transpose(a, [2, 1, 0])
 
-    return points, elems
+    # `c` contains the indices of each "cube" like
+    #
+    #
+    #          c[7]     c[6]
+    #            ________
+    #           /       /|
+    #     c[4] /_______/ | c[5]
+    #         |        | |
+    #         |        | |
+    #         |        | / c[2]
+    #         |________|/
+    #
+    #       c[0]      c[1]
+    #
+    cells = (
+        np.array(
+            [
+                a[:-1, :-1, :-1],
+                a[1:, :-1, :-1],
+                a[1:, 1:, :-1],
+                a[:-1, 1:, :-1],
+                a[:-1, :-1, 1:],
+                a[1:, :-1, 1:],
+                a[1:, 1:, 1:],
+                a[:-1, 1:, 1:],
+            ]
+        )
+        .reshape(8, -1)
+        .T
+    )
+
+    return points, cells
 
 
 def cube_tetra(
