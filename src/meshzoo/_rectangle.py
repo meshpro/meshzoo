@@ -20,13 +20,7 @@ def rectangle_quad(
     a1: Tuple[float, float],
     n: Union[int, Tuple[int, int]],
 ):
-    if isinstance(n, tuple):
-        assert len(n) == 2
-    else:
-        assert isinstance(n, int)
-        n = (n, n)
-
-    nx, ny = n
+    nx, ny = (n, n) if isinstance(n, int) else n
 
     xmin, ymin = a0
     xmax, ymax = a1
@@ -46,12 +40,7 @@ def rectangle_tri(
     n: Union[int, Tuple[int, int]],
     variant: str = "zigzag",
 ):
-    if isinstance(n, tuple):
-        assert len(n) == 2
-    else:
-        n = (n, n)
-
-    nx, ny = n
+    nx, ny = (n, n) if isinstance(n, int) else n
 
     # Create the vertices.
     x_range = np.linspace(a0[0], a1[0], nx + 1)
@@ -88,7 +77,7 @@ def rectangle_tri(
         ]
     elif variant == "zigzag":
         # https://stackoverflow.com/a/68550456/353337
-        idx = np.ones(n, dtype=bool)
+        idx = np.ones((nx, ny), dtype=bool)
         idx[1::2, ::2] = False
         idx[::2, 1::2] = False
         cells = [
@@ -101,13 +90,13 @@ def rectangle_tri(
         ]
     else:
         assert variant == "center"
-        i = np.arange(n[0])
-        j = np.arange(n[1])
+        i = np.arange(nx)
+        j = np.arange(ny)
         i, j = np.meshgrid(i, j, indexing="ij")
 
         idx = np.ones(n, dtype=bool)
-        idx[(i < n[0] // 2) & (j < n[1] // 2)] = False
-        idx[(i >= n[0] // 2) & (j >= n[1] // 2)] = False
+        idx[(i < nx // 2) & (j < ny // 2)] = False
+        idx[(i >= nx // 2) & (j >= ny // 2)] = False
         cells = [
             # up
             [c[0][idx], c[1][idx], c[2][idx]],
