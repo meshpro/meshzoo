@@ -77,7 +77,7 @@ def rectangle_tri(
         ]
     elif variant == "zigzag":
         # https://stackoverflow.com/a/68550456/353337
-        idx = np.ones(n, dtype=bool)
+        idx = np.ones((nx, ny), dtype=bool)
         idx[1::2, ::2] = False
         idx[::2, 1::2] = False
         cells = [
