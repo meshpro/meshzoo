@@ -23,4 +23,6 @@ def signed_simplex_volumes(coords, cells):
     # append ones; this appends a column instead of a row as suggested by
     # wikipedia, but that doesn't change the determinant
     cp1 = np.concatenate([cp, np.ones(cp.shape[:-1] + (1,))], axis=-1)
-    return np.linalg.det(cp1) / math.factorial(n)
+
+    sign = -1 if n % 2 == 1 else 1
+    return sign * np.linalg.det(cp1) / math.factorial(n)

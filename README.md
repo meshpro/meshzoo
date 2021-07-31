@@ -1,7 +1,7 @@
 # meshzoo
 
-[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/pypi/meshzoo/)
+[![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
 [![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)
 
@@ -162,7 +162,7 @@ points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
 ### Extra, extra
 
 In addition to this, the
-[`examples/`](https://github.com/nschloe/meshzoo/blob/main/examples/) directory
+[`examples/`](https://github.com/nschloe/meshzoo/tree/main/examples) directory
 contains a couple of instructive examples for other mesh generators.
 
 
