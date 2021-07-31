@@ -38,7 +38,7 @@ def moebius(
 
     # Create the vertices. This is based on the parameterization
     # of the Möbius strip as given in
-    # <http://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
+    # <https://en.wikipedia.org/wiki/M%C3%B6bius_strip#Geometry_and_topology>
     sin_u = np.sin(u_range)
     cos_u = np.cos(u_range)
     alpha = num_twists * 0.5 * u_range + alpha0

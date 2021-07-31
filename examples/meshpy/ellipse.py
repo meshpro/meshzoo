@@ -13,7 +13,7 @@ def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
     # For circumference of an ellipse, see
-    # http://en.wikipedia.org/wiki/Ellipse#Circumference
+    # https://en.wikipedia.org/wiki/Ellipse#Circumference
     eccentricity = np.sqrt(1.0 - (b / a) ** 2)
     length_boundary = float(4 * a * special.ellipe(eccentricity))
     a_boundary = length_boundary / num_boundary_points

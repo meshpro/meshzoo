@@ -150,22 +150,22 @@ def cube_tetra(
     # and 12 ways to split it into 6 tetrahedra.
     # See
     # <http://www.baumanneduard.ch/Splitting%20a%20cube%20in%20tetrahedras2.htm>
-    # Also interesting: <http://en.wikipedia.org/wiki/Marching_tetrahedrons>.
+    # Also interesting: <https://en.wikipedia.org/wiki/Marching_tetrahedrons>.
     cells = [
         # regular; make sure the order of the points is such that the signed volume is
         # positive
-        [c[0][idx], c[1][idx], c[4][idx], c[3][idx]],
-        [c[1][idx], c[2][idx], c[6][idx], c[3][idx]],
-        [c[1][idx], c[3][idx], c[6][idx], c[4][idx]],
-        [c[1][idx], c[4][idx], c[6][idx], c[5][idx]],
-        [c[3][idx], c[4][idx], c[7][idx], c[6][idx]],
+        [c[0][idx], c[1][idx], c[3][idx], c[4][idx]],
+        [c[1][idx], c[2][idx], c[3][idx], c[6][idx]],
+        [c[1][idx], c[3][idx], c[4][idx], c[6][idx]],
+        [c[1][idx], c[4][idx], c[5][idx], c[6][idx]],
+        [c[3][idx], c[4][idx], c[6][idx], c[7][idx]],
         # the rest rotated such that it fits with the others; basically we change
         # "bottom" and "top" of the dice
-        [c[4][~idx], c[5][~idx], c[7][~idx], c[0][~idx]],
-        [c[5][~idx], c[6][~idx], c[7][~idx], c[2][~idx]],
-        [c[5][~idx], c[7][~idx], c[0][~idx], c[2][~idx]],
-        [c[5][~idx], c[0][~idx], c[1][~idx], c[2][~idx]],
-        [c[7][~idx], c[0][~idx], c[2][~idx], c[3][~idx]],
+        [c[4][~idx], c[5][~idx], c[0][~idx], c[7][~idx]],
+        [c[5][~idx], c[6][~idx], c[2][~idx], c[7][~idx]],
+        [c[5][~idx], c[7][~idx], c[2][~idx], c[0][~idx]],
+        [c[5][~idx], c[0][~idx], c[2][~idx], c[1][~idx]],
+        [c[7][~idx], c[0][~idx], c[3][~idx], c[2][~idx]],
     ]
 
     cells = np.column_stack([np.array(c).reshape(4, -1) for c in cells]).T
