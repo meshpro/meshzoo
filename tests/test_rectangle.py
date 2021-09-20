@@ -71,3 +71,11 @@ def test_quad():
     assert len(cells) == 2
     assert list(cells[0]) == [0, 1, 4, 3]
     assert list(cells[1]) == [1, 2, 5, 4]
+
+    points, cells = meshzoo.rectangle_quad((0, 0), (1, 1), (2, 2))
+    assert len(points) == 9
+    assert len(cells) == 4
+    assert list(cells[0]) == [0, 1, 4, 3]
+    assert list(cells[1]) == [3, 4, 7, 6]
+    assert list(cells[2]) == [1, 2, 5, 4]
+    assert list(cells[3]) == [4, 5, 8, 7]

@@ -29,7 +29,7 @@ def rectangle_quad(
     y_range = np.linspace(ymin, ymax, ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
-    a = np.add.outer(np.arange(nx), nx * np.arange(ny))
+    a = np.add.outer(np.arange(nx), nx * np.arange(ny)) + np.arange(ny)
     elems = np.array([a, a + 1, a + nx + 2, a + nx + 1]).reshape(4, -1).T
     return nodes, elems
 
