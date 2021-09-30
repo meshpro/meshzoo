@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from __future__ import annotations
 
 import numpy as np
 
@@ -19,9 +19,9 @@ def cube(
 
 
 def cube_hexa(
-    a0: Tuple[float, float, float],
-    a1: Tuple[float, float, float],
-    n: Union[int, Tuple[int, int, int]],
+    a0: tuple[float, float, float],
+    a1: tuple[float, float, float],
+    n: int | tuple[int, int, int],
 ):
     nx, ny, nz = (n, n, n) if isinstance(n, int) else n
 
@@ -84,9 +84,9 @@ def cube_hexa(
 
 
 def cube_tetra(
-    a0: Tuple[float, float, float],
-    a1: Tuple[float, float, float],
-    n: Union[int, Tuple[int, int, int]],
+    a0: tuple[float, float, float],
+    a1: tuple[float, float, float],
+    n: int | tuple[int, int, int],
 ):
     nx, ny, nz = (n, n, n) if isinstance(n, int) else n
 

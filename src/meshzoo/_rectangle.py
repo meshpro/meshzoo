@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from __future__ import annotations
 
 import numpy as np
 
@@ -16,9 +16,7 @@ def rectangle(
 
 
 def rectangle_quad(
-    a0: Tuple[float, float],
-    a1: Tuple[float, float],
-    n: Union[int, Tuple[int, int]],
+    a0: tuple[float, float], a1: tuple[float, float], n: int | tuple[int, int]
 ):
     nx, ny = (n, n) if isinstance(n, int) else n
 
@@ -35,9 +33,9 @@ def rectangle_quad(
 
 
 def rectangle_tri(
-    a0: Tuple[float, float],
-    a1: Tuple[float, float],
-    n: Union[int, Tuple[int, int]],
+    a0: tuple[float, float],
+    a1: tuple[float, float],
+    n: int | tuple[int, int],
     variant: str = "zigzag",
 ):
     nx, ny = (n, n) if isinstance(n, int) else n
