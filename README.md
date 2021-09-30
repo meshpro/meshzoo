@@ -119,7 +119,7 @@ solids](https://en.wikipedia.org/wiki/Platonic_solid) and then "inflating" them.
 implements a few of them. The sphere generated from the icosahedron has the
 highest-quality (most equilateral) triangles.
 
-All cells are oriented such that its normal points outwards.
+All cells are oriented such that its normals point outwards.
 
 | <img src="https://nschloe.github.io/meshzoo/tetra-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/octa-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/icosa-sphere.png" width="70%"> |
 | :----: | :---: | :---: |
