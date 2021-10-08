@@ -35,33 +35,33 @@ def uv_sphere(num_points_per_circle: int, num_circles: int, radius: float = 1.0)
     north_pole_index = len(nodes) - 1
 
     # create the elements (cells)
-    num_elems = 2 * (n_theta - 2) * n_phi
-    elems = []
+    num_cells = 2 * (n_theta - 2) * n_phi
+    cells = []
 
     # connections to south pole
     for i in range(n_phi - 1):
-        elems.append([south_pole_index, i + 1, i + 2])
+        cells.append([south_pole_index, i + 1, i + 2])
     # close geometry
-    elems.append([south_pole_index, n_phi, 1])
+    cells.append([south_pole_index, n_phi, 1])
 
     # non-pole elements
     for i in range(n_theta - 3):
         for j in range(n_phi - 1):
-            elems += [
+            cells += [
                 [i * n_phi + j + 2, i * n_phi + j + 1, (i + 1) * n_phi + j + 2],
                 [i * n_phi + j + 1, (i + 1) * n_phi + j + 1, (i + 1) * n_phi + j + 2],
             ]
 
     # close the geometry
     for i in range(n_theta - 3):
-        elems += [
+        cells += [
             [i * n_phi + 1, (i + 1) * n_phi, (i + 1) * n_phi + 1],
             [(i + 1) * n_phi + 1, (i + 1) * n_phi, (i + 2) * n_phi],
         ]
 
     # connections to the north pole
     for i in range(n_phi - 1):
-        elems.append(
+        cells.append(
             [
                 i + 1 + n_phi * (n_theta - 3) + 1,
                 i + n_phi * (n_theta - 3) + 1,
@@ -69,17 +69,17 @@ def uv_sphere(num_points_per_circle: int, num_circles: int, radius: float = 1.0)
             ]
         )
     # close geometry
-    elems.append(
+    cells.append(
         [
             0 + n_phi * (n_theta - 3) + 1,
             n_phi - 1 + n_phi * (n_theta - 3) + 1,
             north_pole_index,
         ]
     )
-    elems = np.array(elems)
-    assert len(elems) == num_elems, "Wrong element count."
+    cells = np.array(cells)
+    assert len(cells) == num_cells, "Wrong element count."
 
-    return nodes, elems
+    return nodes, cells
 
 
 def geo_sphere(num_points_per_circle: int, num_circles: int, radius=1.0):

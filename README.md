@@ -25,6 +25,7 @@ meshzoo.
 ### Examples
 
 #### Triangle
+
 <img src="https://nschloe.github.io/meshzoo/triangle.svg" width="20%">
 
 ```python
@@ -57,19 +58,20 @@ bary, cells = meshzoo.triangle(8)
 import meshzoo
 
 points, cells = meshzoo.rectangle_tri(
-    (0.0, 0.0),
-    (1.0, 1.0),
+    (0.0, 1.0),
+    (0.0, 1.0),
     n=11,  # or (11, 11)
     variant="zigzag",  # or "up", "down", "center"
 )
 
-points, cells = meshzoo.rectangle_quad((0.0, 0.0), (1.0, 1.0), n=11)
+points, cells = meshzoo.rectangle_quad((0.0, 1.0), (0.0, 1.0), n=11)
 ```
 
 #### Regular polygon
+
 | <img src="https://nschloe.github.io/meshzoo/4gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/9gon.svg" width="70%"> |
-| :----: | :---: | :---: |
-|`meshzoo.ngon(4, 8)` | `meshzoo.ngon(6, 8)` | `meshzoo.ngon(9, 8)` |
+| :----------------------------------------------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
+|                        `meshzoo.ngon(4, 8)`                        |                        `meshzoo.ngon(6, 8)`                        |                        `meshzoo.ngon(9, 8)`                        |
 
 ```python
 import meshzoo
@@ -78,9 +80,10 @@ points, cells = meshzoo.ngon(5, 11)
 ```
 
 #### Disk
+
 | <img src="https://nschloe.github.io/meshzoo/4gon_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/6gon_disk.svg" width="70%"> | <img src="https://nschloe.github.io/meshzoo/9gon_disk.svg" width="70%"> |
-| :----: | :---: | :---: |
-|`meshzoo.disk(4, 8)` | `meshzoo.disk(6, 8)` | `meshzoo.disk(9, 8)` |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+|                          `meshzoo.disk(4, 8)`                           |                          `meshzoo.disk(6, 8)`                           |                          `meshzoo.disk(9, 8)`                           |
 
 The disk meshes are inflations of regular polygons.
 
@@ -93,6 +96,7 @@ points, cells = meshzoo.disk_quad(10)
 ```
 
 #### Möbius strip
+
 <img src="https://nschloe.github.io/meshzoo/moebius.png" width="20%">
 
 ```python
@@ -102,8 +106,9 @@ points, cells = meshzoo.moebius(num_twists=1, nl=60, nw=11)
 ```
 
 #### Sphere (surface)
+
 | <img src="https://nschloe.github.io/meshzoo/uv_sphere.png" width="80%"> | <img src="https://nschloe.github.io/meshzoo/geo-sphere.png" width="60%"> |
-| :----: | :---: |
+| :---------------------------------------------------------------------: | :----------------------------------------------------------------------: |
 
 ```python
 import meshzoo
@@ -122,13 +127,13 @@ highest-quality (most equilateral) triangles.
 All cells are oriented such that its normals point outwards.
 
 | <img src="https://nschloe.github.io/meshzoo/tetra-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/octa-sphere.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/icosa-sphere.png" width="70%"> |
-| :----: | :---: | :---: |
-|`meshzoo.tetra_sphere(10)` | `meshzoo.octa_sphere(10)` | `meshzoo.icosa_sphere(10)` |
+| :------------------------------------------------------------------------: | :-----------------------------------------------------------------------: | :------------------------------------------------------------------------: |
+|                         `meshzoo.tetra_sphere(10)`                         |                         `meshzoo.octa_sphere(10)`                         |                         `meshzoo.icosa_sphere(10)`                         |
 
 #### Ball (solid)
 
 | <img src="https://nschloe.github.io/meshzoo/ball-tetra.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/ball-hexa.png" width="70%"> |
-| :----: | :---: |
+| :----------------------------------------------------------------------: | :---------------------------------------------------------------------: |
 
 ```python
 import meshzoo
@@ -138,6 +143,7 @@ points, cells = meshzoo.ball_hexa(10)
 ```
 
 #### Tube
+
 <img src="https://nschloe.github.io/meshzoo/tube.png" width="20%">
 
 ```python
@@ -149,15 +155,14 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 #### Cube
 
 | <img src="https://nschloe.github.io/meshzoo/cube.png" width="70%"> | <img src="https://nschloe.github.io/meshzoo/cube-hexa.png" width="50%"> |
-| :----: | :---: |
+| :----------------------------------------------------------------: | :---------------------------------------------------------------------: |
 
 ```python
 import meshzoo
 
-points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
-points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
+points, cells = meshzoo.cube_tetra((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), n=11)
+points, cells = meshzoo.cube_hexa((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), n=11)
 ```
-
 
 ### Extra, extra
 
@@ -165,19 +170,21 @@ In addition to this, the
 [`examples/`](https://github.com/nschloe/meshzoo/tree/main/examples) directory
 contains a couple of instructive examples for other mesh generators.
 
-
 ### Installation
 
 meshzoo is [available from the Python Package
 Index](https://pypi.org/project/meshzoo/), so simply do
+
 ```
 pip install meshzoo
 ```
+
 to install.
 
 ### Testing
 
 To run the meshzoo unit tests, check out this repository and run
+
 ```
 pytest
 ```

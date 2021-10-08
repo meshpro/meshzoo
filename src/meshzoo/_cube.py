@@ -15,12 +15,13 @@ def cube(
     ny: int,
     nz: int,
 ):
-    return cube_tetra((x0, y0, z0), (x1, y1, z1), (nx, ny, nz))
+    return cube_tetra((x0, x1), (y0, y1), (z0, z1), (nx, ny, nz))
 
 
 def cube_hexa(
-    a0: tuple[float, float, float],
-    a1: tuple[float, float, float],
+    x_minmax: tuple[float, float],
+    y_minmax: tuple[float, float],
+    z_minmax: tuple[float, float],
     n: int | tuple[int, int, int],
 ):
     nx, ny, nz = (n, n, n) if isinstance(n, int) else n
@@ -29,8 +30,9 @@ def cube_hexa(
     ny1 = ny + 1
     nz1 = nz + 1
 
-    xmin, ymin, zmin = a0
-    xmax, ymax, zmax = a1
+    xmin, xmax = x_minmax
+    ymin, ymax = y_minmax
+    zmin, zmax = z_minmax
 
     # Generate suitable ranges for parametrization
     x_range = np.linspace(xmin, xmax, nx1)
@@ -84,8 +86,9 @@ def cube_hexa(
 
 
 def cube_tetra(
-    a0: tuple[float, float, float],
-    a1: tuple[float, float, float],
+    x_minmax: tuple[float, float],
+    y_minmax: tuple[float, float],
+    z_minmax: tuple[float, float],
     n: int | tuple[int, int, int],
 ):
     nx, ny, nz = (n, n, n) if isinstance(n, int) else n
@@ -94,8 +97,9 @@ def cube_tetra(
     ny1 = ny + 1
     nz1 = nz + 1
 
-    xmin, ymin, zmin = a0
-    xmax, ymax, zmax = a1
+    xmin, xmax = x_minmax
+    ymin, ymax = y_minmax
+    zmin, zmax = z_minmax
 
     # Generate suitable ranges for parametrization
     x_range = np.linspace(xmin, xmax, nx1)

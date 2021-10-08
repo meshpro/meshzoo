@@ -12,37 +12,37 @@ def rectangle(
     nx: int,
     ny: int,
 ):
-    return rectangle_tri((x0, y0), (x1, y1), (nx, ny))
+    return rectangle_tri((x0, x1), (y0, y1), (nx, ny))
 
 
 def rectangle_quad(
-    a0: tuple[float, float], a1: tuple[float, float], n: int | tuple[int, int]
+    xminmax: tuple[float, float], yminmax: tuple[float, float], n: int | tuple[int, int]
 ):
     nx, ny = (n, n) if isinstance(n, int) else n
 
-    xmin, ymin = a0
-    xmax, ymax = a1
+    xmin, xmax = xminmax
+    ymin, ymax = yminmax
 
     x_range = np.linspace(xmin, xmax, nx + 1)
     y_range = np.linspace(ymin, ymax, ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
     a = np.add.outer(np.arange(nx), nx * np.arange(ny)) + np.arange(ny)
-    elems = np.array([a, a + 1, a + nx + 2, a + nx + 1]).reshape(4, -1).T
-    return nodes, elems
+    cells = np.array([a, a + 1, a + nx + 2, a + nx + 1]).reshape(4, -1).T
+    return nodes, cells
 
 
 def rectangle_tri(
-    a0: tuple[float, float],
-    a1: tuple[float, float],
+    xminmax: tuple[float, float],
+    yminmax: tuple[float, float],
     n: int | tuple[int, int],
     variant: str = "zigzag",
 ):
     nx, ny = (n, n) if isinstance(n, int) else n
 
     # Create the vertices.
-    x_range = np.linspace(a0[0], a1[0], nx + 1)
-    y_range = np.linspace(a0[1], a1[1], ny + 1)
+    x_range = np.linspace(*xminmax, nx + 1)
+    y_range = np.linspace(*yminmax, ny + 1)
     nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
     a = np.add.outer(np.arange(nx + 1), (nx + 1) * np.arange(ny + 1))
