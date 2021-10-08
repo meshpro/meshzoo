@@ -3,9 +3,15 @@ import numpy as np
 
 def triangle(n: int):
     # Create the mesh in barycentric coordinates
-    bary = (
-        np.hstack([[np.full(n - i + 1, i), np.arange(n - i + 1)] for i in range(n + 1)])
-        / n
+    bary = np.hstack(
+        [
+            [
+                np.full(n - i + 1, i / n),
+                # np.arange(n - i + 1) / n:
+                np.linspace(0.0, (n - i + 1) / n, n - i + 1, endpoint=False),
+            ]
+            for i in range(n + 1)
+        ]
     )
     bary = np.array([1.0 - bary[0] - bary[1], bary[1], bary[0]])
 
