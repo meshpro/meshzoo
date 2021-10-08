@@ -57,13 +57,13 @@ bary, cells = meshzoo.triangle(8)
 import meshzoo
 
 points, cells = meshzoo.rectangle_tri(
-    (0.0, 0.0),
-    (1.0, 1.0),
+    (0.0, 1.0),
+    (0.0, 1.0),
     n=11,  # or (11, 11)
     variant="zigzag",  # or "up", "down", "center"
 )
 
-points, cells = meshzoo.rectangle_quad((0.0, 0.0), (1.0, 1.0), n=11)
+points, cells = meshzoo.rectangle_quad((0.0, 1.0), (0.0, 1.0), n=11)
 ```
 
 #### Regular polygon
@@ -154,8 +154,8 @@ points, cells = meshzoo.tube(length=1.0, radius=1.0, n=30)
 ```python
 import meshzoo
 
-points, cells = meshzoo.cube_tetra((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
-points, cells = meshzoo.cube_hexa((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), n=11)
+points, cells = meshzoo.cube_tetra((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), n=11)
+points, cells = meshzoo.cube_hexa((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), n=11)
 ```
 
 

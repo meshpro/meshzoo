@@ -41,7 +41,7 @@ def disk(p: int, n: int, offset: float = np.pi / 2):
 
 def disk_quad(n: int):
     a = 1 / np.sqrt(2)
-    nodes, elems = rectangle_quad((-a, -a), (a, a), n)
+    nodes, cells = rectangle_quad((-a, -a), (a, a), n)
 
     # Inflate the nodes towards the circle boundary.
     # Inflate each point such that the 2-norm of the new point is the max-norm of the
@@ -51,4 +51,4 @@ def disk_quad(n: int):
     idx = beta > 1.0e-13
     nodes[idx] = (nodes[idx].T * (alpha[idx] / beta[idx])).T
 
-    return nodes, elems
+    return nodes, cells

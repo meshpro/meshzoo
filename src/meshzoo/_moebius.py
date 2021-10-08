@@ -76,20 +76,20 @@ def moebius(
         .T
     )
 
-    elems = _create_elements(nl, nw, reverse_seam)
-    return nodes, elems
+    cells = _create_elements(nl, nw, reverse_seam)
+    return nodes, cells
 
 
 def _create_elements(nl, nw, reverse_seam):
-    elems = []
+    cells = []
     for i in range(nl - 1):
         for j in range(nw - 1):
             if (i + j) % 2 == 0:
-                elems.append([i * nw + j, (i + 1) * nw + j + 1, i * nw + j + 1])
-                elems.append([i * nw + j, (i + 1) * nw + j, (i + 1) * nw + j + 1])
+                cells.append([i * nw + j, (i + 1) * nw + j + 1, i * nw + j + 1])
+                cells.append([i * nw + j, (i + 1) * nw + j, (i + 1) * nw + j + 1])
             else:
-                elems.append([i * nw + j, i * nw + j + 1, (i + 1) * nw + j])
-                elems.append([i * nw + j + 1, (i + 1) * nw + j, (i + 1) * nw + j + 1])
+                cells.append([i * nw + j, i * nw + j + 1, (i + 1) * nw + j])
+                cells.append([i * nw + j + 1, (i + 1) * nw + j, (i + 1) * nw + j + 1])
 
     # close the geometry
     i = nl - 1
@@ -97,19 +97,19 @@ def _create_elements(nl, nw, reverse_seam):
         # Close the geometry upside down (odd Möbius fold)
         for j in range(nw - 1):
             if (i + j) % 2 == 0:
-                elems.append([i * nw + j, (nw - 1) - (j + 1), i * nw + j + 1])
-                elems.append([i * nw + j, (nw - 1) - j, (nw - 1) - (j + 1)])
+                cells.append([i * nw + j, (nw - 1) - (j + 1), i * nw + j + 1])
+                cells.append([i * nw + j, (nw - 1) - j, (nw - 1) - (j + 1)])
             else:
-                elems.append([i * nw + j, i * nw + j + 1, (nw - 1) - j])
-                elems.append([i * nw + j + 1, (nw - 1) - j, (nw - 1) - (j + 1)])
+                cells.append([i * nw + j, i * nw + j + 1, (nw - 1) - j])
+                cells.append([i * nw + j + 1, (nw - 1) - j, (nw - 1) - (j + 1)])
     else:
         # Close the geometry upside up (even Möbius fold)
         for j in range(nw - 1):
             if (i + j) % 2 == 0:
-                elems.append([i * nw + j, j + 1, i * nw + j + 1])
-                elems.append([i * nw + j, j, j + 1])
+                cells.append([i * nw + j, j + 1, i * nw + j + 1])
+                cells.append([i * nw + j, j, j + 1])
             else:
-                elems.append([i * nw + j, i * nw + j + 1, j])
-                elems.append([i * nw + j + 1, j, j + 1])
+                cells.append([i * nw + j, i * nw + j + 1, j])
+                cells.append([i * nw + j + 1, j, j + 1])
 
-    return np.array(elems)
+    return np.array(cells)

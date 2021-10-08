@@ -21,15 +21,15 @@ def tube(length: float = 1.0, radius: float = 1.0, n: int = 30):
     )
 
     # create the elements (cells)
-    elems = []
+    cells = []
     for i in range(n - 1):
         for j in range(nw - 1):
-            elems.append([i * nw + j, (i + 1) * nw + j + 1, i * nw + j + 1])
-            elems.append([i * nw + j, (i + 1) * nw + j, (i + 1) * nw + j + 1])
+            cells.append([i * nw + j, (i + 1) * nw + j + 1, i * nw + j + 1])
+            cells.append([i * nw + j, (i + 1) * nw + j, (i + 1) * nw + j + 1])
 
     # close the geometry
     for j in range(nw - 1):
-        elems.append([(n - 1) * nw + j, j + 1, (n - 1) * nw + j + 1])
-        elems.append([(n - 1) * nw + j, j, j + 1])
+        cells.append([(n - 1) * nw + j, j + 1, (n - 1) * nw + j + 1])
+        cells.append([(n - 1) * nw + j, j, j + 1])
 
-    return nodes, np.array(elems)
+    return nodes, np.array(cells)
