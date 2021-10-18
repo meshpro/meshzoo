@@ -1,8 +1,12 @@
+import numpy as np
+
 import meshzoo
 
 
 def test_midpoints_edges_tri():
-    points, cells = meshzoo.rectangle_tri((0.0, 1.0), (0.0, 1.0), n=1)
+    points, cells = meshzoo.rectangle_tri(
+        np.linspace(0.0, 1.0, 2), np.linspace(0.0, 1.0, 2)
+    )
 
     assert len(points) == 4
     assert cells.shape == (2, 3)
@@ -30,7 +34,9 @@ def test_midpoints_edges_tetra():
 
 
 def test_midpoints_edges_quad():
-    points, cells = meshzoo.rectangle_quad((0.0, 1.0), (0.0, 1.0), n=2)
+    points, cells = meshzoo.rectangle_quad(
+        np.linspace(0.0, 1.0, 3), np.linspace(0.0, 1.0, 3)
+    )
 
     assert len(points) == 9
     assert cells.shape == (4, 4)

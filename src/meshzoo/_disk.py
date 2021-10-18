@@ -35,7 +35,7 @@ def disk(p: int, n: int, offset: float = np.pi / 2):
 
 def disk_quad(n: int):
     a = 1 / np.sqrt(2)
-    nodes, cells = rectangle_quad((-a, a), (-a, a), n)
+    nodes, cells = rectangle_quad(np.linspace(-a, a, n + 1), np.linspace(-a, a, n + 1))
 
     # Inflate the nodes towards the circle boundary.
     # Inflate each point such that the 2-norm of the new point is the max-norm of the

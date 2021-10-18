@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+from numpy.typing import ArrayLike
 
 
 # backwards compatibility
@@ -12,40 +13,36 @@ def rectangle(
     nx: int,
     ny: int,
 ):
-    return rectangle_tri((x0, x1), (y0, y1), (nx, ny))
+    x_range = np.linspace(x0, x1, nx + 1)
+    y_range = np.linspace(y0, y1, ny + 1)
+    return rectangle_tri(x_range, y_range)
 
 
-def rectangle_quad(
-    xminmax: tuple[float, float], yminmax: tuple[float, float], n: int | tuple[int, int]
-):
-    nx, ny = (n, n) if isinstance(n, int) else n
+def rectangle_quad(x_range: ArrayLike, y_range: ArrayLike):
+    x_range = np.asarray(x_range)
+    y_range = np.asarray(y_range)
 
-    xmin, xmax = xminmax
-    ymin, ymax = yminmax
+    nx = len(x_range)
+    ny = len(y_range)
 
-    x_range = np.linspace(xmin, xmax, nx + 1)
-    y_range = np.linspace(ymin, ymax, ny + 1)
-    nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+    points = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+    a = np.arange(nx * ny).reshape(ny, nx).T
 
-    a = np.add.outer(np.arange(nx), nx * np.arange(ny)) + np.arange(ny)
-    cells = np.array([a, a + 1, a + nx + 2, a + nx + 1]).reshape(4, -1).T
-    return nodes, cells
+    cells = np.array([a[:-1, :-1], a[1:, :-1], a[1:, 1:], a[:-1, 1:]]).reshape(4, -1).T
+    return points, cells
 
 
-def rectangle_tri(
-    xminmax: tuple[float, float],
-    yminmax: tuple[float, float],
-    n: int | tuple[int, int],
-    variant: str = "zigzag",
-):
-    nx, ny = (n, n) if isinstance(n, int) else n
+def rectangle_tri(x_range: ArrayLike, y_range: ArrayLike, variant: str = "zigzag"):
+    x_range = np.asarray(x_range)
+    y_range = np.asarray(y_range)
+
+    nx = len(x_range)
+    ny = len(y_range)
 
     # Create the vertices.
-    x_range = np.linspace(*xminmax, nx + 1)
-    y_range = np.linspace(*yminmax, ny + 1)
-    nodes = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+    points = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
 
-    a = np.add.outer(np.arange(nx + 1), (nx + 1) * np.arange(ny + 1))
+    a = np.arange(nx * ny).reshape(ny, nx).T
 
     # indices of corners
     #
@@ -75,7 +72,7 @@ def rectangle_tri(
         ]
     elif variant == "zigzag":
         # https://stackoverflow.com/a/68550456/353337
-        idx = np.ones((nx, ny), dtype=bool)
+        idx = np.ones((nx - 1, ny - 1), dtype=bool)
         idx[1::2, ::2] = False
         idx[::2, 1::2] = False
         cells = [
@@ -88,13 +85,14 @@ def rectangle_tri(
         ]
     else:
         assert variant == "center"
-        i = np.arange(nx)
-        j = np.arange(ny)
+        i = np.arange(nx - 1)
+        j = np.arange(ny - 1)
         i, j = np.meshgrid(i, j, indexing="ij")
 
-        idx = np.ones(n, dtype=bool)
-        idx[(i < nx // 2) & (j < ny // 2)] = False
-        idx[(i >= nx // 2) & (j >= ny // 2)] = False
+        idx = np.ones(((nx - 1), (ny - 1)), dtype=bool)
+        idx[: (nx - 1) // 2, : (ny - 1) // 2] = False
+        idx[(nx - 1) // 2 :, (ny - 1) // 2 :] = False
+
         cells = [
             # up
             [c[0][idx], c[1][idx], c[2][idx]],
@@ -106,4 +104,4 @@ def rectangle_tri(
 
     cells = np.column_stack([np.array(c).reshape(3, -1) for c in cells]).T
 
-    return nodes, cells
+    return points, cells
