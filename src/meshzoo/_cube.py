@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+from numpy.typing import ArrayLike
 
 
 # backwards compatibility
@@ -15,29 +16,21 @@ def cube(
     ny: int,
     nz: int,
 ):
-    return cube_tetra((x0, x1), (y0, y1), (z0, z1), (nx, ny, nz))
+    return cube_tetra(
+        np.linspace(x0, x1, nx + 1),
+        np.linspace(y0, y1, ny + 1),
+        np.linspace(z0, z1, nz + 1),
+    )
 
 
-def cube_hexa(
-    x_minmax: tuple[float, float],
-    y_minmax: tuple[float, float],
-    z_minmax: tuple[float, float],
-    n: int | tuple[int, int, int],
-):
-    nx, ny, nz = (n, n, n) if isinstance(n, int) else n
+def cube_hexa(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
+    x_range = np.asarray(x_range)
+    y_range = np.asarray(y_range)
+    z_range = np.asarray(z_range)
 
-    nx1 = nx + 1
-    ny1 = ny + 1
-    nz1 = nz + 1
-
-    xmin, xmax = x_minmax
-    ymin, ymax = y_minmax
-    zmin, zmax = z_minmax
-
-    # Generate suitable ranges for parametrization
-    x_range = np.linspace(xmin, xmax, nx1)
-    y_range = np.linspace(ymin, ymax, ny1)
-    z_range = np.linspace(zmin, zmax, nz1)
+    nx1 = len(x_range)
+    ny1 = len(y_range)
+    nz1 = len(z_range)
 
     # Create the vertices.
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
@@ -85,26 +78,14 @@ def cube_hexa(
     return points, cells
 
 
-def cube_tetra(
-    x_minmax: tuple[float, float],
-    y_minmax: tuple[float, float],
-    z_minmax: tuple[float, float],
-    n: int | tuple[int, int, int],
-):
-    nx, ny, nz = (n, n, n) if isinstance(n, int) else n
+def cube_tetra(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
+    x_range = np.asarray(x_range)
+    y_range = np.asarray(y_range)
+    z_range = np.asarray(z_range)
 
-    nx1 = nx + 1
-    ny1 = ny + 1
-    nz1 = nz + 1
-
-    xmin, xmax = x_minmax
-    ymin, ymax = y_minmax
-    zmin, zmax = z_minmax
-
-    # Generate suitable ranges for parametrization
-    x_range = np.linspace(xmin, xmax, nx1)
-    y_range = np.linspace(ymin, ymax, ny1)
-    z_range = np.linspace(zmin, zmax, nz1)
+    nx1 = len(x_range)
+    ny1 = len(y_range)
+    nz1 = len(z_range)
 
     # Create the vertices.
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
@@ -144,7 +125,7 @@ def cube_tetra(
     ]
 
     # 3D checkers
-    idx = np.ones((nx, ny, nz), dtype=bool)
+    idx = np.ones((nx1 - 1, ny1 - 1, nz1 - 1), dtype=bool)
     idx[::2, 1::2, ::2] = False
     idx[::2, ::2, 1::2] = False
     idx[1::2, ::2, ::2] = False
