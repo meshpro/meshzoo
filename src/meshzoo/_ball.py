@@ -5,7 +5,8 @@ from ._cube import cube_hexa, cube_tetra
 
 def ball_hexa(n: int):
     a = 1 / np.sqrt(3)
-    nodes, cells = cube_hexa((-a, a), (-a, a), (-a, a), n)
+    ls = np.linspace(-a, a, n + 1)
+    nodes, cells = cube_hexa(ls, ls, ls)
 
     # Inflate the nodes towards the circle boundary.
     # Inflate each point such that the 2-norm of the new point is the max-norm of the
@@ -20,7 +21,8 @@ def ball_hexa(n: int):
 
 def ball_tetra(n: int):
     a = 1 / np.sqrt(3)
-    nodes, cells = cube_tetra((-a, a), (-a, a), (-a, a), n)
+    ls = np.linspace(-a, a, n + 1)
+    nodes, cells = cube_tetra(ls, ls, ls)
 
     # Inflate the nodes towards the circle boundary.
     # Inflate each point such that the 2-norm of the new point is the max-norm of the
