@@ -67,7 +67,43 @@ def rectangle_quad(x_range: ArrayLike, y_range: ArrayLike, cell_type: str = "qua
         )
     else:
         assert cell_type == "quad9"
-        pass
+        k = 0
+        points_corner = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+        a_corner = np.arange(nx * ny).reshape(ny, nx).T
+        k += a_corner.size
+
+        x_mid = (x_range[:-1] + x_range[1:]) / 2
+        points_xmid = np.array(np.meshgrid(x_mid, y_range)).reshape(2, -1).T
+        a_xmid = k + np.arange((nx - 1) * ny).reshape(ny, nx - 1).T
+        k += a_xmid.size
+
+        y_mid = (y_range[:-1] + y_range[1:]) / 2
+        points_ymid = np.array(np.meshgrid(x_range, y_mid)).reshape(2, -1).T
+        a_ymid = k + np.arange(nx * (ny - 1)).reshape(ny - 1, nx).T
+        k += a_ymid.size
+
+        points_center = np.array(np.meshgrid(x_mid, y_mid)).reshape(2, -1).T
+        a_center = k + np.arange((nx - 1) * (ny - 1)).reshape(ny - 1, nx - 1).T
+
+        points = np.row_stack([points_corner, points_xmid, points_ymid, points_center])
+
+        cells = (
+            np.array(
+                [
+                    a_corner[:-1, :-1],
+                    a_corner[1:, :-1],
+                    a_corner[1:, 1:],
+                    a_corner[:-1, 1:],
+                    a_xmid[:, :-1],
+                    a_ymid[1:, :],
+                    a_xmid[:, 1:],
+                    a_ymid[:-1, :],
+                    a_center,
+                ]
+            )
+            .reshape(9, -1)
+            .T
+        )
 
     return points, cells
 
