@@ -18,17 +18,57 @@ def rectangle(
     return rectangle_tri(x_range, y_range)
 
 
-def rectangle_quad(x_range: ArrayLike, y_range: ArrayLike):
+def rectangle_quad(x_range: ArrayLike, y_range: ArrayLike, cell_type: str = "quad4"):
     x_range = np.asarray(x_range)
     y_range = np.asarray(y_range)
 
     nx = len(x_range)
     ny = len(y_range)
 
-    points = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
-    a = np.arange(nx * ny).reshape(ny, nx).T
+    if cell_type == "quad4":
+        points = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+        a = np.arange(nx * ny).reshape(ny, nx).T
 
-    cells = np.array([a[:-1, :-1], a[1:, :-1], a[1:, 1:], a[:-1, 1:]]).reshape(4, -1).T
+        cells = (
+            np.array([a[:-1, :-1], a[1:, :-1], a[1:, 1:], a[:-1, 1:]]).reshape(4, -1).T
+        )
+    elif cell_type == "quad8":
+        k = 0
+        points_corner = np.array(np.meshgrid(x_range, y_range)).reshape(2, -1).T
+        a_corner = np.arange(nx * ny).reshape(ny, nx).T
+        k += a_corner.size
+
+        x_mid = (x_range[:-1] + x_range[1:]) / 2
+        points_xmid = np.array(np.meshgrid(x_mid, y_range)).reshape(2, -1).T
+        a_xmid = k + np.arange((nx - 1) * ny).reshape(ny, nx - 1).T
+        k += a_xmid.size
+
+        y_mid = (y_range[:-1] + y_range[1:]) / 2
+        points_ymid = np.array(np.meshgrid(x_range, y_mid)).reshape(2, -1).T
+        a_ymid = k + np.arange(nx * (ny - 1)).reshape(ny - 1, nx).T
+
+        points = np.row_stack([points_corner, points_xmid, points_ymid])
+
+        cells = (
+            np.array(
+                [
+                    a_corner[:-1, :-1],
+                    a_corner[1:, :-1],
+                    a_corner[1:, 1:],
+                    a_corner[:-1, 1:],
+                    a_xmid[:, :-1],
+                    a_ymid[1:, :],
+                    a_xmid[:, 1:],
+                    a_ymid[:-1, :],
+                ]
+            )
+            .reshape(8, -1)
+            .T
+        )
+    else:
+        assert cell_type == "quad9"
+        pass
+
     return points, cells
 
 

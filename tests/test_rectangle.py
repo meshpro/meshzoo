@@ -104,3 +104,12 @@ def test_quad3():
     points, cells = meshzoo.rectangle_quad(x_range, y_range)
     assert len(points) == 9
     assert np.all(cells == [[0, 1, 4, 3], [3, 4, 7, 6], [1, 2, 5, 4], [4, 5, 8, 7]])
+
+
+def test_quad8():
+    x_range = np.linspace(0.0, 1.0, 3)
+    y_range = np.linspace(0.0, 1.0, 2)
+    points, cells = meshzoo.rectangle_quad(x_range, y_range, cell_type="quad8")
+    assert len(points) == 13
+    print(cells.tolist())
+    assert np.all(cells == [[0, 1, 4, 3, 6, 11, 8, 10], [1, 2, 5, 4, 7, 12, 9, 11]])
