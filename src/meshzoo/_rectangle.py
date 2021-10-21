@@ -85,10 +85,6 @@ def rectangle_tri(x_range: ArrayLike, y_range: ArrayLike, variant: str = "zigzag
         ]
     else:
         assert variant == "center"
-        i = np.arange(nx - 1)
-        j = np.arange(ny - 1)
-        i, j = np.meshgrid(i, j, indexing="ij")
-
         idx = np.ones(((nx - 1), (ny - 1)), dtype=bool)
         idx[: (nx - 1) // 2, : (ny - 1) // 2] = False
         idx[(nx - 1) // 2 :, (ny - 1) // 2 :] = False
