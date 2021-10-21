@@ -67,6 +67,7 @@ points, cells = meshzoo.rectangle_tri(
 points, cells = meshzoo.rectangle_quad(
     np.linspace(0.0, 1.0, 11),
     np.linspace(0.0, 1.0, 11),
+    cell_type="quad4",  # or "quad8", "quad9"
 )
 ```
 
@@ -95,7 +96,7 @@ import meshzoo
 
 points, cells = meshzoo.disk(6, 11)
 
-points, cells = meshzoo.disk_quad(10)
+points, cells = meshzoo.disk_quad(10, cell_type="quad4")  # or "quad8", "quad9"
 ```
 
 #### Möbius strip
