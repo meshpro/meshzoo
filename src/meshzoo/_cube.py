@@ -23,7 +23,9 @@ def cube(
     )
 
 
-def cube_hexa(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
+def cube_hexa(
+    x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike
+) -> tuple[np.ndarray, np.ndarray]:
     x_range = np.asarray(x_range)
     y_range = np.asarray(y_range)
     z_range = np.asarray(z_range)
@@ -34,6 +36,7 @@ def cube_hexa(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
 
     # Create the vertices.
     x, y, z = np.meshgrid(x_range, y_range, z_range, indexing="ij")
+
     # Alternative with slightly different order:
     # ```
     # points = np.stack([x, y, z]).T.reshape(-1, 3)
@@ -41,7 +44,7 @@ def cube_hexa(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
     points = np.array([x, y, z]).T.reshape(-1, 3)
 
     # Create the cells.
-    a = np.arange(len(points)).reshape(nx1, ny1, nz1)
+    a = np.arange(len(points)).reshape(nz1, ny1, nx1)
     a = np.transpose(a, [2, 1, 0])
 
     # `c` contains the indices of each "cube" like
@@ -96,8 +99,9 @@ def cube_tetra(x_range: ArrayLike, y_range: ArrayLike, z_range: ArrayLike):
     points = np.array([x, y, z]).T.reshape(-1, 3)
 
     # Create the elements (cells).
-    a = np.arange(len(points)).reshape(nx1, ny1, nz1)
+    a = np.arange(len(points)).reshape(nz1, ny1, nx1)
     a = np.transpose(a, [2, 1, 0])
+
     #
     # `c` contains the indices of each "cube" like
     #
