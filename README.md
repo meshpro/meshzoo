@@ -3,7 +3,9 @@
 [![PyPi Version](https://img.shields.io/pypi/v/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo/)
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/meshzoo.svg?style=flat-square)](https://pypi.org/project/meshzoo/)
 [![GitHub stars](https://img.shields.io/github/stars/nschloe/meshzoo.svg?style=flat-square&logo=github&label=Stars&logoColor=white)](https://github.com/nschloe/meshzoo)
-[![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)
+[![Downloads](https://pepy.tech/badge/meshzoo/month?style=flat-square)](https://pepy.tech/project/meshzoo)
+
+<!--[![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)-->
 
 [![Discord](https://img.shields.io/static/v1?logo=discord&label=chat&message=on%20discord&color=7289da&style=flat-square)](https://discord.gg/PBCCvwHqpv)
 
