@@ -18,7 +18,7 @@ def test_moebius(num_twists, num_points, num_cells, ref1, ref2):
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert is_near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
-    sum_points2 = np.sum(points ** 2, axis=0)
+    sum_points2 = np.sum(points**2, axis=0)
     assert np.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
 
 
@@ -48,7 +48,7 @@ def test_moebius2(num_twists, num_points, num_cells, ref1, ref2):
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert is_near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
-    sum_points2 = np.sum(points ** 2, axis=0)
+    sum_points2 = np.sum(points**2, axis=0)
     assert np.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
 
 
@@ -64,7 +64,7 @@ def test_moebius3(num_twists, num_points, num_cells, ref1, ref2):
     assert len(points) == num_points
     assert len(cells) == num_cells
     assert is_near_equal(np.sum(points, axis=0), ref1, tol=1.0e-10)
-    sum_points2 = np.sum(points ** 2, axis=0)
+    sum_points2 = np.sum(points**2, axis=0)
     assert np.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)
 
 
@@ -73,6 +73,6 @@ def test_pseudomoebius():
     assert len(points) == 5890
     assert len(cells) == 11400
     assert is_near_equal(np.sum(points, axis=0), [0, 0, 0], tol=1.0e-10)
-    sum_points2 = np.sum(points ** 2, axis=0)
+    sum_points2 = np.sum(points**2, axis=0)
     ref2 = [2753575 / 9.0, 2724125 / 9.0, 58900 / 3.0]
     assert np.allclose(sum_points2, ref2, rtol=1.0e-12, atol=0.0)

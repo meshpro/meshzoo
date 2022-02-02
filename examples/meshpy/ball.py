@@ -21,7 +21,7 @@ def create_ball_mesh(num_longi_points=10):
     # Compute the volume of a canonical tetrahedron
     # with edgelength radius*dphi.
     a = radius * dphi
-    canonical_tet_volume = np.sqrt(2.0) / 12 * a ** 3
+    canonical_tet_volume = np.sqrt(2.0) / 12 * a**3
 
     # Build outline for surface of revolution.
     rz = [

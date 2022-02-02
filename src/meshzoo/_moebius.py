@@ -54,13 +54,13 @@ def moebius(
         # squares.
         # It is also possible to to abs() the respective sines and cosines, but
         # this results in a non-smooth manifold.
-        a = np.copysign(cos_alpha ** 2, cos_alpha)
-        b = np.copysign(sin_alpha ** 2, sin_alpha)
+        a = np.copysign(cos_alpha**2, cos_alpha)
+        b = np.copysign(sin_alpha**2, sin_alpha)
         reverse_seam = num_twists % 2 == 1
     else:
         assert variant == "pseudo"
-        a = cos_alpha ** 2
-        b = sin_alpha ** 2
+        a = cos_alpha**2
+        b = sin_alpha**2
         reverse_seam = False
 
     nodes = (

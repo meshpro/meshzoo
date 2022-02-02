@@ -15,7 +15,7 @@ def create_mesh(big_r=1.0, small_r=0.5, num_points=10):
     # Compute the volume of a canonical tetrahedron
     # with edgelength radius2*dphi.
     a = small_r * dphi
-    canonical_tet_volume = np.sqrt(2.0) / 12 * a ** 3
+    canonical_tet_volume = np.sqrt(2.0) / 12 * a**3
 
     radial_subdiv = int(2 * np.pi * big_r / a)
 

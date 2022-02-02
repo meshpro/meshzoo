@@ -17,7 +17,7 @@ def create_mesh(axis0=1, axis1=0.5, num_boundary_points=100):
     eccentricity = np.sqrt(1.0 - (b / a) ** 2)
     length_boundary = float(4 * a * special.ellipe(eccentricity))
     a_boundary = length_boundary / num_boundary_points
-    max_area = a_boundary ** 2 * np.sqrt(3) / 4
+    max_area = a_boundary**2 * np.sqrt(3) / 4
 
     # generate points on the circle
     Phi = np.linspace(0, 2 * np.pi, num_boundary_points, endpoint=False)
