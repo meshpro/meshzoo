@@ -10,7 +10,7 @@ name = "meshzoo"
 authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]
 description = "Collection of explicitly constructed meshes"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = {file = "LICENSE.txt"}
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
