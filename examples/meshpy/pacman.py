@@ -16,7 +16,7 @@ def create_pacman_mesh(num_boundary_points=50):
     # Choose the maximum area of a triangle equal to the area of
     # an equilateral triangle on the boundary.
     a_boundary = (2 * np.pi - cut_angle) * radius / n_phi
-    max_area = a_boundary ** 2 * np.sqrt(3.0) / 4.0
+    max_area = a_boundary**2 * np.sqrt(3.0) / 4.0
     max_area = float(max_area)  # meshpy can't deal with np.float64
 
     # generate points on the boundary

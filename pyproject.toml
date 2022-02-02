@@ -1,6 +1,42 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
 
 [tool.isort]
 profile = "black"
+
+[project]
+name = "meshzoo"
+authors = [{name = "Nico Schlömer", email = "nico.schloemer@gmail.com"}]
+description = "Collection of explicitly constructed meshes"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = ["numpy >= 1.20.0"]
+
+[project.optional-dependencies]
+all = ["matplotlib"]
+plot = ["matplotlib"]
+
+[project.urls]
+Code = "https://github.com/nschloe/meshzoo"
+Issues = "https://github.com/nschloe/meshzoo/issues"
+Funding = "https://github.com/sponsors/nschloe"
+
+[project.scripts]
+meshzoo = "meshzoo._app:run"
