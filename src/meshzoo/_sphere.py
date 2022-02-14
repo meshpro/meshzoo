@@ -180,8 +180,8 @@ def octa_sphere(n: int):
     return vertices, cells
 
 
-def icosa_sphere(n: int):
-    vertices, cells = icosa_surface(n)
+def icosa_sphere(n: int, flat_top: bool = False):
+    vertices, cells = icosa_surface(n, flat_top)
     # push all nodes to the sphere
     norms = np.sqrt(np.einsum("ij,ij->i", vertices, vertices))
     vertices = (vertices.T / norms).T

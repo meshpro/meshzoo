@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 import meshzoo
 
@@ -58,8 +59,9 @@ def test_octa_sphere(n=16):
     assert np.all(np.abs(np.einsum("ij,ij->i", points, points) - 1.0) < 1.0e-10)
 
 
-def test_icosa_sphere(n=16):
-    points, cells = meshzoo.icosa_sphere(n)
+@pytest.mark.parametrize("flat_top", [True, False])
+def test_icosa_sphere(flat_top, n=16):
+    points, cells = meshzoo.icosa_sphere(n, flat_top)
     # import meshio
     # meshio.write_points_cells("out.vtk", points, {"triangle": cells})
     assert len(points) == 2562
