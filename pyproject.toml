@@ -37,6 +37,3 @@ plot = ["matplotlib"]
 Code = "https://github.com/nschloe/meshzoo"
 Issues = "https://github.com/nschloe/meshzoo/issues"
 Funding = "https://github.com/sponsors/nschloe"
-
-[project.scripts]
-meshzoo = "meshzoo._app:run"

@@ -7,7 +7,7 @@
 
 <!--[![PyPi downloads](https://img.shields.io/pypi/dm/meshzoo.svg?style=flat-square)](https://pypistats.org/packages/meshzoo)-->
 
-[![Discord](https://img.shields.io/static/v1?logo=discord&label=chat&message=on%20discord&color=7289da&style=flat-square)](https://discord.gg/PBCCvwHqpv)
+[![Discord](https://img.shields.io/static/v1?logo=discord&logoColor=white&label=chat&message=on%20discord&color=7289da&style=flat-square)](https://discord.gg/PBCCvwHqpv)
 
 [![gh-actions](https://img.shields.io/github/workflow/status/nschloe/meshzoo/ci?style=flat-square)](https://github.com/nschloe/meshzoo/actions?query=workflow%3Aci)
 [![codecov](https://img.shields.io/codecov/c/github/nschloe/meshzoo.svg?style=flat-square)](https://codecov.io/gh/nschloe/meshzoo)

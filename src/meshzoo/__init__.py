@@ -5,6 +5,7 @@ from ._disk import disk, disk_quad
 from ._helpers import create_edges, insert_midpoints_edges, plot2d, save2d, show2d
 from ._moebius import moebius
 from ._ngon import ngon
+from ._platonic import icosa_surface
 from ._rectangle import rectangle, rectangle_quad, rectangle_tri
 from ._sphere import geo_sphere, icosa_sphere, octa_sphere, tetra_sphere, uv_sphere
 from ._triangle import triangle
@@ -27,6 +28,7 @@ __all__ = [
     "rectangle_quad",
     "uv_sphere",
     "icosa_sphere",
+    "icosa_surface",
     "octa_sphere",
     "tetra_sphere",
     "geo_sphere",
